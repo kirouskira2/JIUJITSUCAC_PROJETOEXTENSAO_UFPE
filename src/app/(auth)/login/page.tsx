@@ -2,7 +2,10 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/actions/auth";
 import { LoginForm } from "./login-form";
 import Link from "next/link";
-import { BorderBeam } from "@/components/ui/border-beam";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const BorderBeam = dynamic(() => import("@/components/ui/border-beam").then(mod => mod.BorderBeam), { ssr: false });
 
 export default async function LoginPage() {
   const { data } = await getSession();
@@ -31,10 +34,12 @@ export default async function LoginPage() {
           className="w-28 h-28 rounded-full p-0.5 border-2 shadow-lg"
           style={{ borderColor: "#dc2626" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/logo.jpg?v=2"
             alt="JJCAC Logo"
+            width={112}
+            height={112}
+            priority
             className="w-full h-full object-cover rounded-full"
           />
         </div>

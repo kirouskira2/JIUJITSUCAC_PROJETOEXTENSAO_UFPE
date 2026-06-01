@@ -173,6 +173,7 @@ export function SignupForm() {
             className="w-full h-[54px] rounded-full mt-4"
             shimmerColor="#ffffff"
             shimmerSize="0.05em"
+            aria-label="Avançar para o próximo passo"
           >
             <span className="flex items-center justify-center gap-2 text-center text-base font-semibold tracking-tight text-white relative z-10">
               PRÓXIMO
@@ -234,6 +235,7 @@ export function SignupForm() {
               type="button"
               onClick={() => setStep(1)}
               className="w-1/3 h-[54px] rounded-full border text-sm font-semibold tracking-tight transition-colors"
+              aria-label="Voltar para o passo anterior"
               style={{ borderColor: "#2C2C2E", color: "#8E8E93", background: "transparent" }}
             >
               VOLTAR
@@ -244,6 +246,7 @@ export function SignupForm() {
               className="w-2/3 h-[54px] rounded-full"
               shimmerColor="#ffffff"
               shimmerSize="0.05em"
+              aria-label="Avançar para o próximo passo"
             >
               <span className="flex items-center justify-center gap-2 text-center text-base font-semibold tracking-tight text-white relative z-10">
                 PRÓXIMO
@@ -379,6 +382,7 @@ export function SignupForm() {
               onClick={() => setStep(2)}
               disabled={isPending}
               className="w-1/3 h-[54px] rounded-full border text-sm font-semibold tracking-tight transition-colors"
+              aria-label="Voltar para o passo anterior"
               style={{ borderColor: "#2C2C2E", color: "#8E8E93", background: "transparent" }}
             >
               VOLTAR
@@ -389,6 +393,7 @@ export function SignupForm() {
               className="w-2/3 h-[54px] rounded-full"
               shimmerColor="#ffffff"
               shimmerSize="0.05em"
+              aria-label="Concluir cadastro"
               style={{
                 opacity: isPending ? 0.7 : 1,
               }}

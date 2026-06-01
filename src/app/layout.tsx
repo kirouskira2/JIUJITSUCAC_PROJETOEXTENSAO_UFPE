@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Rajdhani, Space_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import { RetroGrid } from "@/components/ui/retro-grid";
 import { SplashScreen } from "@/components/splash-screen";
+import dynamic from "next/dynamic";
+
+const RetroGrid = dynamic(() => import("@/components/ui/retro-grid").then(mod => mod.RetroGrid), { ssr: false });
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -25,6 +27,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://jiujitsucac.vercel.app"),
   title: "JJCAC | Jiu-Jitsu para Todos",
   description: "Plataforma de Gestão para o Projeto Social Jiu-Jitsu para Todos",
   manifest: "/manifest.json",

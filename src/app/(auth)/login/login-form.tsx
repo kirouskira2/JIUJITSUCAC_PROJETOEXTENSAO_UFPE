@@ -129,6 +129,7 @@ export function LoginForm() {
         className="w-full h-[54px] rounded-full mt-2"
         shimmerColor="#ffffff"
         shimmerSize="0.05em"
+        aria-label="Entrar"
         style={{
           opacity: isPending ? 0.7 : 1,
         }}
