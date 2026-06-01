@@ -3,9 +3,7 @@ import { getSession } from "@/actions/auth";
 import { SignupForm } from "./signup-form";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-
-const BorderBeam = dynamic(() => import("@/components/ui/border-beam").then(mod => mod.BorderBeam), { ssr: false });
+import { BorderBeam } from "@/components/ui/border-beam";
 
 export default async function SignupPage() {
   const { data } = await getSession();

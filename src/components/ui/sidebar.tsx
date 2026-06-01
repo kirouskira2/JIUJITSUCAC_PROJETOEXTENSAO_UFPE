@@ -118,20 +118,23 @@ export const MobileSidebar = ({
         )}
         {...props}
       >
-        <div className="flex items-center justify-start gap-4 z-20 w-full">
-          <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200 cursor-pointer"
-            onClick={() => setOpen(!open)}
-          />
-          <Link href="/" className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-[#2C2C2E]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.jpg" alt="Logo JJCAC" className="w-full h-full object-cover" />
-            </div>
-            <span className="font-display font-bold text-lg tracking-tighter text-[#F2F2F7]">
-              JJCAC
-            </span>
-          </Link>
+        <div className="flex items-center justify-between gap-4 z-20 w-full">
+          <div className="flex items-center gap-4">
+            <IconMenu2
+              className="text-neutral-800 dark:text-neutral-200 cursor-pointer"
+              onClick={() => setOpen(!open)}
+            />
+            <Link href="/" className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-[#2C2C2E]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo.jpg" alt="Logo JJCAC" className="w-full h-full object-cover" />
+              </div>
+              <span className="font-display font-bold text-lg tracking-tighter text-neutral-900 dark:text-[#F2F2F7]">
+                JIU JITSU CAC
+              </span>
+            </Link>
+          </div>
+          <NotificationsBell />
         </div>
         <AnimatePresence>
           {open && (
@@ -164,6 +167,7 @@ export const MobileSidebar = ({
 };
 
 import Link from "next/link";
+import { NotificationsBell } from "@/components/notifications-bell";
 
 export const SidebarLink = ({
   link,

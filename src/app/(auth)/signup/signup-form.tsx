@@ -27,6 +27,7 @@ export function SignupForm() {
   const [sexualOrientation, setSexualOrientation] = useState("");
   const [genderIdentity, setGenderIdentity] = useState("");
   const [race, setRace] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   /** Aplica máscara de CPF: XXX.XXX.XXX-XX */
   const formatCPF = (value: string) => {
@@ -376,6 +377,19 @@ export function SignupForm() {
             </div>
           </div>
 
+          <div className="flex items-start gap-3 mt-2 p-4 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white/5 dark:bg-black/20">
+            <input 
+              type="checkbox" 
+              id="lgpd" 
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-1 w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 focus:ring-offset-black"
+            />
+            <label htmlFor="lgpd" className="text-xs text-neutral-600 dark:text-[#8E8E93] leading-relaxed">
+              Li e concordo com os Termos de Uso e Política de Privacidade (LGPD). Compreendo que meus dados serão utilizados exclusivamente para fins de controle de presença e relatórios acadêmicos do projeto de extensão Jiu-Jitsu para Todos (JJCAC).
+            </label>
+          </div>
+
           <div className="flex gap-3 mt-4">
             <button 
               type="button"
@@ -389,7 +403,7 @@ export function SignupForm() {
             </button>
             <ShimmerButton 
               type="submit" 
-              disabled={isPending}
+              disabled={isPending || !acceptedTerms}
               className="w-2/3 h-[54px] rounded-full"
               shimmerColor="#ffffff"
               shimmerSize="0.05em"

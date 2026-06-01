@@ -151,6 +151,8 @@ export async function updateProfile(data: UpdateProfileInput): Promise<ActionRes
     if (parsed.data.category) updates.category = parsed.data.category;
     if (parsed.data.institution !== undefined) updates.institution = parsed.data.institution;
     if (parsed.data.enrollmentId !== undefined) updates.enrollment_id = parsed.data.enrollmentId;
+    if (parsed.data.phone !== undefined) updates.phone = parsed.data.phone;
+    if (parsed.data.emergencyContact !== undefined) updates.emergency_contact = parsed.data.emergencyContact;
 
     const { data: profile, error } = await supabase
       .from("profiles")

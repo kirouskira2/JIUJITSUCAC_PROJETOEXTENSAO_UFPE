@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getMyNotifications, markNotificationAsRead, Notification } from "@/actions/events";
+import { getMyNotifications, markNotificationAsRead } from "@/actions/events";
+
+interface NotificationItem {
+  id: string;
+  profile_id: string;
+  title: string;
+  message: string;
+  link: string | null;
+  is_read: boolean;
+  created_at: string;
+}
 import { BellIcon, CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +25,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export function NotificationsBell() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +33,27 @@ export function NotificationsBell() {
       const res = await getMyNotifications();
       if (res.success && res.data) {
         setNotifications(res.data);
+
+        // Se houver notificações não lidas E permissão concedida, exibe push local
+        const unread = res.data.filter((n) => !n.is_read);
+        if (
+          unread.length > 0 &&
+          "Notification" in window &&
+          Notification.permission === "granted" &&
+          "serviceWorker" in navigator
+        ) {
+          try {
+            const reg = await navigator.serviceWorker.ready;
+            reg.showNotification("JIU JITSU CAC", {
+              body: `Você tem ${unread.length} aviso(s) não lido(s).`,
+              icon: "/logo.jpg",
+              badge: "/logo.jpg",
+              tag: "jjcac-unread", // evita spam (mesmo tag substitui)
+            });
+          } catch {
+            // SW pode não estar pronto ainda, ignora
+          }
+        }
       }
       setLoading(false);
     }

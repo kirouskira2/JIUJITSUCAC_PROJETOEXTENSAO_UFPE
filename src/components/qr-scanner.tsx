@@ -29,6 +29,10 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
 
   const onScanSuccess = useCallback((decodedText: string) => {
     if (decodedText === "JJCAC-TATAME-UFPE") {
+      if (!workoutId) {
+        setScanError("QR Code lido com sucesso! Porém, o professor ainda não registrou o treino de hoje.");
+        return;
+      }
       // Pare o scanner se encontrou o código correto
       if (scannerRef.current) {
         scannerRef.current.clear().catch(console.error);
@@ -46,7 +50,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
   }, [scanError]);
 
   useEffect(() => {
-    if (!workoutId || checkedIn) return;
+    if (checkedIn) return;
 
     // Inicializa o scanner apenas no client side e quando não estiver checked in
     scannerRef.current = new Html5QrcodeScanner(
@@ -67,7 +71,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
         scannerRef.current.clear().catch(console.error);
       }
     };
-  }, [workoutId, checkedIn, onScanSuccess, onScanFailure]);
+  }, [checkedIn, onScanSuccess, onScanFailure]);
 
   const handleCheckinSuccess = useCallback((principle: PrincipleData | null) => {
     setCheckedIn(true);
@@ -126,15 +130,15 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
             <p className="text-sm text-muted-foreground mt-1">Aponte a câmera para o QR Code fixo na parede do tatame para registrar sua presença.</p>
           </div>
 
-          {!workoutId ? (
-            <div className="bg-surface border border-border rounded-xl p-4 text-center w-full">
-              <p className="font-sans font-semibold text-foreground text-sm">Nenhum treino aberto</p>
-              <p className="font-sans text-xs text-muted-foreground mt-1">Aguarde o professor registrar o treino de hoje antes de bater ponto.</p>
-            </div>
-          ) : (
-            <div className="w-full max-w-[320px] mx-auto rounded-xl overflow-hidden shadow-inner bg-black border-2 border-border" id="qr-reader-container">
-              {/* O html5-qrcode injeta os elementos dentro deste div */}
-              <div id="qr-reader" className="w-full"></div>
+          <div className="w-full max-w-[320px] mx-auto rounded-xl overflow-hidden shadow-inner bg-black border-2 border-border" id="qr-reader-container">
+            {/* O html5-qrcode injeta os elementos dentro deste div */}
+            <div id="qr-reader" className="w-full"></div>
+          </div>
+          
+          {!workoutId && (
+            <div className="mt-4 bg-surface border border-border rounded-xl p-3 text-center w-full">
+              <p className="font-sans font-semibold text-foreground text-sm">Aviso: Nenhum treino aberto</p>
+              <p className="font-sans text-xs text-muted-foreground mt-1">Você pode ler o QR Code, mas o check-in só será efetivado quando o professor abrir o treino.</p>
             </div>
           )}
 

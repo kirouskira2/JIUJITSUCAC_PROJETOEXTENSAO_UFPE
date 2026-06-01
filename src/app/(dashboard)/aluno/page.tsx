@@ -1,9 +1,12 @@
 import { getSession } from "@/actions/auth";
 import { getMyAttendance } from "@/actions/checkin";
 import { listWorkouts } from "@/actions/workouts";
+import { listPrinciples } from "@/actions/principles";
 import Link from "next/link";
 import { IconQrcode, IconChevronRight, IconCircleCheck, IconHistory, IconBook } from "@tabler/icons-react";
 import { BELT_BADGE_STYLES } from "@/lib/constants";
+import { ProfileSettingsModal } from "./profile-settings-modal";
+import { WorkoutEditModal } from "@/components/workout-edit-modal";
 
 export default async function AlunoHomePage() {
   const { data: sessionData } = await getSession();
@@ -15,6 +18,9 @@ export default async function AlunoHomePage() {
 
   const { data: workoutsData } = await listWorkouts({});
   const todayWorkout = workoutsData?.[0] ?? null;
+
+  const { data: principlesData } = await listPrinciples();
+  const principles = principlesData || [];
 
   const beltColor = BELT_BADGE_STYLES[profile.belt] ?? BELT_BADGE_STYLES["Branca"];
   const initial = profile.fullName.charAt(0).toUpperCase();
@@ -78,6 +84,10 @@ export default async function AlunoHomePage() {
               {profile.belt}
             </span>
           </div>
+
+          <div className="ml-auto">
+            <ProfileSettingsModal profile={profile} />
+          </div>
         </div>
 
         {/* Stats Row */}
@@ -127,24 +137,47 @@ export default async function AlunoHomePage() {
 
           {/* === Treino do Dia === */}
       {todayWorkout && (
-        <div
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 bg-white dark:bg-[#111111]"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
-              🥋 Treino do Dia
-            </span>
-            <span className="text-xs text-neutral-500 dark:text-[#8E8E93]">
-              {new Date(todayWorkout.date).toLocaleDateString("pt-BR")}
-            </span>
+        profile.role !== "aluno" ? (
+          <WorkoutEditModal initialWorkout={todayWorkout} principles={principles}>
+            <div
+              className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 bg-white dark:bg-[#111111] hover:border-red-500/50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
+                  🥋 Treino do Dia
+                </span>
+                <span className="text-xs text-neutral-500 dark:text-[#8E8E93]">
+                  {new Date(todayWorkout.date).toLocaleDateString("pt-BR")}
+                </span>
+              </div>
+              <h2 className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]">
+                {todayWorkout.techniqueName}
+              </h2>
+              <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93]">
+                {todayWorkout.techniqueWhat.slice(0, 100)}…
+              </p>
+            </div>
+          </WorkoutEditModal>
+        ) : (
+          <div
+            className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 bg-white dark:bg-[#111111]"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
+                🥋 Treino do Dia
+              </span>
+              <span className="text-xs text-neutral-500 dark:text-[#8E8E93]">
+                {new Date(todayWorkout.date).toLocaleDateString("pt-BR")}
+              </span>
+            </div>
+            <h2 className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]">
+              {todayWorkout.techniqueName}
+            </h2>
+            <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93]">
+              {todayWorkout.techniqueWhat.slice(0, 100)}…
+            </p>
           </div>
-          <h2 className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]">
-            {todayWorkout.techniqueName}
-          </h2>
-          <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93]">
-            {todayWorkout.techniqueWhat.slice(0, 100)}…
-          </p>
-        </div>
+        )
       )}
 
       {/* === Actions rápidas === */}

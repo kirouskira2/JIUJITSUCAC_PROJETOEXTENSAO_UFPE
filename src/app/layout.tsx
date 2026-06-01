@@ -5,9 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SplashScreen } from "@/components/splash-screen";
 import { Analytics } from "@vercel/analytics/react";
 import { headers } from "next/headers";
-import dynamic from "next/dynamic";
 
-const RetroGrid = dynamic(() => import("@/components/ui/retro-grid").then(mod => mod.RetroGrid), { ssr: false });
+import { RetroGrid } from "@/components/ui/retro-grid";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -40,20 +39,23 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/logo.jpg",
-    apple: "/logo.jpg",
   },
 };
 
 export const viewport: Viewport = {
   themeColor: "#050505", // bgBase
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const nonce = headers().get("x-nonce") ?? undefined;
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html
@@ -80,7 +82,7 @@ export default function RootLayout({
             <SplashScreen />
           </div>
           <Toaster theme="dark" />
-          <Analytics nonce={nonce} />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

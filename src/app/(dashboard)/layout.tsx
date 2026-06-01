@@ -5,6 +5,7 @@ import { AceternityDock } from "@/components/aceternity-dock";
 import { LogoutButton } from "./logout-button";
 import { HexagonPattern } from "@/components/ui/hexagon-pattern";
 import { NotificationsBell } from "@/components/notifications-bell";
+import { NotificationPermission } from "@/components/notification-permission";
 import { cn } from "@/lib/utils";
 
 export default async function DashboardLayout({
@@ -40,17 +41,20 @@ export default async function DashboardLayout({
 
           {/* Global Page Container */}
           <div className="flex-1 overflow-y-auto w-full px-4 md:px-8 py-6 md:py-8 relative z-10">
-            {/* Top Bar for Global Elements like Notifications */}
-            <div className="absolute top-4 right-4 md:top-8 md:right-8 z-50">
+            {/* Desktop: Notification bell top-right */}
+            <div className="hidden md:block absolute top-8 right-8 z-50">
               <NotificationsBell />
             </div>
 
-            <div className="max-w-7xl mx-auto w-full h-full flex flex-col pt-8 md:pt-0">
+            <div className="max-w-7xl mx-auto w-full h-full flex flex-col">
               {children}
             </div>
           </div>
         </main>
       </div>
+
+      {/* Notification permission banner */}
+      <NotificationPermission />
     </div>
   );
 }

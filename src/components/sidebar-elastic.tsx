@@ -106,7 +106,7 @@ export function SidebarElastic({ role, fullName }: SidebarElasticProps) {
                   transition={{ duration: 0.15, ease: "easeOut" }}
                   className="text-foreground font-bold tracking-tight whitespace-nowrap text-lg"
                 >
-                  JJCAC
+                  JIU JITSU CAC
                 </motion.span>
               )}
             </AnimatePresence>

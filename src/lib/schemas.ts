@@ -172,6 +172,8 @@ export const updateProfileSchema = z.object({
   category: studentCategorySchema.optional(),
   institution: z.string().max(200, "Instituição muito longa").optional(),
   enrollmentId: z.string().max(50, "Matrícula muito longa").optional(),
+  phone: z.string().optional(),
+  emergencyContact: z.string().optional(),
 });
 
 /** Ref: Artifact 3 → promoteToMonitor action */
