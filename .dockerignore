@@ -1,0 +1,14 @@
+node_modules
+.next
+.env.local
+.env.production
+.env.development
+.env
+.git
+.gitignore
+.agents
+.cursor
+README.md
+Dockerfile
+docker-compose.yml
+DEPLOY.md
