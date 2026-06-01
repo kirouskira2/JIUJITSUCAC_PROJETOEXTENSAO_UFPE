@@ -3,6 +3,7 @@ import { Inter, Rajdhani, Space_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SplashScreen } from "@/components/splash-screen";
+import { Analytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
 
 const RetroGrid = dynamic(() => import("@/components/ui/retro-grid").then(mod => mod.RetroGrid), { ssr: false });
@@ -77,6 +78,7 @@ export default function RootLayout({
           </div>
           <Toaster theme="dark" />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
