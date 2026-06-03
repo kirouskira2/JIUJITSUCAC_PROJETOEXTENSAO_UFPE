@@ -61,7 +61,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground relative overflow-x-hidden selection:bg-red-500/30">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} nonce={nonce}>
           <div className="relative min-h-screen w-full flex flex-col">
-            <RetroGrid className="absolute inset-0 z-0 print:hidden" />
+            <RetroGrid className="absolute inset-0 z-0 print:hidden hidden md:block" />
             <div className="relative z-10 flex-1 flex flex-col">
               {/* Skip Link — WCAG 2.1 AA */}
               <a

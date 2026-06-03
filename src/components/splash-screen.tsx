@@ -14,15 +14,15 @@ export function SplashScreen() {
     } else {
       sessionStorage.setItem("has_seen_splash", "true");
 
-      // Começa a desaparecer aos 2 segundos
+      // Começa a desaparecer rapidamente (0.6s em vez de 2s)
       const fadeTimer = setTimeout(() => {
         setIsFadingOut(true);
-      }, 2000);
+      }, 600);
 
-      // Remove do DOM aos 2.5 segundos
+      // Remove do DOM aos 1.2 segundos (em vez de 2.5s)
       const removeTimer = setTimeout(() => {
         setShow(false);
-      }, 2500);
+      }, 1200);
 
       return () => {
         clearTimeout(fadeTimer);
