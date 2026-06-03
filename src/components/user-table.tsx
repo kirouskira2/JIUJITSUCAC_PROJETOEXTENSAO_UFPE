@@ -189,7 +189,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
         onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#0A84FF"; e.currentTarget.style.color = "#0A84FF"; }}
         onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
       >
-        <IconMedal className="w-3 h-3" /> {compact ? "" : "Graduar"}
+        <IconMedal className="w-3 h-3" /> Graduar
       </button>
       {profile.role === "aluno" && (
         <button
@@ -200,7 +200,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#0A84FF"; e.currentTarget.style.color = "#0A84FF"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
         >
-          <IconUserUp className="w-3 h-3" /> {compact ? "" : "Monitor"}
+          <IconUserUp className="w-3 h-3" /> Monitor
         </button>
       )}
       {profile.role !== "admin" && (
@@ -212,7 +212,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#dc2626"; e.currentTarget.style.color = "#dc2626"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
         >
-          <IconUserShield className="w-3 h-3" /> {compact ? "" : "Prof."}
+          <IconUserShield className="w-3 h-3" /> Prof.
         </button>
       )}
       {(profile.role === "admin" || profile.role === "monitor") && profile.id !== currentUserId && (
@@ -225,7 +225,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
           title="Remover privilégios e tornar Aluno"
         >
-          <IconUserShield className="w-3 h-3 rotate-180" /> {compact ? "" : "Rebaixar"}
+          <IconUserShield className="w-3 h-3 rotate-180" /> Rebaixar
         </button>
       )}
     </>
