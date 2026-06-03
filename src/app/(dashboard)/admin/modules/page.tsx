@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import { getPrinciples } from "@/actions/principles";
+import { listPrinciples } from "@/actions/principles";
+import { Principle } from "@/lib/schemas";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export const metadata: Metadata = {
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
 export const revalidate = 3600; // 1 hora de cache (os princípios não mudam frequentemente)
 
 export default async function ModulesPage() {
-  const principles = await getPrinciples();
+  const result = await listPrinciples();
+  const principles: Principle[] = result.success && result.data ? result.data : [];
 
   return (
     <div className="flex-1 flex flex-col p-4 md:p-8 max-w-[1200px] mx-auto w-full gap-8">
@@ -48,7 +50,7 @@ export default async function ModulesPage() {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-4 mt-2">
-                  {principle.description.split('. Na vida:').map((part, index) => (
+                  {principle.description.split('. Na vida:').map((part: string, index: number) => (
                     <div key={index} className="flex flex-col gap-1">
                       <span className="text-xs font-bold uppercase text-neutral-500 dark:text-[#8E8E93]">
                         {index === 0 ? "No Tatame" : "Na Vida"}
