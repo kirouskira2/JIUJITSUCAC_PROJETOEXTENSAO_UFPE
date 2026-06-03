@@ -51,14 +51,14 @@ export default async function DashboardLayout({
             </div>
 
             <div className="max-w-7xl mx-auto w-full h-full flex flex-col">
+              {/* Notification permission banner */}
+              <NotificationPermission />
               {children}
             </div>
           </div>
         </main>
       </div>
 
-      {/* Notification permission banner */}
-      <NotificationPermission />
     </div>
   );
 }

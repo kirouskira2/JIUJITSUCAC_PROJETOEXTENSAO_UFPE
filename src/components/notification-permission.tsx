@@ -67,8 +67,8 @@ export function NotificationPermission() {
   if (!showBanner || dismissed) return null;
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-sm z-[200] animate-in slide-in-from-bottom-4 fade-in duration-500">
-      <div className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-4 shadow-2xl dark:shadow-black/40 flex items-start gap-3">
+    <div className="w-full mb-6 animate-in slide-in-from-top-4 fade-in duration-500">
+      <div className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-4 shadow-sm flex items-start gap-3">
         <div className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center shrink-0">
           <BellRingIcon className="w-5 h-5 text-red-600 dark:text-red-500" />
         </div>
