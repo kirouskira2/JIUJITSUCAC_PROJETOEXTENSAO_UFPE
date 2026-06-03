@@ -6,6 +6,7 @@ import { LogoutButton } from "./logout-button";
 import { HexagonPattern } from "@/components/ui/hexagon-pattern";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { NotificationPermission } from "@/components/notification-permission";
+import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 import { cn } from "@/lib/utils";
 
 export default async function DashboardLayout({
@@ -24,6 +25,9 @@ export default async function DashboardLayout({
   return (
     <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden bg-neutral-50 dark:bg-[#050505] text-neutral-900 dark:text-neutral-50">
       
+      {/* PWA Mobile Banner - Shows only when logged in on browser */}
+      <PwaInstallPrompt />
+
       {/* Menu Lateral (Desktop e Mobile) */}
       <AceternitySidebar role={profile.role} fullName={profile.fullName} />
 

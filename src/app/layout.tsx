@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SplashScreen } from "@/components/splash-screen";
 import { Analytics } from "@vercel/analytics/react";
 import { headers } from "next/headers";
-import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 
 import { RetroGrid } from "@/components/ui/retro-grid";
 import { cn } from "@/lib/utils";
@@ -78,7 +77,6 @@ export default async function RootLayout({
           </div>
           <Toaster theme="dark" />
           <Analytics />
-          <PwaInstallPrompt />
         </ThemeProvider>
       </body>
     </html>
