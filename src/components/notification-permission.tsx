@@ -24,8 +24,12 @@ export function NotificationPermission() {
     if ("Notification" in window) {
       if (Notification.permission === "default") {
         // Ainda não pediu — exibe o banner
-        const alreadyDismissed = localStorage.getItem("jjcac-notif-dismissed");
-        if (!alreadyDismissed) {
+        try {
+          const alreadyDismissed = localStorage.getItem("jjcac-notif-dismissed");
+          if (!alreadyDismissed) {
+            setShowBanner(true);
+          }
+        } catch (e) {
           setShowBanner(true);
         }
       }
@@ -55,7 +59,9 @@ export function NotificationPermission() {
   function handleDismiss() {
     setShowBanner(false);
     setDismissed(true);
-    localStorage.setItem("jjcac-notif-dismissed", "true");
+    try {
+      localStorage.setItem("jjcac-notif-dismissed", "true");
+    } catch (e) {}
   }
 
   if (!showBanner || dismissed) return null;

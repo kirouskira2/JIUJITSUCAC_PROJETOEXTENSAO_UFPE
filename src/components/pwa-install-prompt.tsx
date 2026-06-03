@@ -13,17 +13,20 @@ export function PwaInstallPrompt() {
 
   useEffect(() => {
     // Check if app is already installed
-    const checkStandalone = window.matchMedia("(display-mode: standalone)").matches || 
+    const checkStandalone = window.matchMedia?.("(display-mode: standalone)")?.matches || 
                            (window.navigator as any).standalone || 
-                           document.referrer.includes("android-app://");
+                           (document.referrer || "").includes("android-app://");
     
     setIsStandalone(checkStandalone);
 
     if (checkStandalone) return;
-    
-    if (localStorage.getItem("pwa-banner-dismissed") === "true") {
-      setDismissed(true);
-      return;
+    try {
+      if (localStorage.getItem("pwa-banner-dismissed") === "true") {
+        setDismissed(true);
+        return;
+      }
+    } catch (e) {
+      // Ignora erro de segurança do Safari no modo privado
     }
 
     // Detect iOS
@@ -73,7 +76,9 @@ export function PwaInstallPrompt() {
   const closeBanner = () => {
     setShowPrompt(false);
     setDismissed(true);
-    localStorage.setItem("pwa-banner-dismissed", "true");
+    try {
+      localStorage.setItem("pwa-banner-dismissed", "true");
+    } catch (e) {}
   };
 
   if (!showPrompt || isStandalone || dismissed) return null;
