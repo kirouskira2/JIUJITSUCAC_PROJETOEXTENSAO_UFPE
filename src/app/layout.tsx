@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Rajdhani, Space_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SplashScreen } from "@/components/splash-screen";
 import { Analytics } from "@vercel/analytics/react";
 import { headers } from "next/headers";
 
@@ -73,7 +72,6 @@ export default async function RootLayout({
                 {children}
               </main>
             </div>
-            <SplashScreen />
           </div>
           <Toaster theme="dark" position="top-center" />
           <Analytics />
