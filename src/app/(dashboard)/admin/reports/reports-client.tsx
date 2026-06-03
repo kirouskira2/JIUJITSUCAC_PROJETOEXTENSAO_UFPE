@@ -88,14 +88,17 @@ export function ReportsClient({ students = [] }: ReportsClientProps) {
   };
 
   const handleExportPDF = () => {
-    // Para PDF nativo, apenas acionamos o comando de imprimir a tela, mas 
-    // idealmente geraríamos uma nova janela focada no relatório. 
-    // Para esta fase, instruiremos o usuário
-    toast({
-      title: "Exportar PDF",
-      description: "Pressione CTRL+P (ou CMD+P) para salvar esta tela como PDF."
-    });
-    window.print();
+    if (!profileId) {
+      toast({
+        title: "Seleção Necessária",
+        description: "Por favor, selecione um aluno específico para gerar a declaração de horas nominal.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Abre a rota de impressão (isolada do dashboard) em nova aba
+    window.open(`/print/extensao/${profileId}`, '_blank');
   };
 
   return (
