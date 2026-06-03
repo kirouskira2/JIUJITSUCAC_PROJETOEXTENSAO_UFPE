@@ -1,5 +1,5 @@
 import { getSession } from "@/actions/auth";
-import { getMyAttendance } from "@/actions/checkin";
+import { getMyAttendance, getTodayWorkout } from "@/actions/checkin";
 import Link from "next/link";
 import { IconQrcode, IconChevronRight, IconCircleCheck, IconHistory } from "@tabler/icons-react";
 import { BELT_BADGE_STYLES } from "@/lib/constants";
@@ -12,6 +12,9 @@ export default async function AlunoHomePage() {
 
   const { data: attendanceData } = await getMyAttendance({});
   const attendanceCount = attendanceData?.length || 0;
+
+  const { data: workoutData } = await getTodayWorkout();
+  const todayWorkout = workoutData?.workout;
 
   const beltColor = BELT_BADGE_STYLES[profile.belt] ?? BELT_BADGE_STYLES["Branca"];
   const initial = profile.fullName.charAt(0).toUpperCase();
@@ -30,6 +33,40 @@ export default async function AlunoHomePage() {
           </p>
         </div>
       </div>
+
+      {/* === Banner Treino do Dia === */}
+      {todayWorkout ? (
+        <div className="w-full relative rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#2C2C2E] p-6 md:p-8 flex flex-col gap-3 bg-white dark:bg-[#111111]">
+          {/* Red glow background */}
+          <div
+            className="absolute top-0 right-0 w-[300px] h-[300px] pointer-events-none rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"
+            style={{ background: "rgba(220,38,38,0.15)" }}
+          />
+          <div className="relative z-10 flex flex-col gap-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500 flex items-center gap-2">
+              🥋 Treino do Dia
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]">
+              {todayWorkout.techniqueName}
+            </h2>
+            <div className="flex flex-col gap-1 mt-2 max-w-3xl">
+              <span className="text-sm font-bold text-neutral-700 dark:text-[#E5E5EA]">Princípio {workoutData?.principle?.number}: {workoutData?.principle?.titlePt}</span>
+              <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93] line-clamp-2 md:line-clamp-none">
+                {todayWorkout.techniqueWhat}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="w-full rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
+          <span className="text-xs font-bold uppercase tracking-widest text-neutral-500 dark:text-[#8E8E93]">
+            🥋 Treino do Dia
+          </span>
+          <p className="text-sm text-neutral-500 dark:text-[#8E8E93]">
+            O treino de hoje ainda não foi registrado pelo professor.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
