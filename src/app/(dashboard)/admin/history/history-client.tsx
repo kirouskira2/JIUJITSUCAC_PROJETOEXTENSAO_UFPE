@@ -4,10 +4,12 @@ import React, { useState, useMemo } from "react";
 import { AttendanceWithWorkout } from "@/lib/schemas";
 import { deleteCheckin } from "@/actions/checkin";
 import { toast } from "sonner";
-import { Trash2Icon, UserIcon, CalendarIcon, CheckCircle2 } from "lucide-react";
+import { Trash2Icon, CalendarIcon, CheckCircle2 } from "lucide-react";
 import { IconSearch } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,21 +21,37 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export function AdminHistoryClient({ initialData }: { initialData: AttendanceWithWorkout[] }) {
+interface PaginationInfo {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+export function AdminHistoryClient({ initialData, pagination }: { initialData: AttendanceWithWorkout[]; pagination: PaginationInfo | null }) {
   const [history, setHistory] = useState<AttendanceWithWorkout[]>(initialData);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   const filteredHistory = useMemo(() => {
+    const term = searchTerm.toLowerCase();
     return history.filter((record) => {
-      const nameMatch = record.profile?.fullName?.toLowerCase().includes(searchTerm.toLowerCase());
+      const p = record.profile;
+      const nameMatch = p?.fullName?.toLowerCase().includes(term);
+      const emailMatch = p?.email?.toLowerCase().includes(term);
+      const categoryMatch = p?.category?.toLowerCase().includes(term);
+      const beltMatch = p?.belt?.toLowerCase().includes(term);
       const recordDate = new Date(record.checkedInAt).toISOString().split('T')[0];
       const startMatch = startDate ? recordDate >= startDate : true;
       const endMatch = endDate ? recordDate <= endDate : true;
-      return nameMatch && startMatch && endMatch;
+      return (nameMatch || emailMatch || categoryMatch || beltMatch) && startMatch && endMatch;
     });
   }, [history, searchTerm, startDate, endDate]);
 
@@ -58,10 +76,10 @@ export function AdminHistoryClient({ initialData }: { initialData: AttendanceWit
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="font-display text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
-            Histórico Global
+            Histórico de Presença Geral
           </h1>
           <p className="text-sm mt-1 text-neutral-500 dark:text-[#8E8E93]">
-            Visualização de todos os check-ins registrados.
+            Visualização de todos os check-ins registrados na academia.
           </p>
         </div>
       </div>
@@ -77,26 +95,29 @@ export function AdminHistoryClient({ initialData }: { initialData: AttendanceWit
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Buscar Aluno</label>
-            <input 
-              type="text"
-              placeholder="Digite o nome do aluno..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
-            />
+            <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Buscar por nome, e-mail, faixa ou categoria</label>
+            <div className="relative">
+              <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-neutral-500 dark:text-[#8E8E93]" />
+              <input 
+                type="text"
+                placeholder="Nome, e-mail, faixa, categoria..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full h-12 rounded-lg pl-10 pr-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
+              />
+            </div>
           </div>
           
           <div className="space-y-1.5">
             <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Período (Data)</label>
-            <div className="flex gap-2 items-center">
+            <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <input 
                 type="date" 
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
               />
-              <span className="text-neutral-500 dark:text-[#8E8E93]">-</span>
+              <span className="hidden sm:block text-neutral-500 dark:text-[#8E8E93]">-</span>
               <input 
                 type="date" 
                 value={endDate}
@@ -123,48 +144,66 @@ export function AdminHistoryClient({ initialData }: { initialData: AttendanceWit
                 key={record.id}
                 layout
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2, delay: index * 0.05 }}
-                className="relative group h-[180px]"
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.2, delay: index * 0.02 } }}
+                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
+                transition={{ layout: { type: "spring", bounce: 0, duration: 0.3 } }}
+                className="relative group"
               >
-                {/* Delete background action */}
-                <div className="absolute inset-y-0 right-0 w-24 bg-red-600 rounded-2xl flex items-center justify-end pr-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Trash2Icon className="w-6 h-6 text-white" />
-                </div>
-                
-                {/* Draggable Card */}
                 <motion.div
-                  drag="x"
-                  dragConstraints={{ left: -80, right: 0 }}
-                  dragElastic={0.2}
-                  onDragEnd={(e, { offset }) => {
-                    if (offset.x < -60) {
-                      confirmDelete(record.id);
-                    }
-                  }}
-                  className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-5 relative z-10 w-full h-full cursor-grab active:cursor-grabbing flex flex-col justify-between"
+                  className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-5 relative z-10 w-full flex flex-col gap-3 group hover:border-red-500/40 transition-colors"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-[#F2F2F7]">
-                        <UserIcon className="w-5 h-5" />
+                  {/* Header: Avatar + Nome + Delete */}
+                  <div className="flex items-start justify-between">
+                    {/* Clicável → Perfil do Aluno */}
+                    <Link
+                      href={record.profile?.id ? `/admin/users/${record.profile.id}` : "#"}
+                      className="flex items-center gap-3 text-left hover:opacity-80 transition-opacity flex-1 min-w-0"
+                      title="Ver perfil do aluno"
+                    >
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] font-bold text-sm">
+                        {record.profile?.fullName?.charAt(0).toUpperCase() || "?"}
                       </div>
-                      <div>
-                        <h4 className="font-display font-bold text-lg text-neutral-900 dark:text-[#F2F2F7]">
-                          {record.profile?.fullName?.split(" ")[0] || "Aluno"}
+                      <div className="min-w-0">
+                        <h4 className="font-display font-bold text-base text-neutral-900 dark:text-[#F2F2F7] truncate">
+                          {record.profile?.fullName || "Aluno"}
                         </h4>
-                        <p className="text-xs text-neutral-500 dark:text-[#8E8E93] flex items-center gap-1">
-                          <CalendarIcon className="w-3 h-3" />
-                          {new Date(record.checkedInAt).toLocaleDateString('pt-BR')} às {new Date(record.checkedInAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                        <p className="text-xs text-neutral-500 dark:text-[#8E8E93] truncate">
+                          {record.profile?.email || ""}
                         </p>
                       </div>
-                    </div>
+                    </Link>
+
+                    {/* Delete */}
+                    <button 
+                      onClick={() => confirmDelete(record.id)}
+                      className="ml-2 w-8 h-8 rounded-full flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:text-red-400 dark:hover:text-red-300 transition-colors shrink-0 z-20"
+                      title="Apagar registro"
+                    >
+                      <Trash2Icon className="w-4 h-4" />
+                    </button>
                   </div>
-                  
+
+                  {/* Badges: faixa + categoria */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {record.profile?.belt && (
+                      <span className="text-[10px] font-bold uppercase tracking-wider border border-neutral-200 dark:border-[#2C2C2E] px-2 py-0.5 rounded-full text-neutral-700 dark:text-[#8E8E93] bg-neutral-50 dark:bg-[#1C1C1E]">
+                        {record.profile.belt}
+                      </span>
+                    )}
+                    {record.profile?.category && (
+                      <span className="text-[10px] font-bold uppercase tracking-wider border border-neutral-200 dark:border-[#2C2C2E] px-2 py-0.5 rounded-full text-neutral-700 dark:text-[#8E8E93] bg-neutral-50 dark:bg-[#1C1C1E]">
+                        {record.profile.category === "academico" ? "Extensionista" : record.profile.category === "frequente" ? "Aluno" : "Visitante"}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Footer: data + princípio + higiene */}
                   <div className="rounded-xl bg-neutral-50 dark:bg-[#1C1C1E] p-3 space-y-2 border border-neutral-100 dark:border-[#2C2C2E]">
                     <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-[#8E8E93]">
-                      <span>Princípio do Treino:</span>
+                      <span className="flex items-center gap-1">
+                        <CalendarIcon className="w-3 h-3" />
+                        {new Date(record.checkedInAt).toLocaleDateString('pt-BR')} às {new Date(record.checkedInAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                      </span>
                       <span className="font-bold text-neutral-900 dark:text-[#F2F2F7]">#{record.workout?.principle?.number || '?'}</span>
                     </div>
                     {record.hygieneConfirmed && (
@@ -200,6 +239,31 @@ export function AdminHistoryClient({ initialData }: { initialData: AttendanceWit
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Controles de Paginação */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex items-center justify-center gap-4 pt-4 pb-8">
+          <button
+            disabled={!pagination.hasPreviousPage}
+            onClick={() => router.push(`?page=${currentPage - 1}`)}
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
+          >
+            <ChevronLeftIcon className="w-4 h-4" />
+            Anterior
+          </button>
+          <span className="text-sm font-semibold text-neutral-500 dark:text-[#8E8E93]">
+            Página {pagination.page} de {pagination.totalPages} ({pagination.totalCount} registros)
+          </span>
+          <button
+            disabled={!pagination.hasNextPage}
+            onClick={() => router.push(`?page=${currentPage + 1}`)}
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
+          >
+            Próxima
+            <ChevronRightIcon className="w-4 h-4" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

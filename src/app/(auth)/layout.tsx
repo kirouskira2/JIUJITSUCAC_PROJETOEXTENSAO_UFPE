@@ -6,7 +6,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-transparent p-4 relative overflow-hidden">
+    <div className="flex-1 h-full flex items-center justify-center bg-transparent p-4 relative overflow-hidden">
       {/* Particles Background */}
       <Particles
         className="absolute inset-0 z-0"

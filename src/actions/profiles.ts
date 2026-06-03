@@ -24,6 +24,7 @@ import {
 } from "@/lib/schemas";
 import { mapProfile, ProfileRow } from "@/lib/mappers";
 import { getPaginationRange, buildPaginationMeta, PaginatedResult, PaginationParams } from "@/lib/pagination";
+import { encryptField } from "@/lib/crypto";
 
 export async function listProfiles(data: ListProfilesInput): Promise<ActionResponse<Profile[]>> {
   try {
@@ -151,8 +152,8 @@ export async function updateProfile(data: UpdateProfileInput): Promise<ActionRes
     if (parsed.data.category) updates.category = parsed.data.category;
     if (parsed.data.institution !== undefined) updates.institution = parsed.data.institution;
     if (parsed.data.enrollmentId !== undefined) updates.enrollment_id = parsed.data.enrollmentId;
-    if (parsed.data.phone !== undefined) updates.phone = parsed.data.phone;
-    if (parsed.data.emergencyContact !== undefined) updates.emergency_contact = parsed.data.emergencyContact;
+    if (parsed.data.phone !== undefined) updates.phone = encryptField(parsed.data.phone);
+    if (parsed.data.emergencyContact !== undefined) updates.emergency_contact = encryptField(parsed.data.emergencyContact);
 
     const { data: profile, error } = await supabase
       .from("profiles")
@@ -332,6 +333,64 @@ export async function promoteBelt(data: PromoteBeltInput): Promise<ActionRespons
       success: true, 
       data: { message: "Faixa atualizada com sucesso", newBelt: parsed.data.newBelt } 
     };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Erro desconhecido";
+    return { success: false, error: `Erro no servidor: ${message}` };
+  }
+}
+
+/**
+ * Apagar perfis em massa.
+ * Exige a chave SUPABASE_SERVICE_ROLE_KEY no ambiente para apagar contas do auth.
+ */
+export async function deleteProfiles(userIds: string[]): Promise<ActionResponse<void>> {
+  try {
+    if (!userIds || userIds.length === 0) {
+      return { success: false, error: "Nenhum usuário selecionado" };
+    }
+
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+    if (!serviceKey || !url) {
+      // FALLBACK: Soft delete (apaga apenas da tabela profiles usando o client normal autenticado)
+      const supabase = await createClient();
+      const { error } = await supabase.from("profiles").delete().in("id", userIds);
+      
+      if (error) {
+        return { success: false, error: "Erro ao apagar perfis: " + error.message };
+      }
+      
+      revalidatePath("/admin/users");
+      return { 
+        success: true, 
+        data: undefined 
+      };
+    }
+
+    // Se a chave existir, usa exclusão pesada via auth admin
+    const { createClient: createSupabaseClient } = await import("@supabase/supabase-js");
+    const supabaseAdmin = createSupabaseClient(url, serviceKey);
+
+    let errors = 0;
+
+    for (const id of userIds) {
+      const { error } = await supabaseAdmin.auth.admin.deleteUser(id);
+      
+      if (error) {
+        console.error("Erro ao deletar usuário", id, error);
+        errors++;
+      }
+    }
+
+    revalidatePath("/admin/users");
+
+    if (errors > 0) {
+      return { success: false, error: `Falha ao deletar ${errors} usuário(s). A Service Role Key pode estar incorreta.` };
+    }
+
+    return { success: true, data: undefined };
+
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Erro desconhecido";
     return { success: false, error: `Erro no servidor: ${message}` };

@@ -29,7 +29,7 @@ export default async function SignupPage() {
       {/* Header */}
       <div className="flex flex-col items-center gap-3 mb-1">
         <div className="w-28 h-28 rounded-full p-0.5 border-2 shadow-lg" style={{ borderColor: "#dc2626" }}>
-          <Image src="/logo.jpg?v=2" alt="JJCAC Logo" width={112} height={112} priority className="w-full h-full object-cover rounded-full" />
+          <Image src="/logo.jpg" alt="JJCAC Logo" width={112} height={112} priority className="w-full h-full object-cover rounded-full" />
         </div>
         <div className="text-center">
           <h1 className="font-display text-4xl font-black uppercase tracking-tighter" style={{ color: "#F2F2F7" }}>

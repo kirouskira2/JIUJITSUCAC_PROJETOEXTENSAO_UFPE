@@ -15,7 +15,8 @@ import {
   History,
   LogOut,
   Award,
-  CalendarDays
+  CalendarDays,
+  BookOpen
 } from "lucide-react";
 
 interface SidebarItem {
@@ -42,7 +43,8 @@ export function SidebarElastic({ role, fullName }: SidebarElasticProps) {
       { href: "/admin", title: "Dashboard", icon: LayoutDashboard },
       { href: "/admin/users", title: "Usuários", icon: Users },
       { href: "/admin/reports", title: "Relatórios", icon: FileText },
-      { href: "/admin/graduation", title: "Módulo de Graduação", icon: Award }
+      { href: "/admin/graduation", title: "Módulo de Graduação", icon: Award },
+      { href: "/admin/modules", title: "Módulos Educacionais", icon: BookOpen }
     );
   }
 
@@ -94,7 +96,7 @@ export function SidebarElastic({ role, fullName }: SidebarElasticProps) {
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full overflow-hidden shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.jpg?v=2" alt="Logo JJCAC" className="w-full h-full object-cover" />
+              <img src="/logo.jpg" alt="Logo JJCAC" className="w-full h-full object-cover" />
             </div>
 
             <AnimatePresence initial={false}>

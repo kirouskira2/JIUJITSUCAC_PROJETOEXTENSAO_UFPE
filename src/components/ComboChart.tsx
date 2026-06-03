@@ -46,7 +46,7 @@ export function ComboChart({
 
   return (
     <div className={`w-full h-[300px] ${className || ""}`}>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
         <ComposedChart
           data={data}
           margin={{ top: 20, right: 20, bottom: 20, left: 20 }}

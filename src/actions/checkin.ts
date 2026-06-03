@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getTodayBrazil, toDateStringBrazil } from "@/lib/date-utils";
 import { createHmac, timingSafeEqual } from "crypto";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { getPaginationRange, buildPaginationMeta, PaginatedResult, PaginationParams } from "@/lib/pagination";
 import { 
   ActionResponse, 
   RegisterCheckinInput, 
@@ -33,10 +34,9 @@ import { mapAttendance, mapPrinciple, mapWorkout, mapProfile } from "@/lib/mappe
 async function verifyQrToken(token: string | undefined, secret: string): Promise<boolean> {
   if (!token) return false;
   
-  // Compatibilidade: aceita o token direto (QR estático impresso)
-  // Em produção com display digital, remover este bloco e usar apenas HMAC
-  if (token === secret) return true;
-  
+  // [LGPD/SEGURANÇA V4.2] Bypass estático removido.
+  // Apenas tokens HMAC-SHA256 assinados pelo servidor são aceitos.
+  // Ref: relatorio_auditoria_senior.md §Gap 3
   // Validação HMAC: o token pode ser um HMAC gerado por um display digital
   try {
     const signingKey = process.env.HMAC_SIGNING_KEY || "jjcac-hmac-default-key-2026";
@@ -318,6 +318,10 @@ export async function getAllAttendance(data: GetMyAttendanceInput): Promise<Acti
     if (parsed.data.endDate) {
       query = query.lte("workouts.date", toDateStringBrazil(parsed.data.endDate));
     }
+    
+    if (parsed.data.profileId) {
+      query = query.eq("profile_id", parsed.data.profileId);
+    }
 
     const { data: attendanceData, error } = await query;
 
@@ -376,6 +380,97 @@ export async function deleteCheckin(attendanceId: string): Promise<ActionRespons
     revalidatePath("/aluno");
     revalidatePath("/aluno/history");
     return { success: true };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Erro desconhecido";
+    return { success: false, error: `Erro no servidor: ${message}` };
+  }
+}
+
+/**
+ * Versão PAGINADA do getAllAttendance.
+ * Ref: relatorio_auditoria_senior.md §Gap 2 — Generalização da Paginação
+ * Retorna dados + metadados de paginação (totalCount, totalPages, etc.)
+ */
+export async function getAllAttendancePaginated(
+  data: GetMyAttendanceInput & PaginationParams
+): Promise<ActionResponse<PaginatedResult<AttendanceWithWorkout>>> {
+  try {
+    const parsed = getMyAttendanceSchema.safeParse(data);
+    
+    if (!parsed.success) {
+      return { success: false, error: "Parâmetros de data inválidos" };
+    }
+
+    const supabase = await createClient();
+    
+    // Verificação de permissão (admin/monitor)
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { success: false, error: "Não autenticado" };
+
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    if (profile?.role !== 'admin' && profile?.role !== 'monitor') {
+        return { success: false, error: "Não autorizado" };
+    }
+
+    const { from, to, page, pageSize } = getPaginationRange(data);
+
+    let query = supabase
+      .from("attendance")
+      .select(`
+        *,
+        profile:profiles (*),
+        workout:workouts (
+          *,
+          principle:principles (*)
+        )
+      `, { count: "exact" })
+      .order("checked_in_at", { ascending: false });
+
+    if (parsed.data.startDate) {
+      query = query.gte("checked_in_at", toDateStringBrazil(parsed.data.startDate));
+    }
+    
+    if (parsed.data.endDate) {
+      const endDatePlusOne = new Date(parsed.data.endDate);
+      endDatePlusOne.setDate(endDatePlusOne.getDate() + 1);
+      query = query.lt("checked_in_at", toDateStringBrazil(endDatePlusOne));
+    }
+    
+    if (parsed.data.profileId) {
+      query = query.eq("profile_id", parsed.data.profileId);
+    }
+
+    const { data: attendanceData, error, count } = await query.range(from, to);
+
+    if (error) {
+      return { success: false, error: "Erro de consulta de presença: " + error.message };
+    }
+    
+    const mappedAttendance: AttendanceWithWorkout[] = (attendanceData || []).map((a: any) => ({
+      ...mapAttendance({
+        id: a.id,
+        profile_id: a.profile_id,
+        workout_id: a.workout_id,
+        checked_in_at: a.checked_in_at,
+        hygiene_confirmed: a.hygiene_confirmed,
+        created_at: a.created_at,
+      }),
+      profile: a.profile ? mapProfile(a.profile) : undefined,
+      workout: {
+        ...mapWorkout(a.workout),
+        principle: mapPrinciple(a.workout.principle)
+      }
+    }));
+
+    const totalCount = count || 0;
+
+    return { 
+      success: true, 
+      data: {
+        data: mappedAttendance,
+        pagination: buildPaginationMeta(page, pageSize, totalCount),
+      }
+    };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Erro desconhecido";
     return { success: false, error: `Erro no servidor: ${message}` };

@@ -6,6 +6,7 @@ import { createWorkout, updateWorkout, deleteWorkout } from "@/actions/workouts"
 import { useToast } from "@/hooks/use-toast";
 import { Workout } from "@/lib/schemas";
 import { Calendar, Save, Dumbbell, AlignLeft, HelpCircle, Award, Loader2, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Principle {
   id: number;
@@ -29,11 +30,12 @@ interface WorkoutFormData {
 
 export function WorkoutForm({ principles, initialWorkout }: WorkoutFormProps) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const { toast } = useToast();
   const isEditing = !!initialWorkout;
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<WorkoutFormData>({
-    defaultValues: {
+    values: {
       date: initialWorkout?.date || new Date().toISOString().split("T")[0],
       techniqueName: initialWorkout?.techniqueName || "",
       techniqueWhat: initialWorkout?.techniqueWhat || "",
@@ -91,7 +93,7 @@ export function WorkoutForm({ principles, initialWorkout }: WorkoutFormProps) {
       if (res.success) {
         toast({ title: "Sucesso", description: "Treino apagado com sucesso!" });
         // Optional: refresh form or redirect
-        window.location.reload();
+        router.refresh();
       } else {
         toast({
           title: "Erro",

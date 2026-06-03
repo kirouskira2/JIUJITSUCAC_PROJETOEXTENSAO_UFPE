@@ -2,6 +2,17 @@ import { getSession } from "@/actions/auth";
 import { redirect } from "next/navigation";
 import { getDashboardStats } from "@/actions/dashboard";
 import { AttendanceChart } from "@/components/attendance-chart";
+import { listWorkouts } from "@/actions/workouts";
+import { listPrinciples } from "@/actions/principles";
+import { WorkoutEditModal } from "@/components/workout-edit-modal";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { IconUsers, IconBarbell, IconChartBar, IconTarget, IconChevronRight, IconIdBadge, IconCertificate, IconClipboardList } from "@tabler/icons-react";
 import Link from "next/link";
 import { BELT_COLORS } from "@/lib/constants";
@@ -15,6 +26,12 @@ export default async function AdminDashboardPage() {
 
   const { data: stats } = await getDashboardStats({});
   const totalStudents = stats?.totalStudents || 0;
+
+  const { data: workoutsData } = await listWorkouts({});
+  const todayWorkout = workoutsData?.[0] ?? null;
+
+  const { data: principlesData } = await listPrinciples();
+  const principles = principlesData || [];
 
   const kpis = [
     {
@@ -167,12 +184,6 @@ export default async function AdminDashboardPage() {
               <h2 className="font-sans font-bold text-base text-neutral-900 dark:text-[#F2F2F7]">
                 Distribuição por Faixa
               </h2>
-              <Link
-                href="/admin/graduation"
-                className="text-xs flex items-center gap-1 hover:underline text-red-600 dark:text-[#dc2626]"
-              >
-                Módulo de Graduação <IconChevronRight className="w-3 h-3" />
-              </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {stats?.studentsByBelt?.map((belt) => (
@@ -204,14 +215,42 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Right Column: Gráfico de Presenças */}
-        <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-4 bg-white dark:bg-[#111111]">
-          <h2 className="font-sans font-bold text-base text-neutral-900 dark:text-[#F2F2F7]">
-            Presenças por Semana
-          </h2>
-          <div className="h-[280px] w-full flex-1">
-            <AttendanceChart data={stats?.attendanceByWeek || []} />
+        {/* Right Column: Gráfico de Presenças, Treino e Módulos */}
+        <div className="flex flex-col gap-6">
+          <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-4 bg-white dark:bg-[#111111]">
+            <h2 className="font-sans font-bold text-base text-neutral-900 dark:text-[#F2F2F7]">
+              Presenças por Semana
+            </h2>
+            <div className="h-[280px] w-full flex-1">
+              <AttendanceChart data={stats?.attendanceByWeek || []} />
+            </div>
           </div>
+
+          {/* === Treino do Dia === */}
+          {todayWorkout && (
+            <WorkoutEditModal initialWorkout={todayWorkout} principles={principles}>
+              <div
+                className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 bg-white dark:bg-[#111111] hover:border-red-500/50 transition-colors cursor-pointer group"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
+                    🥋 Treino do Dia
+                  </span>
+                  <span className="text-xs text-neutral-500 dark:text-[#8E8E93]">
+                    {new Date(todayWorkout.date).toLocaleDateString("pt-BR")}
+                  </span>
+                </div>
+                <h2 className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7] group-hover:text-red-500 transition-colors">
+                  {todayWorkout.techniqueName}
+                </h2>
+                <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93]">
+                  {todayWorkout.techniqueWhat.slice(0, 100)}…
+                </p>
+              </div>
+            </WorkoutEditModal>
+          )}
+
+
         </div>
 
       </div>

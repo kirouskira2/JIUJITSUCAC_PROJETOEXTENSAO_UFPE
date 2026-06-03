@@ -7,6 +7,7 @@
 // ============================================================================
 
 import type { Profile, Principle, Workout, Attendance } from "./schemas";
+import { decryptField } from "./crypto";
 
 // ============================================================================
 // Database Row Types (snake_case — como vêm do Supabase)
@@ -79,8 +80,8 @@ export function mapProfile(row: ProfileRow): Profile {
     category: row.category,
     institution: row.institution,
     enrollmentId: row.enrollment_id,
-    phone: row.phone,
-    emergencyContact: row.emergency_contact,
+    phone: decryptField(row.phone),
+    emergencyContact: decryptField(row.emergency_contact),
     ufpeBond: row.ufpe_bond,
     academicLevel: row.academic_level,
     sexualOrientation: row.sexual_orientation,

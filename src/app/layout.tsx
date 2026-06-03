@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SplashScreen } from "@/components/splash-screen";
 import { Analytics } from "@vercel/analytics/react";
 import { headers } from "next/headers";
+import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 
 import { RetroGrid } from "@/components/ui/retro-grid";
 import { cn } from "@/lib/utils";
@@ -13,12 +14,6 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const rajdhani = Rajdhani({
-  variable: "--font-rajdhani",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
 const spaceMono = Space_Mono({
@@ -60,7 +55,7 @@ export default async function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${inter.variable} ${rajdhani.variable} ${spaceMono.variable} antialiased h-full`}
+      className={`${inter.variable} ${spaceMono.variable} antialiased h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground relative overflow-x-hidden selection:bg-red-500/30">
@@ -83,6 +78,7 @@ export default async function RootLayout({
           </div>
           <Toaster theme="dark" />
           <Analytics />
+          <PwaInstallPrompt />
         </ThemeProvider>
       </body>
     </html>

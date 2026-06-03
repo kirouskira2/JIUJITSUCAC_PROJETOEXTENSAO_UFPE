@@ -44,13 +44,10 @@ export function SplashScreen() {
         <div className="flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300">
 
           <div className="relative w-64 h-64 mb-8 rounded-full overflow-hidden border border-border/50 shadow-2xl flex items-center justify-center" style={{ background: "#1C1C1E" }}>
-            <Image
+            <img
               alt="JJCAC Logo"
               className="w-full h-full object-cover opacity-80 mix-blend-screen"
-              src="/logo.jpg?v=2"
-              width={256}
-              height={256}
-              priority
+              src="/logo.jpg"
             />
             <div className="absolute inset-0 border-2 rounded-full opacity-30 blur-sm" style={{ borderColor: "#dc2626" }} />
           </div>

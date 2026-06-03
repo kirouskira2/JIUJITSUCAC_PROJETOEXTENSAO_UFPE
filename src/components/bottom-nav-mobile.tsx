@@ -25,23 +25,25 @@ export function BottomNavMobile({ role }: BottomNavMobileProps) {
   if (role === "admin") {
     menuItems.push(
       { href: "/admin", title: "Dashboard", icon: LayoutDashboard },
-      { href: "/admin/users", title: "Usuários", icon: Users },
-      { href: "/admin/reports", title: "Relatórios", icon: FileText }
+      { href: "/monitor/workout", title: "Treino", icon: Dumbbell },
+      { href: "/admin/modules", title: "Módulos", icon: BookOpen },
+      { href: "/aluno", title: "Início", icon: User }
     );
-  }
-
-  if (role === "admin" || role === "monitor") {
+  } else if (role === "monitor") {
     menuItems.push(
-      { href: "/monitor/history", title: "Horas", icon: History },
-      { href: "/monitor/workout", title: "Treino", icon: Dumbbell }
+      { href: "/monitor/workout", title: "Treino", icon: Dumbbell },
+      { href: "/aluno/scanner", title: "Escanear", icon: ScanLine },
+      { href: "/aluno", title: "Início", icon: User }
+    );
+  } else {
+    // Aluno puro
+    menuItems.push(
+      { href: "/aluno", title: "Início", icon: LayoutDashboard },
+      { href: "/aluno/scanner", title: "Escanear", icon: ScanLine },
+      { href: "/aluno/principios", title: "Princípios", icon: BookOpen },
+      { href: "/aluno/history", title: "Histórico", icon: History }
     );
   }
-
-  menuItems.push(
-    { href: "/aluno", title: "Perfil", icon: User },
-    { href: "/aluno/principios", title: "Princípios", icon: BookOpen },
-    { href: "/aluno/history", title: "Histórico", icon: History }
-  );
 
   return (
     <nav

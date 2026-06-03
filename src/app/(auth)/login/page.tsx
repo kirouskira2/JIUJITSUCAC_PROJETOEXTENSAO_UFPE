@@ -33,7 +33,7 @@ export default async function LoginPage() {
           style={{ borderColor: "#dc2626" }}
         >
           <Image
-            src="/logo.jpg?v=2"
+            src="/logo.jpg"
             alt="JJCAC Logo"
             width={112}
             height={112}

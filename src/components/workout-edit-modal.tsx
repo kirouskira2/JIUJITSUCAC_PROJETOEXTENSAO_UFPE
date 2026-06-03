@@ -27,9 +27,11 @@ export function WorkoutEditModal({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<button className="w-full text-left relative group" />}>
         {children}
-        <div className="absolute top-4 right-4 bg-white/10 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-          <IconEdit className="w-4 h-4 text-neutral-500 dark:text-[#8E8E93] group-hover:text-red-500" />
-        </div>
+        {initialWorkout && (
+          <div className="absolute top-4 right-4 bg-white/10 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+            <IconEdit className="w-4 h-4 text-neutral-500 dark:text-[#8E8E93] group-hover:text-red-500" />
+          </div>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>

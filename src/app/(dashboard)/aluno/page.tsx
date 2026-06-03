@@ -1,12 +1,9 @@
 import { getSession } from "@/actions/auth";
 import { getMyAttendance } from "@/actions/checkin";
-import { listWorkouts } from "@/actions/workouts";
-import { listPrinciples } from "@/actions/principles";
 import Link from "next/link";
-import { IconQrcode, IconChevronRight, IconCircleCheck, IconHistory, IconBook } from "@tabler/icons-react";
+import { IconQrcode, IconChevronRight, IconCircleCheck, IconHistory } from "@tabler/icons-react";
 import { BELT_BADGE_STYLES } from "@/lib/constants";
 import { ProfileSettingsModal } from "./profile-settings-modal";
-import { WorkoutEditModal } from "@/components/workout-edit-modal";
 
 export default async function AlunoHomePage() {
   const { data: sessionData } = await getSession();
@@ -15,12 +12,6 @@ export default async function AlunoHomePage() {
 
   const { data: attendanceData } = await getMyAttendance({});
   const attendanceCount = attendanceData?.length || 0;
-
-  const { data: workoutsData } = await listWorkouts({});
-  const todayWorkout = workoutsData?.[0] ?? null;
-
-  const { data: principlesData } = await listPrinciples();
-  const principles = principlesData || [];
 
   const beltColor = BELT_BADGE_STYLES[profile.belt] ?? BELT_BADGE_STYLES["Branca"];
   const initial = profile.fullName.charAt(0).toUpperCase();
@@ -47,7 +38,7 @@ export default async function AlunoHomePage() {
 
           {/* === HERO: Perfil === */}
       <div
-        className="relative rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] overflow-hidden p-6 flex flex-col gap-4 bg-white dark:bg-[#111111]"
+        className="relative rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] overflow-hidden p-5 md:p-6 flex flex-col gap-5 bg-white dark:bg-[#111111]"
       >
         {/* Red glow */}
         <div
@@ -55,62 +46,64 @@ export default async function AlunoHomePage() {
           style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(220,38,38,0.18) 0%, transparent 70%)" }}
         />
 
-        <div className="flex items-center gap-4 relative z-10">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 relative z-10">
           {/* Avatar */}
           <div
-            className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 border-2 border-neutral-200 dark:border-[#2C2C2E] bg-neutral-100 dark:bg-[#1C1C1E]"
+            className="w-20 h-20 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shrink-0 border-2 border-neutral-200 dark:border-[#2C2C2E] bg-neutral-100 dark:bg-[#1C1C1E]"
           >
             <span className="font-display text-3xl font-black text-neutral-900 dark:text-white">{initial}</span>
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 flex flex-col items-center sm:items-start text-center sm:text-left">
             <h1
-              className="font-display text-2xl font-black uppercase leading-tight truncate text-neutral-900 dark:text-[#F2F2F7]"
+              className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]"
             >
               {profile.fullName}
             </h1>
-              <p className="text-sm text-neutral-500 dark:text-[#8E8E93]">{profile.email}</p>
+            <p className="text-sm text-neutral-500 dark:text-[#8E8E93] break-all">{profile.email}</p>
+            
+            {/* Belt Badge - shown on mobile below the name, or inline on desktop */}
+            <div className="mt-3 flex items-center gap-2">
+              <div
+                className="h-8 rounded-full flex items-center px-3 gap-1.5 shrink-0 border"
+                style={{
+                  background: beltColor.bg,
+                  borderColor: beltColor.border,
+                }}
+              >
+                <span className="text-xs font-bold uppercase" style={{ color: beltColor.text }}>
+                  {profile.belt}
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Belt Badge */}
-          <div
-            className="h-8 rounded-full flex items-center px-3 gap-1.5 shrink-0 border"
-            style={{
-              background: beltColor.bg,
-              borderColor: beltColor.border,
-            }}
-          >
-            <span className="text-xs font-bold uppercase" style={{ color: beltColor.text }}>
-              {profile.belt}
-            </span>
-          </div>
-
-          <div className="ml-auto">
+          <div className="mt-4 sm:mt-0 w-full sm:w-auto flex justify-center sm:justify-end">
             <ProfileSettingsModal profile={profile} />
           </div>
         </div>
 
         {/* Stats Row */}
-        <div className="flex gap-3 relative z-10">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 relative z-10 pt-2 border-t border-neutral-100 dark:border-neutral-800">
           <div
-            className="flex-1 rounded-xl p-3 border border-neutral-200 dark:border-[#2C2C2E] bg-neutral-100 dark:bg-[#1C1C1E] flex flex-col items-center gap-1"
+            className="rounded-xl p-2 sm:p-3 bg-neutral-50 dark:bg-[#1C1C1E] border border-neutral-100 dark:border-[#2C2C2E] flex flex-col items-center justify-center text-center"
           >
-            <span className="font-mono text-3xl font-bold text-red-600 dark:text-red-500">{attendanceCount}</span>
-            <span className="text-xs uppercase tracking-wide text-neutral-500 dark:text-[#8E8E93]">Treinos</span>
+            <span className="font-mono text-xl sm:text-2xl lg:text-3xl font-bold text-red-600 dark:text-red-500">{attendanceCount}</span>
+            <span className="text-[10px] sm:text-xs uppercase tracking-wide text-neutral-500 dark:text-[#8E8E93] mt-1">Treinos</span>
           </div>
           <div
-            className="flex-1 rounded-xl p-3 border border-neutral-200 dark:border-[#2C2C2E] bg-neutral-100 dark:bg-[#1C1C1E] flex flex-col items-center gap-1"
+            className="rounded-xl p-2 sm:p-3 bg-neutral-50 dark:bg-[#1C1C1E] border border-neutral-100 dark:border-[#2C2C2E] flex flex-col items-center justify-center text-center"
           >
-            <span className="font-mono text-3xl font-bold text-green-600 dark:text-[#34C759]">{profile.category === "academico" ? "EXT" : "ALU"}</span>
-            <span className="text-xs uppercase tracking-wide text-neutral-500 dark:text-[#8E8E93]">Perfil</span>
+            <span className="font-mono text-base sm:text-lg lg:text-xl font-bold text-green-600 dark:text-[#34C759]">{profile.category === "academico" ? "EXTENSIONISTA" : "ALUNO"}</span>
+            <span className="text-[10px] sm:text-xs uppercase tracking-wide text-neutral-500 dark:text-[#8E8E93] mt-1">Perfil</span>
           </div>
           <div
-            className="flex-1 rounded-xl p-3 border border-neutral-200 dark:border-[#2C2C2E] bg-neutral-100 dark:bg-[#1C1C1E] flex flex-col items-center gap-1"
+            className="rounded-xl p-2 sm:p-3 bg-neutral-50 dark:bg-[#1C1C1E] border border-neutral-100 dark:border-[#2C2C2E] flex flex-col items-center justify-center text-center"
           >
-            <span className="font-mono text-3xl font-bold text-neutral-900 dark:text-[#F2F2F7]">
+            <span className="font-mono text-xl sm:text-2xl lg:text-3xl font-bold text-neutral-900 dark:text-[#F2F2F7]">
               {profile.isActive ? "ON" : "OFF"}
             </span>
-            <span className="text-xs uppercase tracking-wide text-neutral-500 dark:text-[#8E8E93]">Status</span>
+            <span className="text-[10px] sm:text-xs uppercase tracking-wide text-neutral-500 dark:text-[#8E8E93] mt-1">Status</span>
           </div>
         </div>
       </div>
@@ -135,70 +128,21 @@ export default async function AlunoHomePage() {
         {/* === Coluna Direita: Ferramentas e Treinos === */}
         <div className="lg:col-span-2 flex flex-col gap-6">
 
-          {/* === Treino do Dia === */}
-      {todayWorkout && (
-        profile.role !== "aluno" ? (
-          <WorkoutEditModal initialWorkout={todayWorkout} principles={principles}>
-            <div
-              className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 bg-white dark:bg-[#111111] hover:border-red-500/50 transition-colors"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
-                  🥋 Treino do Dia
-                </span>
-                <span className="text-xs text-neutral-500 dark:text-[#8E8E93]">
-                  {new Date(todayWorkout.date).toLocaleDateString("pt-BR")}
-                </span>
-              </div>
-              <h2 className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]">
-                {todayWorkout.techniqueName}
-              </h2>
-              <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93]">
-                {todayWorkout.techniqueWhat.slice(0, 100)}…
-              </p>
-            </div>
-          </WorkoutEditModal>
-        ) : (
-          <div
-            className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 bg-white dark:bg-[#111111]"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
-                🥋 Treino do Dia
-              </span>
-              <span className="text-xs text-neutral-500 dark:text-[#8E8E93]">
-                {new Date(todayWorkout.date).toLocaleDateString("pt-BR")}
-              </span>
-            </div>
-            <h2 className="font-display text-2xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7]">
-              {todayWorkout.techniqueName}
-            </h2>
-            <p className="text-sm leading-relaxed text-neutral-600 dark:text-[#8E8E93]">
-              {todayWorkout.techniqueWhat.slice(0, 100)}…
-            </p>
-          </div>
-        )
-      )}
-
       {/* === Actions rápidas === */}
-      <div className="grid grid-cols-2 gap-3">
-        {[
-          ...(profile.role !== "admin" ? [{ href: "/aluno/history", label: "Histórico", icon: IconHistory }] : []),
-          { href: "/aluno/principios", label: "32 Princípios", icon: IconBook },
-        ].map(({ href, label, icon: Icon }) => (
+      {profile.role !== "admin" && (
+        <div className="grid grid-cols-1 gap-3">
           <Link
-            key={href}
-            href={href}
+            href="/aluno/history"
             className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center justify-between transition-colors hover:border-[#dc2626]/50 group bg-white dark:bg-[#111111]"
           >
             <span className="flex items-center gap-2">
-              <span className="text-lg"><Icon className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93]" /></span>
-              <span className="text-sm font-semibold text-neutral-900 dark:text-[#F2F2F7]">{label}</span>
+              <span className="text-lg"><IconHistory className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93]" /></span>
+              <span className="text-sm font-semibold text-neutral-900 dark:text-[#F2F2F7]">Histórico</span>
             </span>
             <IconChevronRight className="w-4 h-4 group-hover:text-[#dc2626] transition-colors text-neutral-400 dark:text-[#8E8E93]" />
           </Link>
-        ))}
-      </div>
+        </div>
+      )}
 
       {/* === Aluno Extensionista === */}
       {profile.category === "academico" && (

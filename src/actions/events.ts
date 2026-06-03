@@ -201,3 +201,49 @@ export async function markNotificationAsRead(notificationId: string): Promise<Ac
     return { success: false, error: message };
   }
 }
+
+export async function deleteEvent(eventId: string): Promise<ActionResponse<void>> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { success: false, error: "Não autenticado" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (profile?.role !== "admin" && profile?.role !== "monitor") {
+      return { success: false, error: "Não autorizado" };
+    }
+
+    const { error } = await supabase.from("events").delete().eq("id", eventId);
+    if (error) throw new Error(error.message);
+    
+    revalidatePath("/admin/events");
+    revalidatePath("/aluno/events");
+    return { success: true };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Erro desconhecido";
+    return { success: false, error: message };
+  }
+}
+
+export async function deleteAnnouncement(announcementId: string): Promise<ActionResponse<void>> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { success: false, error: "Não autenticado" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (profile?.role !== "admin" && profile?.role !== "monitor") {
+      return { success: false, error: "Não autorizado" };
+    }
+
+    const { error } = await supabase.from("announcements").delete().eq("id", announcementId);
+    if (error) throw new Error(error.message);
+    
+    revalidatePath("/admin/events");
+    revalidatePath("/aluno/events");
+    return { success: true };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Erro desconhecido";
+    return { success: false, error: message };
+  }
+}

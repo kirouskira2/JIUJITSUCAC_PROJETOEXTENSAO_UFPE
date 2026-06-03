@@ -39,10 +39,11 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
   if (role === "admin") {
     menuItems.push(
       { href: "/admin", label: "Dashboard", icon: <IconDashboard className="h-5 w-5 flex-shrink-0" /> },
-      { href: "/admin/history", label: "Histórico Global", icon: <IconHistory className="h-5 w-5 flex-shrink-0" /> },
+      { href: "/admin/history", label: "Histórico de Presença Geral", icon: <IconHistory className="h-5 w-5 flex-shrink-0" /> },
       { href: "/admin/reports", label: "Relatórios de Extensão", icon: <IconReportAnalytics className="h-5 w-5 flex-shrink-0" /> },
       { href: "/admin/events", label: "Eventos e Avisos", icon: <IconCalendarEvent className="h-5 w-5 flex-shrink-0" /> },
-      { href: "/admin/graduation", label: "Módulo de Graduação", icon: <Award className="h-5 w-5 shrink-0" /> }
+      { href: "/admin/users", label: "Gestão de Alunos", icon: <Users className="h-5 w-5 shrink-0" /> },
+      { href: "/admin/workouts", label: "Treinos", icon: <Dumbbell className="h-5 w-5 shrink-0" /> }
     );
   }
 

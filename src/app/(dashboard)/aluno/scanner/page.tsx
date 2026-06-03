@@ -32,7 +32,7 @@ export default function AlunoScannerPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen w-full font-sans" style={{ background: "#050505" }}>
+    <div className="flex flex-col flex-1 h-full w-full font-sans" style={{ background: "#050505" }}>
       {/* Top Header */}
       <header
         className="w-full z-40 px-6 h-14 flex items-center justify-between border-b sticky top-0"

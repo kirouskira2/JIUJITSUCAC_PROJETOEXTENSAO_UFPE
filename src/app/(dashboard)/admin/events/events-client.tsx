@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Event, Announcement, createEvent, createAnnouncement } from "@/actions/events";
+import { Event, Announcement, createEvent, createAnnouncement, deleteEvent, deleteAnnouncement } from "@/actions/events";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +10,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { CalendarIcon, BellRingIcon, PlusIcon, MegaphoneIcon } from "lucide-react";
+import { CalendarIcon, BellRingIcon, PlusIcon, MegaphoneIcon, Trash2Icon } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { IconSearch } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 export function EventsClient({ 
   initialEvents, 
@@ -28,6 +29,7 @@ export function EventsClient({
   const [isEventOpen, setIsEventOpen] = useState(false);
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -55,7 +57,7 @@ export function EventsClient({
     if (res.success) {
       toast.success("Evento criado com sucesso!");
       setIsEventOpen(false);
-      window.location.reload(); 
+      router.refresh(); 
     } else {
       toast.error(res.error || "Erro ao criar evento");
     }
@@ -77,9 +79,35 @@ export function EventsClient({
     if (res.success) {
       toast.success("Aviso criado com sucesso!");
       setIsNoticeOpen(false);
-      window.location.reload(); 
+      router.refresh(); 
     } else {
       toast.error(res.error || "Erro ao criar aviso");
+    }
+    setLoading(false);
+  }
+
+  async function handleDeleteEvent(id: string) {
+    if (!confirm("Tem certeza que deseja apagar este evento?")) return;
+    setLoading(true);
+    const res = await deleteEvent(id);
+    if (res.success) {
+      toast.success("Evento apagado com sucesso!");
+      setEvents(events.filter(e => e.id !== id));
+    } else {
+      toast.error(res.error || "Erro ao apagar evento");
+    }
+    setLoading(false);
+  }
+
+  async function handleDeleteNotice(id: string) {
+    if (!confirm("Tem certeza que deseja apagar este aviso?")) return;
+    setLoading(true);
+    const res = await deleteAnnouncement(id);
+    if (res.success) {
+      toast.success("Aviso apagado com sucesso!");
+      setAnnouncements(announcements.filter(a => a.id !== id));
+    } else {
+      toast.error(res.error || "Erro ao apagar aviso");
     }
     setLoading(false);
   }
@@ -98,82 +126,92 @@ export function EventsClient({
         
         <div className="flex items-center space-x-2">
           <Dialog open={isEventOpen} onOpenChange={setIsEventOpen}>
-            <DialogTrigger render={<Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 h-[44px]" />}>
-              <PlusIcon className="mr-2 h-4 w-4" />
+            <DialogTrigger render={<button className="inline-flex items-center gap-2 h-11 px-5 rounded-xl font-bold text-sm text-white bg-red-600 hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20" />}>
+              <PlusIcon className="h-4 w-4" />
               Novo Evento
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Criar Novo Evento</DialogTitle>
+                <DialogTitle className="font-display text-xl font-black uppercase text-neutral-900 dark:text-white">Criar Novo Evento</DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleCreateEvent} className="space-y-4 pt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Título do Evento</Label>
-                  <Input id="title" name="title" required placeholder="Ex: Torneio Interno" />
+              <form onSubmit={handleCreateEvent} className="flex flex-col gap-4 pt-2">
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="ev-title" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Título do Evento</label>
+                  <input id="ev-title" name="title" required placeholder="Ex: Torneio Interno"
+                    className="h-12 w-full rounded-xl px-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 placeholder:text-neutral-400 dark:placeholder:text-[#636366]"
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Descrição</Label>
-                  <Input id="description" name="description" placeholder="Opcional" />
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="ev-desc" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Descrição</label>
+                  <input id="ev-desc" name="description" placeholder="Opcional"
+                    className="h-12 w-full rounded-xl px-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 placeholder:text-neutral-400 dark:placeholder:text-[#636366]"
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="event_date">Data e Hora</Label>
-                  <Input id="event_date" name="event_date" type="datetime-local" required />
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="ev-date" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Data e Hora</label>
+                  <input id="ev-date" name="event_date" type="datetime-local" required
+                    className="h-12 w-full rounded-xl px-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="type">Tipo</Label>
-                  <Select name="type" defaultValue="other" required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione o tipo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="tournament">Torneio</SelectItem>
-                      <SelectItem value="graduation">Graduação</SelectItem>
-                      <SelectItem value="seminar">Seminário</SelectItem>
-                      <SelectItem value="other">Outro</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="ev-type" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Tipo</label>
+                  <select name="type" id="ev-type" defaultValue="other" required
+                    className="h-12 w-full rounded-xl px-3 pr-8 text-sm font-medium outline-none border appearance-none cursor-pointer transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center" }}
+                  >
+                    <option value="tournament">Torneio</option>
+                    <option value="graduation">Graduação</option>
+                    <option value="seminar">Seminário</option>
+                    <option value="other">Outro</option>
+                  </select>
                 </div>
-                <Button type="submit" disabled={loading} className="w-full">
+                <button type="submit" disabled={loading}
+                  className="h-12 w-full rounded-xl font-bold text-sm text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 transition-colors mt-1"
+                >
                   {loading ? "Criando..." : "Criar Evento"}
-                </Button>
+                </button>
               </form>
             </DialogContent>
           </Dialog>
 
           <Dialog open={isNoticeOpen} onOpenChange={setIsNoticeOpen}>
-            <DialogTrigger render={<Button variant="outline" className="border-blue-500 text-blue-500 hover:bg-blue-500/10 h-[44px]" />}>
-              <MegaphoneIcon className="mr-2 h-4 w-4" />
+            <DialogTrigger render={<button className="inline-flex items-center gap-2 h-11 px-5 rounded-xl font-bold text-sm text-blue-500 bg-blue-500/10 border border-blue-500 hover:bg-blue-500/20 transition-colors" />}>
+              <MegaphoneIcon className="h-4 w-4" />
               Novo Aviso
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Criar Aviso no Mural</DialogTitle>
+                <DialogTitle className="font-display text-xl font-black uppercase text-neutral-900 dark:text-white">Criar Aviso no Mural</DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleCreateNotice} className="space-y-4 pt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Título do Aviso</Label>
-                  <Input id="title" name="title" required placeholder="Ex: Mudança de Horário" />
+              <form onSubmit={handleCreateNotice} className="flex flex-col gap-4 pt-2">
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="no-title" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Título do Aviso</label>
+                  <input id="no-title" name="title" required placeholder="Ex: Mudança de Horário"
+                    className="h-12 w-full rounded-xl px-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-blue-600 placeholder:text-neutral-400 dark:placeholder:text-[#636366]"
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message">Mensagem</Label>
-                  <Input id="message" name="message" required placeholder="Detalhes do aviso..." />
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="no-msg" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Mensagem</label>
+                  <input id="no-msg" name="message" required placeholder="Detalhes do aviso..."
+                    className="h-12 w-full rounded-xl px-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-blue-600 placeholder:text-neutral-400 dark:placeholder:text-[#636366]"
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="importance">Importância</Label>
-                  <Select name="importance" defaultValue="info" required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione a importância" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="info">Informativo</SelectItem>
-                      <SelectItem value="warning">Atenção</SelectItem>
-                      <SelectItem value="urgent">Urgente</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="no-imp" className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Importância</label>
+                  <select name="importance" id="no-imp" defaultValue="info" required
+                    className="h-12 w-full rounded-xl px-3 pr-8 text-sm font-medium outline-none border appearance-none cursor-pointer transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-blue-600"
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center" }}
+                  >
+                    <option value="info">Informativo</option>
+                    <option value="warning">Atenção</option>
+                    <option value="urgent">Urgente</option>
+                  </select>
                 </div>
-                <Button type="submit" disabled={loading} className="w-full">
+                <button type="submit" disabled={loading}
+                  className="h-12 w-full rounded-xl font-bold text-sm text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors mt-1"
+                >
                   {loading ? "Criando..." : "Publicar Aviso"}
-                </Button>
+                </button>
               </form>
             </DialogContent>
           </Dialog>
@@ -218,8 +256,15 @@ export function EventsClient({
             ) : (
               filteredEvents.map((evt, index) => (
                 <BlurFade key={evt.id} delay={0.1 * index} inView>
-                  <div className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-6 relative w-full h-full flex flex-col hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors">
-                    <div className="flex justify-between items-start mb-4">
+                  <div className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-6 relative w-full h-full flex flex-col hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors group">
+                    <button 
+                      onClick={() => handleDeleteEvent(evt.id)}
+                      className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:text-red-400 dark:hover:text-red-300 transition-colors opacity-0 group-hover:opacity-100"
+                      title="Apagar evento"
+                    >
+                      <Trash2Icon className="w-4 h-4" />
+                    </button>
+                    <div className="flex justify-between items-start mb-4 pr-10">
                       <div className="bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-500 p-2.5 rounded-full">
                         <CalendarIcon className="h-5 w-5" />
                       </div>
@@ -250,8 +295,15 @@ export function EventsClient({
             ) : (
               filteredAnnouncements.map((notice, index) => (
                 <BlurFade key={notice.id} delay={0.1 * index} inView>
-                  <div className={`bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] border-l-4 ${notice.importance === 'urgent' ? 'border-l-red-500' : notice.importance === 'warning' ? 'border-l-amber-500' : 'border-l-blue-500'} rounded-2xl p-6 relative w-full h-full flex flex-col`}>
-                    <div className="flex items-center gap-3 mb-2">
+                  <div className={`bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] border-l-4 ${notice.importance === 'urgent' ? 'border-l-red-500' : notice.importance === 'warning' ? 'border-l-amber-500' : 'border-l-blue-500'} rounded-2xl p-6 relative w-full h-full flex flex-col group`}>
+                    <button 
+                      onClick={() => handleDeleteNotice(notice.id)}
+                      className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:text-red-400 dark:hover:text-red-300 transition-colors opacity-0 group-hover:opacity-100"
+                      title="Apagar aviso"
+                    >
+                      <Trash2Icon className="w-4 h-4" />
+                    </button>
+                    <div className="flex items-center gap-3 mb-2 pr-10">
                       <div className={`p-2 rounded-full ${notice.importance === 'urgent' ? 'bg-red-50 dark:bg-red-500/10 text-red-500' : notice.importance === 'warning' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-500' : 'bg-blue-50 dark:bg-blue-500/10 text-blue-500'}`}>
                         {notice.importance === 'urgent' ? (
                           <BellRingIcon className="h-5 w-5" />

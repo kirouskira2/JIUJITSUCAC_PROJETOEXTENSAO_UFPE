@@ -11,12 +11,12 @@ export async function middleware(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const cspHeader = `
     default-src 'self';
-    script-src 'self' ${process.env.NODE_ENV === "development" ? "'unsafe-eval' 'unsafe-inline'" : `'nonce-${nonce}' 'strict-dynamic'`};
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://vercel.live;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     img-src 'self' data: https: blob:;
     font-src 'self' data: https://fonts.gstatic.com;
-    connect-src 'self' https://*.supabase.co wss://*.supabase.co;
-    frame-src 'self' https://*.supabase.co;
+    connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.vercel-scripts.com https://*.vercel.live;
+    frame-src 'self' https://*.supabase.co https://vercel.live https://*.vercel.live;
     media-src 'self' blob:;
     worker-src 'self' blob:;
     object-src 'none';

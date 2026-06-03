@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { toggleUserActive, promoteToMonitor, promoteToAdmin, demoteToAluno } from "@/actions/profiles";
+import { toggleUserActive, promoteToMonitor, promoteToAdmin, demoteToAluno, deleteProfiles } from "@/actions/profiles";
 import { useToast } from "@/hooks/use-toast";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { IconSearch, IconAlertCircle, IconMedal, IconUserShield, IconUserUp } from "@tabler/icons-react";
+import { IconSearch, IconAlertCircle, IconMedal, IconUserShield, IconUserUp, IconTrash } from "@tabler/icons-react";
 import { RoleBadge } from "@/components/role-badge";
 import { BeltPromotionModal } from "@/components/belt-promotion-modal";
 
@@ -28,6 +27,7 @@ interface UserTableProps {
 export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
   const [profiles, setProfiles] = useState(initialProfiles);
   const [search, setSearch] = useState("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
@@ -150,6 +150,22 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
     });
   };
 
+  const handleDeleteSelected = () => {
+    if (selectedIds.length === 0) return;
+    if (!confirm(`Tem certeza que deseja apagar ${selectedIds.length} aluno(s)? Essa ação exige a chave de segurança de Administrador do servidor (Service Role Key).`)) return;
+
+    startTransition(async () => {
+      const res = await deleteProfiles(selectedIds);
+      if (res.success) {
+        setProfiles(prev => prev.filter(p => !selectedIds.includes(p.id)));
+        setSelectedIds([]);
+        toast({ title: "Alunos apagados", description: `${selectedIds.length} aluno(s) apagado(s) com sucesso.` });
+      } else {
+        toast({ title: "Erro na exclusão", description: res.error, variant: "destructive" });
+      }
+    });
+  };
+
   const handleBeltSuccess = (userId: string, newBelt: string) => {
     setProfiles((prev) =>
       prev.map((p) =>
@@ -220,78 +236,120 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Filters Area */}
-      <div className="flex flex-col md:flex-row gap-4 w-full items-start md:items-center">
+      <div className="flex flex-col md:flex-row gap-3 w-full items-start md:items-center">
+        
         {/* Search */}
-        <div className="relative max-w-sm w-full md:w-80" role="search" aria-label="Buscar alunos">
-          <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-neutral-500 dark:text-[#8E8E93]" aria-hidden="true" />
+        <div className="relative w-full md:max-w-xs" role="search" aria-label="Buscar alunos">
+          <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-neutral-500 dark:text-[#8E8E93]" aria-hidden="true" />
           <input
             type="text"
             placeholder="Buscar por nome ou e-mail..."
             aria-label="Buscar por nome ou e-mail"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-10 rounded-lg pl-11 pr-4 text-sm outline-none transition-colors border bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+            className="w-full h-10 rounded-xl pl-10 pr-4 text-sm outline-none transition-colors border bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] placeholder:text-neutral-400 dark:placeholder:text-[#636366] focus:border-red-600 dark:focus:border-[#dc2626]"
           />
         </div>
 
-        {/* Dropdowns */}
+        {/* Filter chips */}
         <div className="flex flex-wrap gap-2 w-full md:w-auto">
-          <Select value={filterRole} onValueChange={(val) => setFilterRole(val || "all")}>
-            <SelectTrigger className="w-full md:w-[130px] h-10">
-              <SelectValue placeholder="Função" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todas Funções</SelectItem>
-              <SelectItem value="admin">Professor</SelectItem>
-              <SelectItem value="monitor">Monitor</SelectItem>
-              <SelectItem value="aluno">Aluno</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Função */}
+          <select
+            value={filterRole}
+            onChange={(e) => setFilterRole(e.target.value)}
+            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
+          >
+            <option value="all">Todas Funções</option>
+            <option value="admin">Professor</option>
+            <option value="monitor">Monitor</option>
+            <option value="aluno">Aluno</option>
+          </select>
 
-          <Select value={filterBelt} onValueChange={(val) => setFilterBelt(val || "all")}>
-            <SelectTrigger className="w-full md:w-[120px] h-10">
-              <SelectValue placeholder="Faixa" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todas Faixas</SelectItem>
-              <SelectItem value="branca">Branca</SelectItem>
-              <SelectItem value="azul">Azul</SelectItem>
-              <SelectItem value="roxa">Roxa</SelectItem>
-              <SelectItem value="marrom">Marrom</SelectItem>
-              <SelectItem value="preta">Preta</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Faixa */}
+          <select
+            value={filterBelt}
+            onChange={(e) => setFilterBelt(e.target.value)}
+            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
+          >
+            <option value="all">Todas Faixas</option>
+            <option value="branca">Branca</option>
+            <option value="azul">Azul</option>
+            <option value="roxa">Roxa</option>
+            <option value="marrom">Marrom</option>
+            <option value="preta">Preta</option>
+          </select>
 
-          <Select value={filterCategory} onValueChange={(val) => setFilterCategory(val || "all")}>
-            <SelectTrigger className="w-full md:w-[140px] h-10">
-              <SelectValue placeholder="Categoria" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todas Categorias</SelectItem>
-              <SelectItem value="frequente">Frequente (Aluno)</SelectItem>
-              <SelectItem value="academico">Acadêmico (Ext.)</SelectItem>
-              <SelectItem value="visitante">Visitante</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Categoria */}
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
+          >
+            <option value="all">Todas Categorias</option>
+            <option value="frequente">Frequente (Aluno)</option>
+            <option value="academico">Acadêmico (Ext.)</option>
+            <option value="visitante">Visitante</option>
+          </select>
 
-          <Select value={filterStatus} onValueChange={(val) => setFilterStatus(val || "all")}>
-            <SelectTrigger className="w-full md:w-[120px] h-10">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos Status</SelectItem>
-              <SelectItem value="active">Ativos</SelectItem>
-              <SelectItem value="blocked">Bloqueados</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Status */}
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
+          >
+            <option value="all">Todos Status</option>
+            <option value="active">Ativos</option>
+            <option value="blocked">Bloqueados</option>
+          </select>
+
+          {/* Botão limpar filtros */}
+          {(filterRole !== "all" || filterBelt !== "all" || filterCategory !== "all" || filterStatus !== "all" || search !== "") && (
+            <button
+              onClick={() => { setFilterRole("all"); setFilterBelt("all"); setFilterCategory("all"); setFilterStatus("all"); setSearch(""); }}
+              className="h-10 px-3 rounded-xl border border-red-500/30 bg-red-500/5 text-red-500 dark:text-red-400 text-sm font-semibold hover:bg-red-500/10 transition-colors whitespace-nowrap"
+            >
+              Limpar filtros
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Floating Action Bar para Deleção em Lote */}
+      {selectedIds.length > 0 && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-4 w-full">
+          <span className="text-sm font-semibold text-red-600 dark:text-red-400">
+            {selectedIds.length} aluno(s) selecionado(s)
+          </span>
+          <button
+            onClick={handleDeleteSelected}
+            disabled={isPending}
+            className="h-9 px-4 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50"
+          >
+            <IconTrash className="w-4 h-4" /> <span className="hidden sm:inline">Apagar Selecionados</span><span className="sm:hidden">Apagar</span>
+          </button>
+        </div>
+      )}
 
       {/* Desktop Table */}
       <div className="hidden md:block rounded-xl border border-neutral-200 dark:border-[#2C2C2E] overflow-x-auto bg-white dark:bg-[#111111]">
         <table className="w-full text-left border-collapse min-w-[900px]">
           <thead>
             <tr className="border-b border-neutral-200 dark:border-[#2C2C2E] bg-neutral-50 dark:bg-[#1c1b1b]">
+              <th className="py-4 px-4 w-12 text-center">
+                <input 
+                  type="checkbox" 
+                  className="w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 cursor-pointer"
+                  checked={filteredProfiles.length > 0 && selectedIds.length === filteredProfiles.length}
+                  onChange={(e) => {
+                    if (e.target.checked) setSelectedIds(filteredProfiles.map(p => p.id));
+                    else setSelectedIds([]);
+                  }}
+                />
+              </th>
               <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Aluno</th>
               <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">CPF</th>
               <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">Função</th>
@@ -303,7 +361,18 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           </thead>
           <tbody className="divide-y divide-neutral-200 dark:divide-[#2C2C2E]">
             {filteredProfiles.map((profile) => (
-              <tr key={profile.id} className="transition-colors group hover:bg-[#1C1C1E]">
+              <tr key={profile.id} className={`transition-colors group hover:bg-[#1C1C1E] ${selectedIds.includes(profile.id) ? "bg-red-500/5 dark:bg-red-500/10" : ""}`}>
+                <td className="py-4 px-4 text-center">
+                  <input 
+                    type="checkbox" 
+                    className="w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 cursor-pointer"
+                    checked={selectedIds.includes(profile.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) setSelectedIds(prev => [...prev, profile.id]);
+                      else setSelectedIds(prev => prev.filter(id => id !== profile.id));
+                    }}
+                  />
+                </td>
                 <td className="py-4 px-6">
                   <div className="flex flex-col gap-0.5">
                     <span className="font-semibold text-sm" style={{ color: "#F2F2F7" }}>{profile.full_name}</span>
@@ -344,7 +413,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
             ))}
             {filteredProfiles.length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center py-12">
+                <td colSpan={8} className="text-center py-12">
                   <div className="flex flex-col items-center justify-center gap-2" style={{ color: "#8E8E93" }}>
                     <IconAlertCircle className="w-8 h-8 opacity-50" />
                     <span className="font-semibold text-sm">Nenhum aluno encontrado.</span>
@@ -359,11 +428,22 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
       {/* Mobile Card List */}
       <div className="flex flex-col gap-4 md:hidden">
         {filteredProfiles.map((profile) => (
-          <div key={profile.id} className="rounded-xl border p-4 flex flex-col gap-4" style={{ background: "#111111", borderColor: "#2C2C2E" }}>
+          <div key={profile.id} className={`rounded-xl border p-4 flex flex-col gap-4 transition-colors ${selectedIds.includes(profile.id) ? "bg-red-500/5 dark:bg-red-500/10 border-red-500/30" : "bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]"}`}>
             <div className="flex items-start justify-between">
-              <div className="flex flex-col gap-0.5">
-                <span className="font-semibold text-sm" style={{ color: "#F2F2F7" }}>{profile.full_name}</span>
-                <span className="text-xs" style={{ color: "#8E8E93", wordBreak: "break-all" }}>{profile.email}</span>
+              <div className="flex items-start gap-3">
+                <input 
+                  type="checkbox" 
+                  className="mt-1 w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 cursor-pointer shrink-0"
+                  checked={selectedIds.includes(profile.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) setSelectedIds(prev => [...prev, profile.id]);
+                    else setSelectedIds(prev => prev.filter(id => id !== profile.id));
+                  }}
+                />
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-semibold text-sm text-neutral-900 dark:text-[#F2F2F7]">{profile.full_name}</span>
+                  <span className="text-xs" style={{ color: "#8E8E93", wordBreak: "break-all" }}>{profile.email}</span>
+                </div>
               </div>
               <div className="shrink-0 ml-2">
                 <RoleBadge role={profile.role} />

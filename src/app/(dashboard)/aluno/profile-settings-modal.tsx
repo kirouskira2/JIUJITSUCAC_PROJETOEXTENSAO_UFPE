@@ -13,6 +13,7 @@ import { Profile } from "@/lib/schemas";
 export function ProfileSettingsModal({ profile }: { profile: Profile }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState(profile.fullName || "");
   const [phone, setPhone] = useState(profile.phone || "");
   const [emergencyContact, setEmergencyContact] = useState(profile.emergencyContact || "");
 
@@ -22,6 +23,7 @@ export function ProfileSettingsModal({ profile }: { profile: Profile }) {
 
     const res = await updateProfile({
       profileId: profile.id,
+      fullName,
       phone,
       emergencyContact
     });
@@ -47,6 +49,16 @@ export function ProfileSettingsModal({ profile }: { profile: Profile }) {
           <DialogTitle>Configurações da Conta</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+          <div className="space-y-2">
+            <Label htmlFor="fullName">Nome Completo</Label>
+            <Input 
+              id="fullName" 
+              value={fullName} 
+              onChange={(e) => setFullName(e.target.value)} 
+              placeholder="Seu nome completo" 
+              required
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="phone">Celular / WhatsApp</Label>
             <Input 

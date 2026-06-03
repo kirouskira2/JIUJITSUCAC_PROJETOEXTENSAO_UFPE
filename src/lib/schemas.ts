@@ -222,6 +222,7 @@ export const registerCheckinSchema = z.object({
 export const getMyAttendanceSchema = z.object({
   startDate: optionalDateField,
   endDate: optionalDateField,
+  profileId: z.string().optional(),
 }).refine(
   (data) => {
     if (data.startDate && data.endDate) {
