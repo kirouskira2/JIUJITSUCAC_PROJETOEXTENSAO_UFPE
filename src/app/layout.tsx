@@ -75,7 +75,7 @@ export default async function RootLayout({
             </div>
             <SplashScreen />
           </div>
-          <Toaster theme="dark" />
+          <Toaster theme="dark" position="top-center" />
           <Analytics />
         </ThemeProvider>
       </body>
