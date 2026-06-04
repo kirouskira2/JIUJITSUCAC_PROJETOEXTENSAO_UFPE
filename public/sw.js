@@ -1,6 +1,11 @@
 // Service Worker para notificações push do JJCAC
 // Este SW é registrado pelo NotificationPermission component
 
+// Evento fetch vazio necessário para o Chrome/Android considerar o PWA válido e gerar o WebAPK
+self.addEventListener("fetch", function (event) {
+  // Não fazemos cache offline por enquanto, apenas passamos a requisição
+});
+
 self.addEventListener("push", function (event) {
   const data = event.data ? event.data.json() : {};
   const title = data.title || "JIU JITSU CAC";
