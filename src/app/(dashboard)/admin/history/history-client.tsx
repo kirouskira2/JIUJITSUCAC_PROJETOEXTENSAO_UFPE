@@ -85,7 +85,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
       </div>
 
       {/* Filters (Like Reports) */}
-      <div className="rounded-2xl border p-6 relative overflow-hidden group transition-colors bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="rounded-3xl border p-6 relative overflow-hidden group transition-colors bg-surface-container border-border">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-full flex items-center justify-center bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-500">
             <IconSearch className="w-5 h-5" />
@@ -103,7 +103,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
                 placeholder="Nome, e-mail, faixa, categoria..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-12 rounded-lg pl-10 pr-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
+                className="w-full h-12 rounded-lg pl-10 pr-4 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
               />
             </div>
           </div>
@@ -115,14 +115,14 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
                 type="date" 
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
+                className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
               />
               <span className="hidden sm:block text-neutral-500 dark:text-[#8E8E93]">-</span>
               <input 
                 type="date" 
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
+                className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
               />
             </div>
           </div>
@@ -134,7 +134,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
           {filteredHistory.length === 0 ? (
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="col-span-full text-center text-muted-foreground p-12 bg-white/50 dark:bg-black/20 rounded-2xl border border-dashed border-neutral-200 dark:border-neutral-800"
+              className="col-span-full text-center text-muted-foreground p-12 bg-white/50 dark:bg-black/20 rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800"
             >
               Nenhum check-in encontrado com os filtros atuais.
             </motion.div>
@@ -150,7 +150,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
                 className="relative group"
               >
                 <motion.div
-                  className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-5 relative z-10 w-full flex flex-col gap-3 group hover:border-red-500/40 transition-colors"
+                  className="bg-surface-container border border-border rounded-3xl p-5 relative z-10 w-full flex flex-col gap-3 group hover:border-red-500/40 transition-colors"
                 >
                   {/* Header: Avatar + Nome + Delete */}
                   <div className="flex items-start justify-between">
@@ -160,7 +160,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
                       className="flex items-center gap-3 text-left hover:opacity-80 transition-opacity flex-1 min-w-0"
                       title="Ver perfil do aluno"
                     >
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] font-bold text-sm">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-neutral-100 dark:bg-[#1C1C1E] border border-border text-neutral-900 dark:text-[#F2F2F7] font-bold text-sm">
                         {record.profile?.fullName?.charAt(0).toUpperCase() || "?"}
                       </div>
                       <div className="min-w-0">
@@ -186,19 +186,19 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
                   {/* Badges: faixa + categoria */}
                   <div className="flex flex-wrap gap-1.5">
                     {record.profile?.belt && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider border border-neutral-200 dark:border-[#2C2C2E] px-2 py-0.5 rounded-full text-neutral-700 dark:text-[#8E8E93] bg-neutral-50 dark:bg-[#1C1C1E]">
+                      <span className="text-[10px] font-bold uppercase tracking-wider border border-border px-2 py-0.5 rounded-full text-neutral-700 dark:text-[#8E8E93] bg-surface-container">
                         {record.profile.belt}
                       </span>
                     )}
                     {record.profile?.category && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider border border-neutral-200 dark:border-[#2C2C2E] px-2 py-0.5 rounded-full text-neutral-700 dark:text-[#8E8E93] bg-neutral-50 dark:bg-[#1C1C1E]">
+                      <span className="text-[10px] font-bold uppercase tracking-wider border border-border px-2 py-0.5 rounded-full text-neutral-700 dark:text-[#8E8E93] bg-surface-container">
                         {record.profile.category === "academico" ? "Extensionista" : record.profile.category === "frequente" ? "Aluno" : "Visitante"}
                       </span>
                     )}
                   </div>
 
                   {/* Footer: data + princípio + higiene */}
-                  <div className="rounded-xl bg-neutral-50 dark:bg-[#1C1C1E] p-3 space-y-2 border border-neutral-100 dark:border-[#2C2C2E]">
+                  <div className="rounded-xl bg-surface-container p-3 space-y-2 border border-neutral-100 dark:border-[#2C2C2E]">
                     <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-[#8E8E93]">
                       <span className="flex items-center gap-1">
                         <CalendarIcon className="w-3 h-3" />
@@ -246,7 +246,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
           <button
             disabled={!pagination.hasPreviousPage}
             onClick={() => router.push(`?page=${currentPage - 1}`)}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-neutral-100 dark:bg-[#1C1C1E] border border-border text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
           >
             <ChevronLeftIcon className="w-4 h-4" />
             Anterior
@@ -257,7 +257,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
           <button
             disabled={!pagination.hasNextPage}
             onClick={() => router.push(`?page=${currentPage + 1}`)}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-neutral-100 dark:bg-[#1C1C1E] border border-border text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
           >
             Próxima
             <ChevronRightIcon className="w-4 h-4" />

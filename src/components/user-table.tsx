@@ -247,7 +247,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
             aria-label="Buscar por nome ou e-mail"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-10 rounded-xl pl-10 pr-4 text-sm outline-none transition-colors border bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] placeholder:text-neutral-400 dark:placeholder:text-[#636366] focus:border-red-600 dark:focus:border-[#dc2626]"
+            className="w-full h-10 rounded-xl pl-10 pr-4 text-sm outline-none transition-colors border bg-surface-container border-border text-neutral-900 dark:text-[#F2F2F7] placeholder:text-neutral-400 dark:placeholder:text-[#636366] focus:border-red-600 dark:focus:border-[#dc2626]"
           />
         </div>
 
@@ -257,7 +257,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           <select
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
-            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            className="h-10 rounded-xl border border-border bg-surface-container text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
           >
             <option value="all">Todas Funções</option>
@@ -270,7 +270,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           <select
             value={filterBelt}
             onChange={(e) => setFilterBelt(e.target.value)}
-            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            className="h-10 rounded-xl border border-border bg-surface-container text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
           >
             <option value="all">Todas Faixas</option>
@@ -285,7 +285,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            className="h-10 rounded-xl border border-border bg-surface-container text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
           >
             <option value="all">Todas Categorias</option>
@@ -298,7 +298,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="h-10 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
+            className="h-10 rounded-xl border border-border bg-surface-container text-neutral-900 dark:text-[#F2F2F7] text-sm font-medium px-3 pr-8 outline-none appearance-none cursor-pointer focus:border-red-600 dark:focus:border-[#dc2626] transition-colors"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center" }}
           >
             <option value="all">Todos Status</option>
@@ -335,14 +335,14 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
       )}
 
       {/* Desktop Table */}
-      <div className="hidden md:block rounded-xl border border-neutral-200 dark:border-[#2C2C2E] overflow-x-auto bg-white dark:bg-[#111111]">
+      <div className="hidden md:block rounded-xl border border-border overflow-x-auto bg-surface-container">
         <table className="w-full text-left border-collapse min-w-[900px]">
           <thead>
-            <tr className="border-b border-neutral-200 dark:border-[#2C2C2E] bg-neutral-50 dark:bg-[#1c1b1b]">
+            <tr className="border-b border-border bg-neutral-50 dark:bg-[#1c1b1b]">
               <th className="py-4 px-4 w-12 text-center">
                 <input 
                   type="checkbox" 
-                  className="w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 cursor-pointer"
+                  className="w-4 h-4 rounded border-border text-red-600 focus:ring-red-600 cursor-pointer"
                   checked={filteredProfiles.length > 0 && selectedIds.length === filteredProfiles.length}
                   onChange={(e) => {
                     if (e.target.checked) setSelectedIds(filteredProfiles.map(p => p.id));
@@ -365,7 +365,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
                 <td className="py-4 px-4 text-center">
                   <input 
                     type="checkbox" 
-                    className="w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 cursor-pointer"
+                    className="w-4 h-4 rounded border-border text-red-600 focus:ring-red-600 cursor-pointer"
                     checked={selectedIds.includes(profile.id)}
                     onChange={(e) => {
                       if (e.target.checked) setSelectedIds(prev => [...prev, profile.id]);
@@ -428,12 +428,12 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
       {/* Mobile Card List */}
       <div className="flex flex-col gap-4 md:hidden">
         {filteredProfiles.map((profile) => (
-          <div key={profile.id} className={`rounded-xl border p-4 flex flex-col gap-4 transition-colors ${selectedIds.includes(profile.id) ? "bg-red-500/5 dark:bg-red-500/10 border-red-500/30" : "bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]"}`}>
+          <div key={profile.id} className={`rounded-xl border p-4 flex flex-col gap-4 transition-colors ${selectedIds.includes(profile.id) ? "bg-red-500/5 dark:bg-red-500/10 border-red-500/30" : "bg-surface-container border-border"}`}>
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-3">
                 <input 
                   type="checkbox" 
-                  className="mt-1 w-4 h-4 rounded border-neutral-300 dark:border-[#2C2C2E] text-red-600 focus:ring-red-600 cursor-pointer shrink-0"
+                  className="mt-1 w-4 h-4 rounded border-border text-red-600 focus:ring-red-600 cursor-pointer shrink-0"
                   checked={selectedIds.includes(profile.id)}
                   onChange={(e) => {
                     if (e.target.checked) setSelectedIds(prev => [...prev, profile.id]);

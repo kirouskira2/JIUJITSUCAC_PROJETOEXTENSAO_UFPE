@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function GlobalLoading() {
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#111111]">
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-surface-container">
       <div className="flex flex-col items-center gap-8 animate-in fade-in zoom-in duration-500">
         {/* Splash Logo Real */}
         <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-2xl shadow-red-500/20 border-4 border-white dark:border-[#1C1C1E]">

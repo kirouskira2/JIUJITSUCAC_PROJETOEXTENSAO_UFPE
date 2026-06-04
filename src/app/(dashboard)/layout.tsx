@@ -34,7 +34,7 @@ export default async function DashboardLayout({
 
       {/* Main Content Wrapper - Creates gap on desktop */}
       <div className="flex-1 md:p-2 md:pl-0 flex flex-col min-w-0 overflow-hidden bg-neutral-100 dark:bg-[#050505]">
-        <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative md:rounded-[2rem] border-0 md:border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#0a0a0a] md:shadow-2xl">
+        <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative md:rounded-[2rem] border-0 md:border border-border bg-surface-container md:shadow-2xl">
           {/* Hexagon Pattern Background */}
           <HexagonPattern
             className={cn(

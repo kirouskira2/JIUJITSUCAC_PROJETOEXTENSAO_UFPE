@@ -30,7 +30,7 @@ export default async function ModulesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {principles.map((principle) => (
             <Dialog key={principle.id}>
-              <DialogTrigger render={<button className="cursor-pointer text-left rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex flex-col gap-3 bg-white dark:bg-[#111111] hover:border-red-500/50 transition-colors w-full group" />}>
+              <DialogTrigger render={<button className="cursor-pointer text-left rounded-3xl border border-border p-4 flex flex-col gap-3 bg-surface-container hover:border-red-500/50 transition-colors w-full group" />}>
                   <div className="flex items-center justify-between w-full">
                     <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
                       Módulo {principle.number}
@@ -66,7 +66,7 @@ export default async function ModulesPage() {
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-center p-12 border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl border-dashed">
+        <div className="flex items-center justify-center p-12 border border-border rounded-3xl border-dashed">
           <p className="text-sm text-neutral-500 dark:text-[#8E8E93]">
             Nenhum módulo educacional cadastrado.
           </p>

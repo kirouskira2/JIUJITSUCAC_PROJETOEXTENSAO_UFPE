@@ -45,10 +45,10 @@ export default async function MonitorWorkoutPage() {
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 py-6 px-4 md:px-0">
 
       {/* Header */}
-      <div className="flex items-center gap-4 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex items-center gap-4 pb-4 border-b border-border">
         <Link
           href="/monitor"
-          className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors hover:border-red-500 bg-white dark:bg-[#1C1C1E] border-neutral-200 dark:border-[#2C2C2E] text-red-600"
+          className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors hover:border-red-500 bg-surface-container border-border text-red-600"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
@@ -62,7 +62,7 @@ export default async function MonitorWorkoutPage() {
         </div>
         <Link
           href="/monitor/workout/edit"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] hover:border-red-500/50 transition-colors text-sm font-bold text-neutral-900 dark:text-[#F2F2F7]"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface-container hover:border-red-500/50 transition-colors text-sm font-bold text-neutral-900 dark:text-[#F2F2F7]"
         >
           <Edit3 className="w-4 h-4 text-red-600 dark:text-red-500" />
           Editar
@@ -70,7 +70,7 @@ export default async function MonitorWorkoutPage() {
       </div>
 
       {/* Workout Card */}
-      <div className="relative rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#2C2C2E] p-6 md:p-8 bg-white dark:bg-[#111111]">
+      <div className="relative rounded-3xl overflow-hidden border border-border p-6 md:p-8 bg-surface-container">
         <div
           className="absolute top-0 right-0 w-[300px] h-[300px] pointer-events-none rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"
           style={{ background: "rgba(220,38,38,0.12)" }}
@@ -89,7 +89,7 @@ export default async function MonitorWorkoutPage() {
 
           {/* Principle */}
           {principle && (
-            <div className="rounded-xl border border-neutral-200 dark:border-[#2C2C2E] p-4 bg-neutral-50 dark:bg-[#0A0A0A]">
+            <div className="rounded-xl border border-border p-4 bg-neutral-50 dark:bg-[#0A0A0A]">
               <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
                 Princípio #{principle.number}
               </span>

@@ -30,7 +30,7 @@ export function StudentEventsClient({
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 py-6">
 
       {/* === Header === */}
-      <div className="flex flex-col gap-1 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex flex-col gap-1 pb-4 border-b border-border">
         <h1 className="font-display text-4xl font-black uppercase tracking-tighter text-neutral-900 dark:text-[#F2F2F7]">
           Eventos &amp; Avisos
         </h1>
@@ -40,12 +40,12 @@ export function StudentEventsClient({
       </div>
 
       {/* === Tabs customizadas === */}
-      <div className="flex gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-[#1C1C1E] border border-border">
         <button
           onClick={() => setActiveTab("events")}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
             activeTab === "events"
-              ? "bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] shadow-sm border border-neutral-200 dark:border-[#2C2C2E]"
+              ? "bg-surface-container text-neutral-900 dark:text-[#F2F2F7] shadow-sm border border-border"
               : "text-neutral-500 dark:text-[#8E8E93] hover:text-neutral-700 dark:hover:text-[#EBEBF5]"
           }`}
         >
@@ -61,7 +61,7 @@ export function StudentEventsClient({
           onClick={() => setActiveTab("notices")}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
             activeTab === "notices"
-              ? "bg-white dark:bg-[#111111] text-neutral-900 dark:text-[#F2F2F7] shadow-sm border border-neutral-200 dark:border-[#2C2C2E]"
+              ? "bg-surface-container text-neutral-900 dark:text-[#F2F2F7] shadow-sm border border-border"
               : "text-neutral-500 dark:text-[#8E8E93] hover:text-neutral-700 dark:hover:text-[#EBEBF5]"
           }`}
         >
@@ -79,7 +79,7 @@ export function StudentEventsClient({
       {activeTab === "events" && (
         <div>
           {events.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-3 py-20 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] bg-neutral-50 dark:bg-[#111111]">
+            <div className="flex flex-col items-center justify-center gap-3 py-20 text-center rounded-3xl border border-dashed border-border bg-neutral-50 dark:bg-[#111111]">
               <div className="w-14 h-14 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-[#1C1C1E]">
                 <CalendarIcon className="w-7 h-7 text-neutral-400 dark:text-[#48484A]" />
               </div>
@@ -90,12 +90,12 @@ export function StudentEventsClient({
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {events.map((evt, index) => (
                 <BlurFade key={evt.id} delay={0.08 * index} inView>
-                  <div className="group rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-5 flex flex-col gap-4 hover:border-red-500/40 transition-colors h-full">
+                  <div className="group rounded-3xl border border-border bg-surface-container p-5 flex flex-col gap-4 hover:border-red-500/40 transition-colors h-full">
                     <div className="flex items-start justify-between gap-2">
                       <div className="w-10 h-10 rounded-xl bg-red-600/10 border border-red-600/20 flex items-center justify-center shrink-0">
                         <CalendarIcon className="w-5 h-5 text-red-600 dark:text-red-500" />
                       </div>
-                      <span className="text-xs font-mono font-bold text-neutral-500 dark:text-[#8E8E93] bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] px-2 py-1 rounded-lg whitespace-nowrap">
+                      <span className="text-xs font-mono font-bold text-neutral-500 dark:text-[#8E8E93] bg-neutral-100 dark:bg-[#1C1C1E] border border-border px-2 py-1 rounded-lg whitespace-nowrap">
                         {new Date(evt.event_date).toLocaleDateString("pt-BR")}
                       </span>
                     </div>
@@ -124,7 +124,7 @@ export function StudentEventsClient({
       {activeTab === "notices" && (
         <div>
           {announcements.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-3 py-20 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] bg-neutral-50 dark:bg-[#111111]">
+            <div className="flex flex-col items-center justify-center gap-3 py-20 text-center rounded-3xl border border-dashed border-border bg-neutral-50 dark:bg-[#111111]">
               <div className="w-14 h-14 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-[#1C1C1E]">
                 <MegaphoneIcon className="w-7 h-7 text-neutral-400 dark:text-[#48484A]" />
               </div>
@@ -137,7 +137,7 @@ export function StudentEventsClient({
                 const badge = importanceBadge(notice.importance);
                 return (
                   <BlurFade key={notice.id} delay={0.08 * index} inView>
-                    <div className={`rounded-2xl border-l-4 border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-5 flex items-start gap-4 ${borderColor(notice.importance)}`}>
+                    <div className={`rounded-3xl border-l-4 border border-border bg-surface-container p-5 flex items-start gap-4 ${borderColor(notice.importance)}`}>
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${badge.cls}`}>
                         {notice.importance === "urgent" ? (
                           <BellRingIcon className="w-4 h-4" />

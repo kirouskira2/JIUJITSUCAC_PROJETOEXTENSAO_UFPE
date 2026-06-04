@@ -38,10 +38,10 @@ export default async function AlunoEventsPage() {
 
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 py-6 px-4 md:px-0">
-      <div className="flex items-center gap-4 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex items-center gap-4 pb-4 border-b border-border">
         <Link
           href="/aluno"
-          className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors hover:border-red-500 bg-white dark:bg-[#1C1C1E] border-neutral-200 dark:border-[#2C2C2E] text-red-600"
+          className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors hover:border-red-500 bg-surface-container border-border text-red-600"
         >
           <IconArrowLeft className="w-5 h-5" />
         </Link>
@@ -99,7 +99,7 @@ export default async function AlunoEventsPage() {
             Próximos Eventos
           </h3>
           {events.map((e) => (
-            <div key={e.id} className="rounded-xl border border-neutral-200 dark:border-[#2C2C2E] p-4 bg-white dark:bg-[#111111]">
+            <div key={e.id} className="rounded-xl border border-border p-4 bg-surface-container">
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
                   <IconCalendarEvent className="w-5 h-5 text-red-600 dark:text-red-500" />
@@ -123,7 +123,7 @@ export default async function AlunoEventsPage() {
       )}
 
       {events.length === 0 && announcements.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] p-8 text-center flex flex-col items-center gap-2 bg-neutral-50/50 dark:bg-black/20">
+        <div className="rounded-3xl border border-dashed border-border p-8 text-center flex flex-col items-center gap-2 bg-neutral-50/50 dark:bg-black/20">
           <IconSpeakerphone className="w-8 h-8 text-neutral-400 dark:text-[#8E8E93]" />
           <p className="text-sm text-neutral-500 dark:text-[#8E8E93]">Nenhum aviso ou evento no momento.</p>
         </div>

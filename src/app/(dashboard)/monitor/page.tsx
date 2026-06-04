@@ -32,7 +32,7 @@ export default async function MonitorHomePage() {
 
       {/* Banner Treino do Dia (Monitor) */}
       {!workoutData?.workout ? (
-        <div className="w-full rounded-2xl border border-dashed border-red-500/30 p-6 flex flex-col items-center justify-center gap-3 bg-red-500/5 text-center">
+        <div className="w-full rounded-3xl border border-dashed border-red-500/30 p-6 flex flex-col items-center justify-center gap-3 bg-red-500/5 text-center">
           <span className="text-xs font-bold uppercase tracking-widest text-red-500 flex items-center gap-2">
             <AlertCircle className="w-4 h-4" /> Nenhum Treino Ativo
           </span>
@@ -48,7 +48,7 @@ export default async function MonitorHomePage() {
           </Link>
         </div>
       ) : (
-        <div className="w-full relative rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#2C2C2E] p-6 flex flex-col gap-3 bg-white dark:bg-[#111111]">
+        <div className="w-full relative rounded-2xl overflow-hidden border border-border p-6 flex flex-col gap-3 bg-surface-container">
           <div
             className="absolute top-0 right-0 w-[300px] h-[300px] pointer-events-none rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"
             style={{ background: "rgba(220,38,38,0.15)" }}
@@ -85,9 +85,9 @@ export default async function MonitorHomePage() {
       <div className="grid grid-cols-2 gap-4">
         <Link 
           href="/monitor/scanner"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col items-center justify-center text-center gap-3 transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111]"
+          className="rounded-3xl border border-border p-5 flex flex-col items-center justify-center text-center gap-3 transition-colors hover:border-red-500/50 group bg-surface-container"
         >
-          <div className="w-14 h-14 rounded-full border border-neutral-200 dark:border-[#2C2C2E] flex items-center justify-center transition-colors group-hover:bg-red-600 group-hover:border-red-600 bg-neutral-50 dark:bg-[#1C1C1E]">
+          <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center transition-colors group-hover:bg-red-600 group-hover:border-red-600 bg-surface-container">
             <ScanLine className="w-7 h-7 text-neutral-500 dark:text-[#8E8E93] transition-colors group-hover:text-white" />
           </div>
           <div>
@@ -98,9 +98,9 @@ export default async function MonitorHomePage() {
 
         <Link 
           href="/monitor/workout"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col items-center justify-center text-center gap-3 transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111]"
+          className="rounded-3xl border border-border p-5 flex flex-col items-center justify-center text-center gap-3 transition-colors hover:border-red-500/50 group bg-surface-container"
         >
-          <div className="w-14 h-14 rounded-full border border-neutral-200 dark:border-[#2C2C2E] flex items-center justify-center transition-colors group-hover:bg-red-600 group-hover:border-red-600 bg-neutral-50 dark:bg-[#1C1C1E]">
+          <div className="w-14 h-14 rounded-full border border-border flex items-center justify-center transition-colors group-hover:bg-red-600 group-hover:border-red-600 bg-surface-container">
             <BookOpen className="w-7 h-7 text-neutral-500 dark:text-[#8E8E93] transition-colors group-hover:text-white" />
           </div>
           <div>
@@ -114,7 +114,7 @@ export default async function MonitorHomePage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Link 
           href="/monitor/history"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center justify-between transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111]"
+          className="rounded-3xl border border-border p-4 flex items-center justify-between transition-colors hover:border-red-500/50 group bg-surface-container"
         >
           <span className="flex items-center gap-3">
             <CalendarDays className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93]" />
@@ -125,7 +125,7 @@ export default async function MonitorHomePage() {
 
         <Link 
           href="/aluno/events"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center justify-between transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111]"
+          className="rounded-3xl border border-border p-4 flex items-center justify-between transition-colors hover:border-red-500/50 group bg-surface-container"
         >
           <span className="flex items-center gap-3">
             <Megaphone className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93]" />

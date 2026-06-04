@@ -10,11 +10,11 @@ export default async function HistoryPage() {
   return (
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 py-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
         <div className="flex items-center gap-4">
           <Link
             href="/aluno"
-            className="w-10 h-10 rounded-full border border-neutral-300 dark:border-[#2C2C2E] flex items-center justify-center shrink-0 transition-colors hover:border-[#dc2626] hover:text-[#dc2626] bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-500 dark:text-[#8E8E93]"
+            className="w-10 h-10 rounded-full border border-border flex items-center justify-center shrink-0 transition-colors hover:border-[#dc2626] hover:text-[#dc2626] bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-500 dark:text-[#8E8E93]"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -35,11 +35,11 @@ export default async function HistoryPage() {
           {attendanceList.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center gap-4 transition-colors hover:border-[#dc2626]/30 bg-white dark:bg-[#111111]"
+              className="rounded-3xl border border-border p-4 flex items-center gap-4 transition-colors hover:border-[#dc2626]/30 bg-surface-container"
             >
               {/* Date */}
               <div
-                className="w-14 h-14 rounded-xl border border-neutral-200 dark:border-[#2C2C2E] flex flex-col items-center justify-center shrink-0 bg-neutral-100 dark:bg-[#1C1C1E]"
+                className="w-14 h-14 rounded-xl border border-border flex flex-col items-center justify-center shrink-0 bg-neutral-100 dark:bg-[#1C1C1E]"
               >
                 <span className="font-mono text-lg font-bold leading-none text-[#dc2626]">
                   {new Date(item.checkedInAt).toLocaleDateString("pt-BR", { day: "2-digit" })}
@@ -86,7 +86,7 @@ export default async function HistoryPage() {
         </div>
       ) : (
         <div
-          className="rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] flex flex-col items-center justify-center py-16 text-center gap-3 bg-neutral-50 dark:bg-transparent"
+          className="rounded-3xl border border-dashed border-border flex flex-col items-center justify-center py-16 text-center gap-3 bg-neutral-50 dark:bg-transparent"
         >
           <span className="text-4xl">🥋</span>
           <p className="font-display text-xl font-black uppercase text-neutral-900 dark:text-[#F2F2F7]">

@@ -40,7 +40,7 @@ export function ProfileSettingsModal({ profile }: { profile: Profile }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors text-sm font-semibold text-neutral-900 dark:text-[#F2F2F7]" />}>
+      <DialogTrigger render={<button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-surface-container hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors text-sm font-semibold text-neutral-900 dark:text-[#F2F2F7]" />}>
           <Settings className="w-4 h-4 text-neutral-500" />
           Editar Perfil
       </DialogTrigger>

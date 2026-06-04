@@ -31,7 +31,7 @@ export default async function AdminUsersPage() {
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 py-6">
       
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-border">
         <div>
           <h1 className="font-display text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
             Gestão de Alunos
@@ -42,7 +42,7 @@ export default async function AdminUsersPage() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-neutral-200 dark:border-[#2C2C2E] p-6 bg-white dark:bg-[#111111]">
+      <div className="rounded-xl border border-border p-6 bg-surface-container">
         <UserTable initialProfiles={mappedProfiles} currentUserId={sessionData.profile.id} />
       </div>
     </div>

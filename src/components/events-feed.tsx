@@ -59,7 +59,7 @@ export async function EventsFeed() {
 
   if (feed.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
+      <div className="rounded-3xl border border-dashed border-border p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
         <IconSpeakerphone className="w-8 h-8 text-neutral-400 dark:text-[#8E8E93]" />
         <p className="text-sm text-neutral-500 dark:text-[#8E8E93]">
           Nenhum aviso ou evento no momento.
@@ -112,7 +112,7 @@ export async function EventsFeed() {
           return (
             <div
               key={`evt-${e.id}`}
-              className="rounded-xl border border-neutral-200 dark:border-[#2C2C2E] p-4 bg-white dark:bg-[#111111] transition-colors"
+              className="rounded-xl border border-border p-4 bg-surface-container transition-colors"
             >
               <div className="flex items-start gap-3">
                 <div className="shrink-0 w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">

@@ -24,7 +24,7 @@ export function Skeleton({ className }: SkeletonProps) {
 /** Skeleton para uma linha de tabela de alunos */
 export function UserTableRowSkeleton() {
   return (
-    <tr className="border-b border-neutral-200 dark:border-[#2C2C2E]">
+    <tr className="border-b border-border">
       <td className="py-4 px-6">
         <div className="flex flex-col gap-1.5">
           <Skeleton className="h-4 w-36" />
@@ -56,14 +56,14 @@ export function UserTableRowSkeleton() {
 /** Skeleton para a tabela completa de alunos */
 export function UserTableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
-    <div className="rounded-xl border border-neutral-200 dark:border-[#2C2C2E] overflow-hidden bg-white dark:bg-[#111111]">
+    <div className="rounded-xl border border-border overflow-hidden bg-surface-container">
       {/* Search skeleton */}
       <div className="p-4">
         <Skeleton className="h-12 w-full max-w-sm rounded-lg" />
       </div>
       <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="border-b border-neutral-200 dark:border-[#2C2C2E] bg-neutral-50 dark:bg-[#1c1b1b]">
+          <tr className="border-b border-border bg-neutral-50 dark:bg-[#1c1b1b]">
             {["Aluno", "Função", "Faixa", "Categoria", "Ativo", "Gerenciar"].map((h) => (
               <th key={h} className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">
                 {h}
@@ -84,7 +84,7 @@ export function UserTableSkeleton({ rows = 5 }: { rows?: number }) {
 /** Skeleton para um card de estatística do dashboard */
 export function StatCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-6 bg-white dark:bg-[#111111]">
+    <div className="rounded-3xl border border-border p-6 bg-surface-container">
       <div className="flex items-center justify-between mb-4">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-8 w-8 rounded-lg" />

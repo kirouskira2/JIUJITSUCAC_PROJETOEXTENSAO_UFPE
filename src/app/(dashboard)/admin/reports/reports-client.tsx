@@ -122,7 +122,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
           <button 
             onClick={handleExportCSV}
             disabled={isLoading}
-            className="flex-1 md:flex-none h-[54px] px-6 rounded-full border font-bold flex items-center justify-center gap-2 transition-colors hover:bg-neutral-100 dark:hover:bg-[#1C1C1E] disabled:opacity-50 text-neutral-900 dark:text-[#F2F2F7] border-neutral-200 dark:border-[#2C2C2E]"
+            className="flex-1 md:flex-none h-[54px] px-6 rounded-full border font-bold flex items-center justify-center gap-2 transition-colors hover:bg-neutral-100 dark:hover:bg-[#1C1C1E] disabled:opacity-50 text-neutral-900 dark:text-[#F2F2F7] border-border"
           >
             <IconFileDescription className="w-5 h-5" />
             Exportar CSV
@@ -144,7 +144,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
         <div className="lg:col-span-2 space-y-6 print:hidden">
           
           {/* Individual Report Card */}
-          <div className="rounded-2xl border p-6 relative overflow-hidden group transition-colors bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]">
+          <div className="rounded-3xl border p-6 relative overflow-hidden group transition-colors bg-surface-container border-border">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-full flex items-center justify-center bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-500">
                 <IconSearch className="w-5 h-5" />
@@ -160,7 +160,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
                     <select 
                       value={profileId}
                       onChange={(e) => setProfileId(e.target.value)}
-                      className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
+                      className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
                     >
                       <option value="">Todos os Alunos</option>
                       {students.map(student => (
@@ -180,14 +180,14 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
                     type="date" 
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
+                    className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
                   />
                   <span className="text-neutral-500 dark:text-[#8E8E93]">-</span>
                   <input 
                     type="date" 
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
+                    className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
                   />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
 
           {/* General Report Card (Only for Admin) */}
           {!isExtensionistOnly && (
-            <div className="rounded-2xl border p-6 relative overflow-hidden group transition-colors bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]">
+            <div className="rounded-3xl border p-6 relative overflow-hidden group transition-colors bg-surface-container border-border">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-[#0A84FF]">
                   <IconUsers className="w-5 h-5" />
@@ -210,7 +210,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
                   <select 
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-[#0A84FF]"
+                    className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-[#0A84FF]"
                   >
                     <option value="all">Todos os Alunos</option>
                     <option value="Departamento de Ed. Física">Departamento de Ed. Física</option>
@@ -235,7 +235,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
             <button 
               onClick={handleRecalculate}
               disabled={isLoading}
-              className="h-[54px] w-full rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E] border border-neutral-200 dark:border-[#2C2C2E]"
+              className="h-[54px] w-full rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E] border border-border"
             >
               <IconRefresh className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
               Atualizar Preview das Horas
@@ -246,7 +246,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
 
         {/* Live Preview Column */}
         <div className="lg:col-span-1 print:col-span-3 print:border-none print:shadow-none">
-          <div className="rounded-2xl border p-6 h-full flex flex-col relative overflow-hidden shadow-2xl print:border-2 bg-neutral-50 dark:bg-[#1C1C1E] border-neutral-200 dark:border-[#2C2C2E]">
+          <div className="rounded-3xl border p-6 h-full flex flex-col relative overflow-hidden shadow-2xl print:border-2 bg-surface-container border-border">
             
             <div className="flex items-center justify-between mb-8 relative z-10">
               <h3 className="font-display font-bold text-xl uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">Preview (Ao vivo)</h3>
@@ -290,7 +290,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
             <button 
               onClick={handleRecalculate}
               disabled={isLoading}
-              className="w-full h-[54px] mt-8 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-colors border relative z-10 hover:border-neutral-400 dark:hover:border-[#8E8E93] print:hidden disabled:opacity-50 bg-white dark:bg-[#131313] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7]"
+              className="w-full h-[54px] mt-8 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-colors border relative z-10 hover:border-neutral-400 dark:hover:border-[#8E8E93] print:hidden disabled:opacity-50 bg-white dark:bg-[#131313] border-border text-neutral-900 dark:text-[#F2F2F7]"
             >
               <IconRefresh className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
               Recalcular

@@ -47,7 +47,7 @@ export default async function AdminUserProfilePage({ params }: { params: Promise
       </Link>
 
       {/* Hero Card */}
-      <div className="relative rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] overflow-hidden p-6 bg-white dark:bg-[#111111]">
+      <div className="relative rounded-3xl border border-border overflow-hidden p-6 bg-surface-container">
         {/* Red glow */}
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] h-[120px] pointer-events-none"
@@ -77,11 +77,11 @@ export default async function AdminUserProfilePage({ params }: { params: Promise
                 {profile.belt}
               </span>
               {roleLabel !== categoryLabel && (
-                <span className="text-xs font-bold uppercase px-3 py-1 rounded-full border border-neutral-200 dark:border-[#2C2C2E] text-neutral-700 dark:text-[#8E8E93] bg-neutral-50 dark:bg-[#1C1C1E]">
+                <span className="text-xs font-bold uppercase px-3 py-1 rounded-full border border-border text-neutral-700 dark:text-[#8E8E93] bg-surface-container">
                   {roleLabel}
                 </span>
               )}
-              <span className="text-xs font-bold uppercase px-3 py-1 rounded-full border border-neutral-200 dark:border-[#2C2C2E] text-neutral-700 dark:text-[#8E8E93] bg-neutral-50 dark:bg-[#1C1C1E]">
+              <span className="text-xs font-bold uppercase px-3 py-1 rounded-full border border-border text-neutral-700 dark:text-[#8E8E93] bg-surface-container">
                 {categoryLabel}
               </span>
               <span className={`text-xs font-bold uppercase px-3 py-1 rounded-full border ${profile.isActive ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20" : "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20"}`}>
@@ -116,7 +116,7 @@ export default async function AdminUserProfilePage({ params }: { params: Promise
         </h3>
 
         {userAttendance.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-16 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] bg-neutral-50 dark:bg-[#111111]">
+          <div className="flex flex-col items-center justify-center gap-3 py-16 text-center rounded-3xl border border-dashed border-border bg-neutral-50 dark:bg-[#111111]">
             <IconCalendar className="w-8 h-8 text-neutral-400 dark:text-[#48484A]" />
             <p className="text-sm font-semibold text-neutral-500 dark:text-[#8E8E93]">Nenhuma presença registrada nos últimos 90 dias.</p>
           </div>
@@ -125,7 +125,7 @@ export default async function AdminUserProfilePage({ params }: { params: Promise
             {userAttendance.map((record) => (
               <div
                 key={record.id}
-                className="rounded-xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-4 flex items-center justify-between gap-4"
+                className="rounded-xl border border-border bg-surface-container p-4 flex items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-8 h-8 rounded-lg bg-red-600/10 border border-red-600/20 flex items-center justify-center shrink-0">
@@ -158,7 +158,7 @@ export default async function AdminUserProfilePage({ params }: { params: Promise
 
 function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-start gap-2.5 p-3 rounded-xl bg-neutral-50 dark:bg-[#1C1C1E] border border-neutral-100 dark:border-[#2C2C2E]">
+    <div className="flex items-start gap-2.5 p-3 rounded-xl bg-surface-container border border-neutral-100 dark:border-[#2C2C2E]">
       <div className="text-neutral-400 dark:text-[#636366] mt-0.5">{icon}</div>
       <div className="min-w-0">
         <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 dark:text-[#8E8E93]">{label}</p>
@@ -170,7 +170,7 @@ function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-4 flex flex-col items-center justify-center text-center gap-1">
+    <div className="rounded-3xl border border-border bg-surface-container p-4 flex flex-col items-center justify-center text-center gap-1">
       <span className="font-mono text-2xl font-bold text-red-600 dark:text-red-500">{value}</span>
       <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93]">{label}</span>
     </div>

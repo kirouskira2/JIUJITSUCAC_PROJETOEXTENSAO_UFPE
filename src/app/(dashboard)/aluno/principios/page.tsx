@@ -17,7 +17,7 @@ export default async function PrincipiosPage() {
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 py-6">
       
       {/* === Header === */}
-      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-4 border-b border-border">
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-500">
             <IconBook className="w-8 h-8" />
@@ -39,7 +39,7 @@ export default async function PrincipiosPage() {
           <Dialog key={p.id}>
             <DialogTrigger render={<button className="text-left h-full w-full focus:outline-none" />}>
               <div 
-                className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-3 transition-all hover:border-[#dc2626]/50 hover:-translate-y-1 hover:shadow-xl group bg-white dark:bg-[#111111] h-full"
+                className="rounded-3xl border border-border p-5 flex flex-col gap-3 transition-all hover:border-[#dc2626]/50 hover:-translate-y-1 hover:shadow-xl group bg-surface-container h-full"
               >
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-500 dark:text-[#8E8E93] group-hover:bg-[#dc2626] group-hover:text-white transition-colors">

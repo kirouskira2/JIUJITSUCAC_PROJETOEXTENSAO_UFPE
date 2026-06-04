@@ -76,14 +76,14 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
   return (
     <div className={sidebarContainerClass}>
       <Sidebar open={open} setOpen={setOpen} animate={true}>
-      <SidebarBody className="justify-between gap-10 bg-neutral-100 dark:bg-[#111111] border-r border-neutral-200 dark:border-[#2C2C2E]">
+      <SidebarBody className="justify-between gap-10 bg-neutral-100 dark:bg-[#111111] border-r border-border">
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           {/* Logo Section */}
           <Link 
             href={role === "admin" ? "/admin" : role === "monitor" ? "/monitor" : "/aluno"} 
             className="flex items-center gap-3 py-2 px-1 cursor-pointer hover:opacity-80 transition-opacity"
           >
-            <div className={`rounded-full overflow-hidden shrink-0 border border-neutral-300 dark:border-[#2C2C2E] transition-all duration-300 ${open ? "w-16 h-16" : "w-10 h-10"}`}>
+            <div className={`rounded-full overflow-hidden shrink-0 border border-border transition-all duration-300 ${open ? "w-16 h-16" : "w-10 h-10"}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo.jpg" alt="Logo JJCAC" className="w-full h-full object-cover" />
             </div>
@@ -110,8 +110,8 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
 
         {/* Footer actions */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3 pt-4 border-t border-neutral-200 dark:border-[#2C2C2E]">
-            <div className="w-8 h-8 rounded-full border flex items-center justify-center shrink-0 bg-neutral-200 dark:bg-[#1C1C1E] border-neutral-300 dark:border-[#2C2C2E]">
+          <div className="flex items-center gap-3 pt-4 border-t border-border">
+            <div className="w-8 h-8 rounded-full border flex items-center justify-center shrink-0 bg-neutral-200 dark:bg-[#1C1C1E] border-border">
               <span className="font-bold text-[10px] text-neutral-900 dark:text-[#F2F2F7]">
                 {fullName.charAt(0)}
               </span>

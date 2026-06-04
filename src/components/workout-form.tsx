@@ -127,7 +127,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
               type="date"
               {...register("date", { required: "Obrigatório" })}
               disabled={isEditing}
-              className="w-full h-[54px] rounded-2xl px-4 outline-none transition-colors border bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+              className="w-full h-[54px] rounded-2xl px-4 outline-none transition-colors border bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
             />
           </div>
           {errors.date && <span className="text-xs text-red-600 dark:text-[#FF3B30]">{errors.date.message}</span>}
@@ -141,7 +141,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
           <div className="relative">
             <select
               {...register("principleId", { required: "Obrigatório" })}
-              className="w-full h-[54px] rounded-2xl pl-4 pr-10 outline-none transition-colors border appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+              className="w-full h-[54px] rounded-2xl pl-4 pr-10 outline-none transition-colors border appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
             >
               <option value="" disabled className="text-neutral-500 dark:text-[#8E8E93]">Selecione um princípio...</option>
               {principles.map((p) => (
@@ -167,7 +167,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
             type="text"
             placeholder="Ex: Passagem de Guarda Toreando"
             {...register("techniqueName", { required: "Obrigatório" })}
-            className="w-full h-[54px] rounded-2xl px-4 outline-none transition-colors border bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+            className="w-full h-[54px] rounded-2xl px-4 outline-none transition-colors border bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
           />
         </div>
         {errors.techniqueName && <span className="text-xs text-red-600 dark:text-[#FF3B30]">{errors.techniqueName.message}</span>}
@@ -182,7 +182,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
           rows={3}
           placeholder="Descreva a técnica..."
           {...register("techniqueWhat", { required: "Obrigatório" })}
-          className="w-full rounded-2xl p-4 outline-none transition-colors border resize-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+          className="w-full rounded-2xl p-4 outline-none transition-colors border resize-none bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
         />
         {errors.techniqueWhat && <span className="text-xs text-red-600 dark:text-[#FF3B30]">{errors.techniqueWhat.message}</span>}
       </div>
@@ -196,7 +196,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
           rows={4}
           placeholder="Descreva a execução..."
           {...register("techniqueHow", { required: "Obrigatório" })}
-          className="w-full rounded-2xl p-4 outline-none transition-colors border resize-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+          className="w-full rounded-2xl p-4 outline-none transition-colors border resize-none bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
         />
         {errors.techniqueHow && <span className="text-xs text-red-600 dark:text-[#FF3B30]">{errors.techniqueHow.message}</span>}
       </div>
@@ -210,7 +210,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
           rows={3}
           placeholder="Fundamento tático..."
           {...register("techniqueWhy", { required: "Obrigatório" })}
-          className="w-full rounded-2xl p-4 outline-none transition-colors border resize-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
+          className="w-full rounded-2xl p-4 outline-none transition-colors border resize-none bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-[#dc2626]"
         />
         {errors.techniqueWhy && <span className="text-xs text-red-600 dark:text-[#FF3B30]">{errors.techniqueWhy.message}</span>}
       </div>
@@ -221,7 +221,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
             type="button"
             onClick={handleDelete}
             disabled={isPending}
-            className="w-14 h-[54px] shrink-0 rounded-full flex items-center justify-center transition-all bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-red-600 dark:text-[#dc2626] hover:bg-red-50 dark:hover:bg-red-500/10"
+            className="w-14 h-[54px] shrink-0 rounded-full flex items-center justify-center transition-all bg-neutral-100 dark:bg-[#1C1C1E] border border-border text-red-600 dark:text-[#dc2626] hover:bg-red-50 dark:hover:bg-red-500/10"
           >
             <Trash2 className="w-5 h-5" />
           </button>

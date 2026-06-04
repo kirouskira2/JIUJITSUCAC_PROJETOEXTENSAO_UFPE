@@ -73,7 +73,7 @@ export function CheckinClientPage({ profileId, workoutId, profileName }: Props) 
           </div>
 
           {/* Principle of the day card */}
-          <div className="w-full rounded-2xl border p-5 text-left flex flex-col gap-3 relative overflow-hidden" style={{ background: "#111111", borderColor: "#2C2C2E" }}>
+          <div className="w-full rounded-3xl border p-5 text-left flex flex-col gap-3 relative overflow-hidden" style={{ background: "#111111", borderColor: "#2C2C2E" }}>
             <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, #2C2C2E, transparent)" }} />
             <div className="flex items-center gap-2">
               <IconStar className="w-4 h-4 text-[#e9c349]" />

@@ -74,7 +74,7 @@ export default async function AdminDashboardPage() {
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 py-6">
 
       {/* === Header === */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
           <h1 className="font-display text-4xl font-black uppercase tracking-tighter text-neutral-900 dark:text-[#F2F2F7]">
             Painel de Comando
@@ -104,7 +104,7 @@ export default async function AdminDashboardPage() {
           <Link
             key={href}
             href={href}
-            className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex items-start gap-4 transition-all hover:border-[#dc2626]/50 hover:-translate-y-1 group bg-white dark:bg-[#111111]"
+            className="rounded-3xl border border-border p-5 flex items-start gap-4 transition-all hover:border-[#dc2626]/50 hover:-translate-y-1 group bg-surface-container"
           >
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-500 dark:text-[#8E8E93] group-hover:bg-[#dc2626]/10 group-hover:text-[#dc2626] transition-colors shrink-0">
               <Icon className="w-5 h-5" />
@@ -121,7 +121,7 @@ export default async function AdminDashboardPage() {
       {/* === Banner Treino do Dia (Admin) === */}
       {todayWorkout ? (
         <Link href="/admin/workouts" className="block">
-          <div className="w-full relative rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#2C2C2E] p-6 md:p-8 flex flex-col gap-3 bg-white dark:bg-[#111111] cursor-pointer group hover:border-red-500/50 transition-colors">
+          <div className="w-full relative rounded-2xl overflow-hidden border border-border p-6 md:p-8 flex flex-col gap-3 bg-surface-container cursor-pointer group hover:border-red-500/50 transition-colors">
             {/* Red glow background */}
             <div
               className="absolute top-0 right-0 w-[300px] h-[300px] pointer-events-none rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"
@@ -151,7 +151,7 @@ export default async function AdminDashboardPage() {
           </div>
         </Link>
       ) : (
-        <div className="w-full rounded-2xl border border-dashed border-red-500/30 p-6 text-center flex flex-col items-center justify-center gap-3 bg-red-500/5">
+        <div className="w-full rounded-3xl border border-dashed border-red-500/30 p-6 text-center flex flex-col items-center justify-center gap-3 bg-red-500/5">
           <span className="text-xs font-bold uppercase tracking-widest text-red-500">
             ⚠️ Nenhum Treino Cadastrado
           </span>
@@ -172,7 +172,7 @@ export default async function AdminDashboardPage() {
         {kpis.map((kpi, i) => (
           <div
             key={i}
-            className="relative rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-2 overflow-hidden group transition-colors hover:border-[#dc2626]/50 bg-white dark:bg-[#111111]"
+            className="relative rounded-3xl border border-border p-5 flex flex-col gap-2 overflow-hidden group transition-colors hover:border-[#dc2626]/50 bg-surface-container"
           >
             {/* Faint icon bg */}
             <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -202,7 +202,7 @@ export default async function AdminDashboardPage() {
         {/* Left Column: Categorias & Faixas */}
         <div className="flex flex-col gap-6">
           {/* Categorias */}
-          <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-4 bg-white dark:bg-[#111111]">
+          <div className="rounded-3xl border border-border p-5 flex flex-col gap-4 bg-surface-container">
             <h2 className="font-sans font-bold text-base text-neutral-900 dark:text-[#F2F2F7]">
               Categorias
             </h2>
@@ -228,7 +228,7 @@ export default async function AdminDashboardPage() {
           </div>
 
           {/* Faixas */}
-          <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-4 bg-white dark:bg-[#111111] flex-1">
+          <div className="rounded-3xl border border-border p-5 flex flex-col gap-4 bg-surface-container flex-1">
             <div className="flex items-center justify-between">
               <h2 className="font-sans font-bold text-base text-neutral-900 dark:text-[#F2F2F7]">
                 Distribuição por Faixa
@@ -238,7 +238,7 @@ export default async function AdminDashboardPage() {
               {stats?.studentsByBelt?.map((belt) => (
                 <div
                   key={belt.belt}
-                  className="rounded-xl p-4 flex flex-col items-center gap-2 border border-neutral-200 dark:border-[#2C2C2E] transition-colors hover:border-[#dc2626]/30 bg-neutral-50 dark:bg-[#1C1C1E]"
+                  className="rounded-xl p-4 flex flex-col items-center gap-2 border border-border transition-colors hover:border-[#dc2626]/30 bg-surface-container"
                 >
                   <div
                     className="w-4 h-4 rounded-full border"
@@ -256,7 +256,7 @@ export default async function AdminDashboardPage() {
                 </div>
               ))}
               {(!stats?.studentsByBelt || stats.studentsByBelt.length === 0) && (
-                <div className="col-span-full text-center py-8 text-sm rounded-xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] text-neutral-500 dark:text-[#8E8E93]">
+                <div className="col-span-full text-center py-8 text-sm rounded-xl border border-dashed border-border text-neutral-500 dark:text-[#8E8E93]">
                   Nenhum dado de faixa ainda.
                 </div>
               )}
@@ -266,7 +266,7 @@ export default async function AdminDashboardPage() {
 
         {/* Right Column: Gráfico de Presenças, Treino e Módulos */}
         <div className="flex flex-col gap-6">
-          <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-5 flex flex-col gap-4 bg-white dark:bg-[#111111]">
+          <div className="rounded-3xl border border-border p-5 flex flex-col gap-4 bg-surface-container">
             <h2 className="font-sans font-bold text-base text-neutral-900 dark:text-[#F2F2F7]">
               Presenças por Semana
             </h2>

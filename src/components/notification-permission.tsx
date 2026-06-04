@@ -127,7 +127,7 @@ export function NotificationPermission() {
 
   return (
     <div className="w-full mb-6 animate-in slide-in-from-top-4 fade-in duration-500">
-      <div className="bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-2xl p-4 shadow-sm flex items-start gap-3">
+      <div className="bg-surface-container border border-border rounded-3xl p-4 shadow-sm flex items-start gap-3">
         <div className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center shrink-0">
           <BellRingIcon className="w-5 h-5 text-red-600 dark:text-red-500" />
         </div>
@@ -147,7 +147,7 @@ export function NotificationPermission() {
             </button>
             <button
               onClick={handleDismiss}
-              className="h-9 px-3 rounded-lg border border-neutral-200 dark:border-[#2C2C2E] text-xs font-semibold text-neutral-500 dark:text-[#8E8E93] hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+              className="h-9 px-3 rounded-lg border border-border text-xs font-semibold text-neutral-500 dark:text-[#8E8E93] hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
             >
               Agora não
             </button>

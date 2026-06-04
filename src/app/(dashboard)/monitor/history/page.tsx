@@ -41,7 +41,7 @@ export default async function MonitorHistoryPage() {
           {attendanceList.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border p-4 flex items-center gap-4 transition-colors hover:border-[#dc2626]/30"
+              className="rounded-3xl border p-4 flex items-center gap-4 transition-colors hover:border-[#dc2626]/30"
               style={{ background: "#111111", borderColor: "#2C2C2E" }}
             >
               {/* Date */}
@@ -96,7 +96,7 @@ export default async function MonitorHistoryPage() {
         </div>
       ) : (
         <div
-          className="rounded-2xl border border-dashed flex flex-col items-center justify-center py-16 text-center gap-3"
+          className="rounded-3xl border border-dashed flex flex-col items-center justify-center py-16 text-center gap-3"
           style={{ borderColor: "#2C2C2E" }}
         >
           <span className="text-4xl">🥋</span>

@@ -22,7 +22,7 @@ export function GlobalLoaderOverlay({ message = "Carregando..." }: GlobalLoaderO
 
   return (
     <div className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-[#1C1C1E] p-6 rounded-2xl flex flex-col items-center gap-4 shadow-2xl border border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="bg-surface-container p-6 rounded-3xl flex flex-col items-center gap-4 shadow-2xl border border-border">
         <LoaderOne className="my-2" />
         <p className="text-sm font-semibold text-neutral-900 dark:text-[#F2F2F7]">
           {message}

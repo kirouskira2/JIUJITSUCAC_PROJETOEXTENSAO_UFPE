@@ -130,7 +130,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
   return (
     <>
       <div className="flex flex-col w-full gap-4">
-        <div className="bg-card border border-border rounded-2xl p-4 sm:p-8 w-full flex flex-col items-center justify-center relative shadow-2xl overflow-hidden group transition-all duration-300">
+        <div className="bg-surface-container border border-border rounded-3xl p-4 sm:p-8 w-full flex flex-col items-center justify-center relative shadow-2xl overflow-hidden group transition-all duration-300">
           
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-20"></div>
           

@@ -35,7 +35,7 @@ export default async function AlunoHomePage() {
         </div>
         <Link
           href="/aluno/settings"
-          className="w-10 h-10 rounded-full border border-neutral-200 dark:border-[#2C2C2E] flex items-center justify-center bg-white dark:bg-[#1C1C1E] text-neutral-500 dark:text-[#8E8E93] hover:border-red-500 transition-colors shrink-0"
+          className="w-10 h-10 rounded-full border border-border flex items-center justify-center bg-surface-container text-neutral-500 dark:text-[#8E8E93] hover:border-red-500 transition-colors shrink-0"
           title="Configurações"
         >
           <IconSettings className="w-5 h-5" />
@@ -44,11 +44,11 @@ export default async function AlunoHomePage() {
 
       {/* === Stats Row (Compacto) === */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-4 flex flex-col items-center justify-center text-center">
+        <div className="rounded-3xl border border-border bg-surface-container p-4 flex flex-col items-center justify-center text-center">
           <span className="font-mono text-2xl md:text-3xl font-bold text-red-600 dark:text-red-500">{attendanceCount}</span>
           <span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93] mt-1 font-bold">Treinos</span>
         </div>
-        <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-4 flex flex-col items-center justify-center text-center">
+        <div className="rounded-3xl border border-border bg-surface-container p-4 flex flex-col items-center justify-center text-center">
           <div
             className="h-7 rounded-full flex items-center px-3 gap-1.5 shrink-0 border"
             style={{ background: beltColor.bg, borderColor: beltColor.border }}
@@ -59,7 +59,7 @@ export default async function AlunoHomePage() {
           </div>
           <span className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-[#8E8E93] mt-1 font-bold">Faixa</span>
         </div>
-        <div className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] bg-white dark:bg-[#111111] p-4 flex flex-col items-center justify-center text-center">
+        <div className="rounded-3xl border border-border bg-surface-container p-4 flex flex-col items-center justify-center text-center">
           <span className={`font-mono text-lg font-bold ${profile.isActive ? "text-green-600 dark:text-[#34C759]" : "text-neutral-400"}`}>
             {profile.isActive ? "Ativo" : "Inativo"}
           </span>
@@ -69,7 +69,7 @@ export default async function AlunoHomePage() {
 
       {/* === Banner Treino do Dia === */}
       {todayWorkout ? (
-        <div className="w-full relative rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#2C2C2E] p-6 flex flex-col gap-3 bg-white dark:bg-[#111111]">
+        <div className="w-full relative rounded-2xl overflow-hidden border border-border p-6 flex flex-col gap-3 bg-surface-container">
           <div
             className="absolute top-0 right-0 w-[300px] h-[300px] pointer-events-none rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"
             style={{ background: "rgba(220,38,38,0.15)" }}
@@ -95,7 +95,7 @@ export default async function AlunoHomePage() {
           </div>
         </div>
       ) : (
-        <div className="w-full rounded-2xl border border-dashed border-neutral-300 dark:border-[#2C2C2E] p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
+        <div className="w-full rounded-3xl border border-dashed border-border p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
           <span className="text-xs font-bold uppercase tracking-widest text-neutral-500 dark:text-[#8E8E93]">
             🥋 Treino do Dia
           </span>
@@ -120,7 +120,7 @@ export default async function AlunoHomePage() {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         <Link
           href="/aluno/history"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center gap-3 transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111]"
+          className="rounded-3xl border border-border p-4 flex items-center gap-3 transition-colors hover:border-red-500/50 group bg-surface-container"
         >
           <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-[#1C1C1E] flex items-center justify-center shrink-0 group-hover:bg-red-500/10 transition-colors">
             <IconHistory className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93] group-hover:text-red-500 transition-colors" />
@@ -133,7 +133,7 @@ export default async function AlunoHomePage() {
 
         <Link
           href="/aluno/principios"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center gap-3 transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111]"
+          className="rounded-3xl border border-border p-4 flex items-center gap-3 transition-colors hover:border-red-500/50 group bg-surface-container"
         >
           <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-[#1C1C1E] flex items-center justify-center shrink-0 group-hover:bg-red-500/10 transition-colors">
             <IconBook2 className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93] group-hover:text-red-500 transition-colors" />
@@ -146,7 +146,7 @@ export default async function AlunoHomePage() {
 
         <Link
           href="/aluno/events"
-          className="rounded-2xl border border-neutral-200 dark:border-[#2C2C2E] p-4 flex items-center gap-3 transition-colors hover:border-red-500/50 group bg-white dark:bg-[#111111] col-span-2 md:col-span-1"
+          className="rounded-3xl border border-border p-4 flex items-center gap-3 transition-colors hover:border-red-500/50 group bg-surface-container col-span-2 md:col-span-1"
         >
           <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-[#1C1C1E] flex items-center justify-center shrink-0 group-hover:bg-red-500/10 transition-colors">
             <IconChevronRight className="w-5 h-5 text-neutral-500 dark:text-[#8E8E93] group-hover:text-red-500 transition-colors" />
@@ -160,7 +160,7 @@ export default async function AlunoHomePage() {
 
       {/* === Extensionista Badge === */}
       {isExtensionista && (
-        <div className="rounded-2xl border p-4 flex items-center gap-3 bg-green-50 dark:bg-green-950/10 border-green-200 dark:border-green-900/20">
+        <div className="rounded-3xl border p-4 flex items-center gap-3 bg-green-50 dark:bg-green-950/10 border-green-200 dark:border-green-900/20">
           <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
             <span className="text-green-600 dark:text-[#34C759] text-lg">✓</span>
           </div>

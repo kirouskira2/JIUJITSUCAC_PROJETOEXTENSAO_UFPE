@@ -33,12 +33,12 @@ export default async function MonitorWorkoutQrPage() {
 
   return (
     <div className="flex flex-col h-full items-center justify-center py-10 px-4 min-h-[80vh]">
-      <div className="w-full max-w-md bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-3xl p-8 flex flex-col items-center relative overflow-hidden shadow-2xl">
+      <div className="w-full max-w-md bg-surface-container border border-border rounded-3xl p-8 flex flex-col items-center relative overflow-hidden shadow-2xl">
         
         <div className="w-full flex items-center justify-between mb-8 relative z-10">
           <Link
             href="/monitor/workout"
-            className="w-10 h-10 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-[#1C1C1E] border border-neutral-200 dark:border-[#2C2C2E] text-red-600 dark:text-red-500 hover:bg-red-500/10 transition-colors"
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-[#1C1C1E] border border-border text-red-600 dark:text-red-500 hover:bg-red-500/10 transition-colors"
           >
             <IconArrowLeft className="w-5 h-5" />
           </Link>

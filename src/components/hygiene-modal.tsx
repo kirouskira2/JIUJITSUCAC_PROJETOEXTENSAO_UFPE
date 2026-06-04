@@ -183,7 +183,7 @@ export function HygieneModal({
                     "flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all duration-300 group",
                     isChecked 
                       ? "bg-primary/10 border-primary" 
-                      : "bg-card border-border hover:border-muted-foreground/30"
+                      : "bg-surface-container border-border hover:border-muted-foreground/30"
                   )}
                 >
                   <div className="flex items-center gap-4">

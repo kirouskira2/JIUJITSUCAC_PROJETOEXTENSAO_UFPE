@@ -20,10 +20,10 @@ export default async function WorkoutEditPage() {
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 py-6 px-4 md:px-0">
       
       {/* Header */}
-      <div className="flex items-center gap-4 pb-4 border-b border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="flex items-center gap-4 pb-4 border-b border-border">
         <Link
           href="/monitor/workout"
-          className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors hover:border-red-500 bg-white dark:bg-[#1C1C1E] border-neutral-200 dark:border-[#2C2C2E] text-red-600"
+          className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors hover:border-red-500 bg-surface-container border-border text-red-600"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
@@ -37,7 +37,7 @@ export default async function WorkoutEditPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border p-6 bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]">
+      <div className="rounded-3xl border p-6 bg-surface-container border-border">
         <WorkoutForm 
           principles={principles || []} 
           initialWorkout={todayWorkoutData?.workout || undefined}
