@@ -65,6 +65,18 @@ export async function createWorkout(data: CreateWorkoutInput): Promise<ActionRes
     revalidatePath("/admin");
     revalidatePath("/aluno");
 
+    // Disparar Web Push Notification para todos os usuários inscritos (assíncrono)
+    try {
+      const { broadcastPushNotification } = await import("@/actions/webpush");
+      broadcastPushNotification(
+        "Treino do Dia Registrado! 🥋",
+        `${parsed.data.techniqueName} — Verifique o painel para iniciar seus check-ins.`,
+        "/aluno" // URL para abrir quando clicar
+      ).catch(err => console.warn("Erro assíncrono ao disparar push:", err));
+    } catch (pushErr) {
+      console.warn("Erro ao carregar módulo webpush:", pushErr);
+    }
+
     return { success: true, data: mappedWorkout };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Erro desconhecido";
