@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { headers } from "next/headers";
-
 import { RetroGrid } from "@/components/ui/retro-grid";
+import { InitialSplashScreen } from "@/components/initial-splash-screen";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -70,7 +70,9 @@ export default async function RootLayout({
                 Pular para o conteúdo principal
               </a>
               <main id="main-content" className="flex-1 flex flex-col">
-                {children}
+                <InitialSplashScreen>
+                  {children}
+                </InitialSplashScreen>
               </main>
             </div>
           </div>
