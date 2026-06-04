@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { HygieneModal } from "@/components/hygiene-modal";
 import { PrincipleCard } from "@/components/principle-card";
 import { CheckCircle2, ScanLine, XCircle, AlertCircle } from "lucide-react";
-import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
+import { Html5Qrcode } from "html5-qrcode";
 import { toast } from "sonner";
 import { OfflineSyncIndicator } from "@/components/offline-sync-indicator";
 
@@ -25,7 +25,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
   const [checkedIn, setCheckedIn] = useState(false);
   const [principleOfDay, setPrincipleOfDay] = useState<PrincipleData | null>(null);
   const [scanError, setScanError] = useState<string | null>(null);
-  const scannerRef = useRef<Html5QrcodeScanner | null>(null);
+  const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
 
   const onScanSuccess = useCallback((decodedText: string) => {
     if (decodedText === "JJCAC-TATAME-UFPE") {
@@ -34,8 +34,8 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
         return;
       }
       // Pare o scanner se encontrou o código correto
-      if (scannerRef.current) {
-        scannerRef.current.clear().catch(console.error);
+      if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
+        html5QrCodeRef.current.stop().catch(console.error);
       }
       setShowHygieneModal(true);
     } else {
@@ -52,24 +52,28 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
   useEffect(() => {
     if (checkedIn) return;
 
-    // Inicializa o scanner apenas no client side e quando não estiver checked in
-    scannerRef.current = new Html5QrcodeScanner(
-      "qr-reader",
+    // Inicializa o scanner de forma headless (sem UI padrão)
+    html5QrCodeRef.current = new Html5Qrcode("qr-reader");
+    
+    html5QrCodeRef.current.start(
+      { facingMode: "environment" }, // Força a câmera traseira
       { 
         fps: 10, 
-        qrbox: { width: 250, height: 250 },
-        supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
-        rememberLastUsedCamera: true,
-        videoConstraints: { facingMode: "environment" }
+        qrbox: { width: 250, height: 250 }
       },
-      false
-    );
-
-    scannerRef.current.render(onScanSuccess, onScanFailure);
+      onScanSuccess,
+      onScanFailure
+    ).catch(err => {
+      console.warn("Camera permission or initialization error:", err);
+      // Se der erro (ex: usuário negou a câmera)
+      if (err?.name === "NotAllowedError") {
+        setScanError("Permissão de câmera negada. Por favor, libere o acesso nas configurações do navegador.");
+      }
+    });
 
     return () => {
-      if (scannerRef.current) {
-        scannerRef.current.clear().catch(console.error);
+      if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
+        html5QrCodeRef.current.stop().catch(console.error);
       }
     };
   }, [checkedIn, onScanSuccess, onScanFailure]);
@@ -163,10 +167,15 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
               setScanError(null);
               // Força o componente a remontar o scanner no próximo tick
               setTimeout(() => {
-                if (scannerRef.current) {
-                  scannerRef.current.render(onScanSuccess, onScanFailure);
+                if (html5QrCodeRef.current && !html5QrCodeRef.current.isScanning) {
+                  html5QrCodeRef.current.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: { width: 250, height: 250 } },
+                    onScanSuccess,
+                    onScanFailure
+                  ).catch(console.error);
                 }
-              }, 100);
+              }, 300);
             }
           }}
           profileId={undefined} // Undefined significa que a Action usará o usuário logado via RLS/Session
