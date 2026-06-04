@@ -25,6 +25,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
   const [checkedIn, setCheckedIn] = useState(false);
   const [principleOfDay, setPrincipleOfDay] = useState<PrincipleData | null>(null);
   const [scanError, setScanError] = useState<string | null>(null);
+  const [needsManualStart, setNeedsManualStart] = useState(false);
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
 
   const onScanSuccess = useCallback((decodedText: string) => {
@@ -49,34 +50,40 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
     if (scanError) setScanError(null);
   }, [scanError]);
 
-  useEffect(() => {
-    if (checkedIn) return;
-
-    // Inicializa o scanner de forma headless (sem UI padrão)
-    html5QrCodeRef.current = new Html5Qrcode("qr-reader");
+  const startCamera = useCallback(() => {
+    setScanError(null);
+    setNeedsManualStart(false);
+    
+    if (!html5QrCodeRef.current) {
+      html5QrCodeRef.current = new Html5Qrcode("qr-reader");
+    }
     
     html5QrCodeRef.current.start(
-      { facingMode: "environment" }, // Força a câmera traseira
-      { 
-        fps: 10, 
-        qrbox: { width: 250, height: 250 }
-      },
+      { facingMode: "environment" },
+      { fps: 10, qrbox: { width: 250, height: 250 } },
       onScanSuccess,
       onScanFailure
     ).catch(err => {
       console.warn("Camera permission or initialization error:", err);
-      // Se der erro (ex: usuário negou a câmera)
+      setNeedsManualStart(true);
       if (err?.name === "NotAllowedError") {
-        setScanError("Permissão de câmera negada. Por favor, libere o acesso nas configurações do navegador.");
+        setScanError("Permissão negada. Por favor, libere o acesso à câmera nas configurações do dispositivo.");
       }
     });
+  }, [onScanSuccess, onScanFailure]);
+
+  useEffect(() => {
+    if (checkedIn) return;
+    
+    // Tenta iniciar automaticamente (pode falhar no iOS PWA por falta de user gesture)
+    startCamera();
 
     return () => {
       if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
         html5QrCodeRef.current.stop().catch(console.error);
       }
     };
-  }, [checkedIn, onScanSuccess, onScanFailure]);
+  }, [checkedIn, startCamera]);
 
   const handleCheckinSuccess = useCallback((principle: PrincipleData | null) => {
     setCheckedIn(true);
@@ -135,9 +142,20 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
             <p className="text-sm text-muted-foreground mt-1">Aponte a câmera para o QR Code fixo na parede do tatame para registrar sua presença.</p>
           </div>
 
-          <div className="w-full max-w-[320px] mx-auto rounded-xl overflow-hidden shadow-inner bg-black border-2 border-border" id="qr-reader-container">
+          <div className="w-full max-w-[320px] mx-auto rounded-xl overflow-hidden shadow-inner bg-black border-2 border-border relative min-h-[300px]" id="qr-reader-container">
+            {needsManualStart && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/95 z-10 p-6 text-center animate-in fade-in">
+                <ScanLine className="w-12 h-12 text-neutral-500 mb-3" />
+                <p className="text-sm text-neutral-300 mb-4 leading-relaxed font-sans">
+                  Para usar o scanner no aplicativo, você precisa ativar a câmera manualmente.
+                </p>
+                <Button onClick={startCamera} className="w-full font-bold uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white border-0 shadow-lg shadow-red-900/20">
+                  Ativar Câmera
+                </Button>
+              </div>
+            )}
             {/* O html5-qrcode injeta os elementos dentro deste div */}
-            <div id="qr-reader" className="w-full"></div>
+            <div id="qr-reader" className="w-full min-h-[300px]"></div>
           </div>
           
           {!workoutId && (
@@ -167,14 +185,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
               setScanError(null);
               // Força o componente a remontar o scanner no próximo tick
               setTimeout(() => {
-                if (html5QrCodeRef.current && !html5QrCodeRef.current.isScanning) {
-                  html5QrCodeRef.current.start(
-                    { facingMode: "environment" },
-                    { fps: 10, qrbox: { width: 250, height: 250 } },
-                    onScanSuccess,
-                    onScanFailure
-                  ).catch(console.error);
-                }
+                startCamera();
               }, 300);
             }
           }}
