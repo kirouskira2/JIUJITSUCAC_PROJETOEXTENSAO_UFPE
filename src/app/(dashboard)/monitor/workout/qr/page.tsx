@@ -55,10 +55,11 @@ export default async function MonitorWorkoutQrPage() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl mb-8 relative z-10 shadow-lg">
+        <div className="w-full max-w-[250px] bg-white p-4 rounded-2xl mb-8 relative z-10 shadow-lg">
           <QRCode
             value={qrData}
-            size={250}
+            size={512}
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
             level="H"
             bgColor="#FFFFFF"
             fgColor="#000000"

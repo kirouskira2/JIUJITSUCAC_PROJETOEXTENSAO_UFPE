@@ -49,10 +49,11 @@ export default function AdminPrintQrPage() {
             Aponte a câmera do seu celular para registrar a presença no treino de hoje. Oss!
           </p>
 
-          <div className="bg-white p-6 rounded-3xl mb-12 shadow-xl print:shadow-none print:border-8 print:border-black">
+          <div className="w-full max-w-[350px] print:max-w-[550px] bg-white p-6 rounded-3xl mb-12 shadow-xl print:shadow-none print:border-8 print:border-black">
             <QRCode
               value={qrToken}
-              size={350}
+              size={512}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
               level="H"
               bgColor="#FFFFFF"
               fgColor="#000000"
