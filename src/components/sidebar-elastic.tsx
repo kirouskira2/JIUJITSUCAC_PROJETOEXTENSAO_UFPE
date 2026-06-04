@@ -16,7 +16,10 @@ import {
   LogOut,
   Award,
   CalendarDays,
-  BookOpen
+  BookOpen,
+  Megaphone,
+  Settings,
+  Home
 } from "lucide-react";
 
 interface SidebarItem {
@@ -40,7 +43,7 @@ export function SidebarElastic({ role, fullName }: SidebarElasticProps) {
 
   if (role === "admin") {
     menuItems.push(
-      { href: "/admin", title: "Dashboard", icon: LayoutDashboard },
+      { href: "/admin", title: "Dashboard", icon: Home },
       { href: "/admin/users", title: "Usuários", icon: Users },
       { href: "/admin/reports", title: "Relatórios", icon: FileText },
       { href: "/admin/graduation", title: "Módulo de Graduação", icon: Award },
@@ -56,10 +59,17 @@ export function SidebarElastic({ role, fullName }: SidebarElasticProps) {
     );
   }
 
+  if (role !== "admin") {
+    menuItems.push(
+      { href: role === "monitor" ? "/monitor" : "/aluno", title: "Dashboard", icon: Home },
+    );
+  }
+
   menuItems.push(
-    { href: "/aluno", title: "Meu Perfil", icon: User },
+    { href: "/aluno/events", title: "Eventos e Avisos", icon: Megaphone },
     { href: "/aluno/history", title: "Histórico", icon: History },
-    { href: "/aluno/principios", title: "32 Princípios", icon: FileText }
+    { href: "/aluno/principios", title: "32 Princípios", icon: FileText },
+    { href: "/aluno/settings", title: "Configurações", icon: Settings }
   );
 
   const collapsedWidth = 76;

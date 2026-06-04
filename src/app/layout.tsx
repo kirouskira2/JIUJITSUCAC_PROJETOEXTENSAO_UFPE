@@ -28,10 +28,11 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "JJCAC",
+    title: "Jiu Jitsu Cac",
   },
   icons: {
     icon: "/logo.jpg",
+    apple: "/apple-touch-icon.png",
   },
 };
 

@@ -15,7 +15,9 @@ import {
   LogOut,
   Award,
   Settings,
-  ScanLine
+  ScanLine,
+  Home,
+  Megaphone
 } from "lucide-react";
 import { 
   IconDashboard, 
@@ -51,13 +53,21 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
 
   if (role === "monitor") {
     menuItems.push(
+      { href: "/monitor", label: "Dashboard", icon: <Home className="h-5 w-5 shrink-0" /> },
       { href: "/monitor/history", label: "Minhas Horas", icon: <CalendarDays className="h-5 w-5 shrink-0" /> },
       { href: "/monitor/workout", label: "Treino do Dia", icon: <Dumbbell className="h-5 w-5 shrink-0" /> }
     );
   }
 
+  if (role === "aluno") {
+    menuItems.push(
+      { href: "/aluno", label: "Dashboard", icon: <Home className="h-5 w-5 shrink-0" /> },
+    );
+  }
+
   menuItems.push(
-    { href: "/aluno", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }
+    { href: "/aluno/events", label: "Eventos e Avisos", icon: <Megaphone className="h-5 w-5 shrink-0" /> },
+    { href: "/aluno/settings", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }
   );
 
   if (role !== "admin") {
