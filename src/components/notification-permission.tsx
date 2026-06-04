@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BellRingIcon, XIcon } from "lucide-react";
+import { getVapidPublicKey } from "@/actions/webpush";
 
 /**
  * Componente que registra o Service Worker e solicita permissão de notificação
@@ -36,7 +37,7 @@ export function NotificationPermission() {
         // Já tem permissão, vamos tentar inscrever silenciosamente no background
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker.ready.then(async (reg) => {
-            const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+            const vapidPublicKey = await getVapidPublicKey();
             if (vapidPublicKey) {
               try {
                 // Checar se já tem inscrição para evitar chamadas de rede desnecessárias
@@ -82,7 +83,7 @@ export function NotificationPermission() {
           const reg = await navigator.serviceWorker.ready;
           
           // Inscrever no PushManager
-          const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+          const vapidPublicKey = await getVapidPublicKey();
           if (vapidPublicKey) {
             try {
               const subscription = await reg.pushManager.subscribe({

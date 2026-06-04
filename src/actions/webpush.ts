@@ -3,26 +3,32 @@
 import webpush from "web-push";
 import { createClient } from "@/lib/supabase/server";
 
-// Configure web-push with VAPID keys
-// Estes valores devem vir do .env.local
-const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
-const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY || "";
 const vapidEmail = "mailto:suporte@jiujitsucac.com"; // Change to valid email
 
-if (vapidPublicKey && vapidPrivateKey) {
-  webpush.setVapidDetails(vapidEmail, vapidPublicKey, vapidPrivateKey);
-} else {
-  console.warn("VAPID keys not configured. Web Push will not work.");
+export async function getVapidPublicKey(): Promise<string | null> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("app_settings").select("value").eq("key", "vapid_public_key").single();
+  return data?.value || null;
 }
 
 export async function broadcastPushNotification(title: string, body: string, url: string = "/") {
   try {
+    const supabase = await createClient();
+    
+    // Obter as chaves do banco de dados
+    const { data: pubData } = await supabase.from("app_settings").select("value").eq("key", "vapid_public_key").single();
+    const { data: privData } = await supabase.from("app_settings").select("value").eq("key", "vapid_private_key").single();
+    
+    const vapidPublicKey = pubData?.value;
+    const vapidPrivateKey = privData?.value;
+
     if (!vapidPublicKey || !vapidPrivateKey) {
-      console.warn("Skipping push notification: VAPID keys missing.");
+      console.warn("Skipping push notification: VAPID keys missing in app_settings.");
       return { success: false, error: "VAPID missing" };
     }
 
-    const supabase = await createClient();
+    // Configurar o web-push dinamicamente
+    webpush.setVapidDetails(vapidEmail, vapidPublicKey, vapidPrivateKey);
     
     // Obter todas as inscrições válidas
     const { data: subscriptions, error } = await supabase
