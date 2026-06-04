@@ -22,7 +22,7 @@ export function InitialSplashScreen({ children }: { children: React.ReactNode })
     <>
       {renderSplash && (
         <div 
-          className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0a] transition-opacity duration-500 ease-in-out ${showSplash ? "opacity-100" : "opacity-0"}`}
+          className={`print:hidden fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0a] transition-opacity duration-500 ease-in-out ${showSplash ? "opacity-100" : "opacity-0"}`}
           style={{
             // Fundo REAL de Kimono/Gi
             backgroundImage: `url('/kimono-bg.png')`,

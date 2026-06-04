@@ -44,6 +44,7 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
     menuItems.push(
       { href: "/admin", label: "Dashboard", icon: <IconDashboard className="h-5 w-5 flex-shrink-0" /> },
       { href: "/admin/history", label: "Histórico Geral", icon: <IconHistory className="h-5 w-5 flex-shrink-0" /> },
+      { href: "/admin/reports", label: "Relatórios Gerais", icon: <IconReportAnalytics className="h-5 w-5 shrink-0" /> },
       { href: "/admin/users", label: "Alunos", icon: <Users className="h-5 w-5 shrink-0" /> },
       { href: "/admin/workouts", label: "Treinos", icon: <Dumbbell className="h-5 w-5 shrink-0" /> },
       { href: "/admin/qr", label: "Tatame QR", icon: <ScanLine className="h-5 w-5 shrink-0" /> },
@@ -53,6 +54,7 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
     menuItems.push(
       { href: "/monitor", label: "Dashboard", icon: <Home className="h-5 w-5 shrink-0" /> },
       { href: "/monitor/history", label: "Minhas Horas", icon: <CalendarDays className="h-5 w-5 shrink-0" /> },
+      { href: "/monitor/reports", label: "Relatório (PDF)", icon: <IconReportAnalytics className="h-5 w-5 shrink-0" /> },
       { href: "/monitor/workout", label: "Treino do Dia", icon: <Dumbbell className="h-5 w-5 shrink-0" /> },
       { href: "/aluno/events", label: "Avisos", icon: <Megaphone className="h-5 w-5 shrink-0" /> },
       { href: "/aluno/settings", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }

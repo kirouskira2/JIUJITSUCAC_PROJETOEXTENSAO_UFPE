@@ -11,10 +11,13 @@ interface ReportsClientProps {
     id: string;
     fullName: string;
   }[];
+  isExtensionistOnly?: boolean;
+  currentUserId?: string;
+  currentUserName?: string;
 }
 
-export function ReportsClient({ students = [] }: ReportsClientProps) {
-  const [profileId, setProfileId] = useState("");
+export function ReportsClient({ students = [], isExtensionistOnly, currentUserId, currentUserName }: ReportsClientProps) {
+  const [profileId, setProfileId] = useState(currentUserId || "");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("all");
@@ -107,10 +110,12 @@ export function ReportsClient({ students = [] }: ReportsClientProps) {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6" style={{ borderBottom: "1px solid #2C2C2E" }}>
         <div>
           <h1 className="font-display text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
-            Relatórios de Extensão
+            {isExtensionistOnly ? "Meus Relatórios" : "Relatórios Gerais"}
           </h1>
           <p className="text-sm mt-1 text-neutral-500 dark:text-[#8E8E93]">
-            Gere e gerencie horas de extensão acadêmica para alunos.
+            {isExtensionistOnly 
+              ? "Gere sua declaração de horas de extensão acadêmica."
+              : "Gere e gerencie horas de extensão acadêmica para alunos."}
           </p>
         </div>
         <div className="flex gap-3 w-full md:w-auto print:hidden">
@@ -147,24 +152,26 @@ export function ReportsClient({ students = [] }: ReportsClientProps) {
               <h3 className="font-display font-bold text-xl uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">Filtros por Aluno</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Selecionar Aluno</label>
-                <div className="relative">
-                  <select 
-                    value={profileId}
-                    onChange={(e) => setProfileId(e.target.value)}
-                    className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
-                  >
-                    <option value="">Todos os Alunos</option>
-                    {students.map(student => (
-                      <option key={student.id} value={student.id}>
-                        {student.fullName}
-                      </option>
-                    ))}
-                  </select>
+            <div className={`grid grid-cols-1 gap-4 ${isExtensionistOnly ? "" : "md:grid-cols-2"}`}>
+              {!isExtensionistOnly && (
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Selecionar Aluno</label>
+                  <div className="relative">
+                    <select 
+                      value={profileId}
+                      onChange={(e) => setProfileId(e.target.value)}
+                      className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600"
+                    >
+                      <option value="">Todos os Alunos</option>
+                      {students.map(student => (
+                        <option key={student.id} value={student.id}>
+                          {student.fullName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
+              )}
               
               <div className="space-y-1.5">
                 <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Período (Data)</label>
@@ -187,39 +194,53 @@ export function ReportsClient({ students = [] }: ReportsClientProps) {
             </div>
           </div>
 
-          {/* General Report Card */}
-          <div className="rounded-2xl border p-6 relative overflow-hidden group transition-colors bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-[#0A84FF]">
-                <IconUsers className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-xl uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">Filtros Gerais</h3>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-              <div className="space-y-1.5 md:col-span-2">
-                <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Filtrar por Programa</label>
-                <select 
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-[#0A84FF]"
-                >
-                  <option value="all">Todos os Alunos</option>
-                  <option value="Departamento de Ed. Física">Departamento de Ed. Física</option>
-                  <option value="Bolsistas de Extensão">Bolsistas de Extensão</option>
-                  <option value="Comunidade">Comunidade</option>
-                </select>
+          {/* General Report Card (Only for Admin) */}
+          {!isExtensionistOnly && (
+            <div className="rounded-2xl border p-6 relative overflow-hidden group transition-colors bg-white dark:bg-[#111111] border-neutral-200 dark:border-[#2C2C2E]">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-[#0A84FF]">
+                  <IconUsers className="w-5 h-5" />
+                </div>
+                <h3 className="font-display font-bold text-xl uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">Filtros Gerais</h3>
               </div>
               
-              <button 
-                onClick={handleRecalculate}
-                disabled={isLoading}
-                className="h-12 w-full rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
-              >
-                Atualizar Preview
-              </button>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div className="space-y-1.5 md:col-span-2">
+                  <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Filtrar por Programa</label>
+                  <select 
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full h-12 rounded-lg px-4 text-sm font-medium outline-none border transition-colors appearance-none bg-neutral-100 dark:bg-[#0F0F0F] border-neutral-200 dark:border-[#2C2C2E] text-neutral-900 dark:text-[#F2F2F7] focus:border-blue-600 dark:focus:border-[#0A84FF]"
+                  >
+                    <option value="all">Todos os Alunos</option>
+                    <option value="Departamento de Ed. Física">Departamento de Ed. Física</option>
+                    <option value="Bolsistas de Extensão">Bolsistas de Extensão</option>
+                    <option value="Comunidade">Comunidade</option>
+                  </select>
+                </div>
+                
+                <button 
+                  onClick={handleRecalculate}
+                  disabled={isLoading}
+                  className="h-12 w-full rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E]"
+                >
+                  Atualizar Preview
+                </button>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Update Preview Button for Extensionist */}
+          {isExtensionistOnly && (
+            <button 
+              onClick={handleRecalculate}
+              disabled={isLoading}
+              className="h-[54px] w-full rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-900 dark:text-[#F2F2F7] hover:bg-neutral-200 dark:hover:bg-[#2C2C2E] border border-neutral-200 dark:border-[#2C2C2E]"
+            >
+              <IconRefresh className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+              Atualizar Preview das Horas
+            </button>
+          )}
 
         </div>
 
@@ -253,7 +274,9 @@ export function ReportsClient({ students = [] }: ReportsClientProps) {
 
               <div>
                 <p className="text-sm font-medium text-neutral-600 dark:text-[#8E8E93]">
-                  Calculado para <strong className="text-neutral-900 dark:text-[#F2F2F7]">{stats?.studentName || (category !== "all" ? category : "Todos os alunos")}</strong>
+                  Calculado para <strong className="text-neutral-900 dark:text-[#F2F2F7]">
+                    {stats?.studentName || (isExtensionistOnly ? currentUserName : (category !== "all" ? category : "Todos os alunos"))}
+                  </strong>
                 </p>
                 <p className="text-xs mt-1 text-neutral-500 dark:text-[#48484A]">
                   Período: {stats?.startDate || "Início"} - {stats?.endDate || "Atual"}
