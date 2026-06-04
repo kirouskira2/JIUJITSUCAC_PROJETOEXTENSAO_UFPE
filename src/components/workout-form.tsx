@@ -17,6 +17,8 @@ interface Principle {
 interface WorkoutFormProps {
   principles: Principle[];
   initialWorkout?: Workout;
+  onSuccess?: () => void;
+  redirectOnSuccess?: string;
 }
 
 interface WorkoutFormData {
@@ -28,7 +30,7 @@ interface WorkoutFormData {
   principleId: string;
 }
 
-export function WorkoutForm({ principles, initialWorkout }: WorkoutFormProps) {
+export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnSuccess }: WorkoutFormProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();
@@ -73,7 +75,14 @@ export function WorkoutForm({ principles, initialWorkout }: WorkoutFormProps) {
           title: isEditing ? "Treino atualizado! 🥋" : "Treino registrado! 🥋",
           description: `Técnica "${data.techniqueName}" salva.`,
         });
-        if (!isEditing) reset();
+        
+        if (onSuccess) {
+          onSuccess();
+        } else if (redirectOnSuccess) {
+          router.push(redirectOnSuccess);
+        } else if (!isEditing) {
+          reset();
+        }
       } else {
         toast({
           title: "Erro ao salvar",

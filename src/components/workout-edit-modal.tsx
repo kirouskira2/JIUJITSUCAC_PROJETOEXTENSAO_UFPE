@@ -39,7 +39,11 @@ export function WorkoutEditModal({
         </DialogHeader>
         {/* Usamos onSave event se fosse necessário, mas WorkoutForm já usa Server Action e faz o trabalho */}
         <div className="pt-4">
-          <WorkoutForm principles={principles} initialWorkout={initialWorkout || undefined} />
+          <WorkoutForm 
+            principles={principles} 
+            initialWorkout={initialWorkout || undefined} 
+            onSuccess={() => setOpen(false)}
+          />
         </div>
       </DialogContent>
     </Dialog>

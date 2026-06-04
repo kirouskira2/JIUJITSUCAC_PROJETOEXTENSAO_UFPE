@@ -41,6 +41,7 @@ export default async function WorkoutFormPage() {
         <WorkoutForm 
           principles={principles || []} 
           initialWorkout={todayWorkoutData?.workout || undefined}
+          redirectOnSuccess={sessionData?.profile.role === "admin" ? "/admin/workouts" : "/monitor"}
         />
         
         {todayWorkoutData?.workout && (
