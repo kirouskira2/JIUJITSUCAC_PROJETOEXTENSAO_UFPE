@@ -120,7 +120,7 @@ export default async function AdminDashboardPage() {
 
       {/* === Banner Treino do Dia (Admin) === */}
       {todayWorkout ? (
-        <WorkoutEditModal initialWorkout={todayWorkout} principles={principles}>
+        <Link href="/admin/workouts" className="block">
           <div className="w-full relative rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#2C2C2E] p-6 md:p-8 flex flex-col gap-3 bg-white dark:bg-[#111111] cursor-pointer group hover:border-red-500/50 transition-colors">
             {/* Red glow background */}
             <div
@@ -133,7 +133,7 @@ export default async function AdminDashboardPage() {
                   🥋 Treino do Dia (Ativo)
                 </span>
                 <span className="text-xs font-semibold text-neutral-500 dark:text-[#8E8E93] flex items-center gap-1 group-hover:text-red-500 transition-colors">
-                  <IconClipboardList className="w-4 h-4" /> Editar Treino
+                  <IconClipboardList className="w-4 h-4" /> Gestão de Treinos <IconChevronRight className="w-4 h-4" />
                 </span>
               </div>
               <h2 className="font-display text-3xl md:text-4xl font-black uppercase leading-tight text-neutral-900 dark:text-[#F2F2F7] group-hover:text-red-500 transition-colors">
@@ -149,7 +149,7 @@ export default async function AdminDashboardPage() {
               </div>
             </div>
           </div>
-        </WorkoutEditModal>
+        </Link>
       ) : (
         <div className="w-full rounded-2xl border border-dashed border-red-500/30 p-6 text-center flex flex-col items-center justify-center gap-3 bg-red-500/5">
           <span className="text-xs font-bold uppercase tracking-widest text-red-500">
