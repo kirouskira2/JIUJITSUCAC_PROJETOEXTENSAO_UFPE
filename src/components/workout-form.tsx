@@ -61,7 +61,7 @@ export function WorkoutForm({ principles, initialWorkout, onSuccess, redirectOnS
         });
       } else {
         result = await createWorkout({
-          date: new Date(data.date),
+          date: new Date(`${data.date}T12:00:00-03:00`), // Force Brasilia timezone to prevent UTC midnight shift
           techniqueName: data.techniqueName,
           techniqueWhat: data.techniqueWhat,
           techniqueHow: data.techniqueHow,
