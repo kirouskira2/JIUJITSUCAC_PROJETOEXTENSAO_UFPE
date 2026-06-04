@@ -24,9 +24,10 @@ export function InitialSplashScreen({ children }: { children: React.ReactNode })
         <div 
           className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0a] transition-opacity duration-500 ease-in-out ${showSplash ? "opacity-100" : "opacity-0"}`}
           style={{
-            // CSS Pattern que simula a textura de um tecido (kimono/gi)
-            backgroundImage: `repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(-45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 4px)`,
-            backgroundSize: '12px 12px',
+            // Fundo REAL de Kimono/Gi
+            backgroundImage: `url('/kimono-bg.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         >
           {/* Sombra de vinheta radial por cima da textura */}
@@ -47,11 +48,17 @@ export function InitialSplashScreen({ children }: { children: React.ReactNode })
             </div>
 
             {/* Brand Name */}
-            <div className="flex flex-col items-center text-center">
-              <h1 className="font-display text-[3.5rem] leading-none font-bold uppercase tracking-tight text-[#F2F2F7]">
+            <div className="flex flex-col items-center text-center mt-2">
+              <h1 
+                className="font-display text-[4rem] md:text-[4.5rem] leading-none font-bold uppercase tracking-tight text-[#F2F2F7]"
+                style={{ fontFamily: 'var(--font-barlow-condensed), "Barlow Condensed", sans-serif' }}
+              >
                 JIU JITSU CAC
               </h1>
-              <p className="text-xl text-[#F2F2F7] font-sans font-light tracking-[0.5em] mt-3 opacity-90">
+              <p 
+                className="text-[1.35rem] text-[#F2F2F7] font-sans font-light tracking-[0.45em] mt-3 opacity-90 ml-2"
+                style={{ fontFamily: 'var(--font-dm-sans), "DM Sans", sans-serif' }}
+              >
                 O S S !
               </p>
             </div>
