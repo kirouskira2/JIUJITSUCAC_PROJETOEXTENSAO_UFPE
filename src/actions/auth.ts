@@ -26,22 +26,9 @@ export async function signIn(data: SignInInput): Promise<ActionResponse<{ user: 
     return { success: false, error: `Erro de login: ${authError?.message || "Sessão não criada"}` };
   }
 
-  // Use the fresh access_token to fetch the profile, as cookies aren't available to the current server instance yet
-  const { createClient: createSupabaseJs } = await import('@supabase/supabase-js');
-  const userClient = createSupabaseJs(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      global: {
-        headers: {
-          Authorization: `Bearer ${authData.session.access_token}`,
-        },
-      },
-    }
-  );
-
-  // Verifica o perfil do usuário para checar is_active e definir redirecionamento
-  const { data: profile, error: profileError } = await userClient
+  // O cliente `supabase` criado via `@supabase/ssr` já mantém a sessão em memória após o signIn.
+  // Portanto, não precisamos importar dinamicamente o client do supabase-js nem instanciar um novo.
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("role, is_active")
     .eq("id", authData.user.id)
