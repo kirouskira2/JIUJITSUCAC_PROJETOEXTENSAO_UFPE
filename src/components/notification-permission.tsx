@@ -32,6 +32,32 @@ export function NotificationPermission() {
         } catch (e) {
           setShowBanner(true);
         }
+      } else if (Notification.permission === "granted") {
+        // Já tem permissão, vamos tentar inscrever silenciosamente no background
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.ready.then(async (reg) => {
+            const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+            if (vapidPublicKey) {
+              try {
+                // Checar se já tem inscrição para evitar chamadas de rede desnecessárias
+                const existingSub = await reg.pushManager.getSubscription();
+                if (!existingSub) {
+                  const subscription = await reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+                  });
+                  await fetch("/api/push/subscribe", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(subscription),
+                  });
+                }
+              } catch (e) {
+                console.warn("Silent subscription failed", e);
+              }
+            }
+          });
+        }
       }
     }
   }, []);
