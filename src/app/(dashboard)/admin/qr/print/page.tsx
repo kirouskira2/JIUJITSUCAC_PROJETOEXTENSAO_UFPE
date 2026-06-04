@@ -18,9 +18,6 @@ export default function AdminPrintQrPage() {
       
       <div className="w-full max-w-2xl bg-white dark:bg-[#111111] print:bg-white print:border-none border border-neutral-200 dark:border-[#2C2C2E] rounded-3xl p-8 flex flex-col items-center relative overflow-hidden shadow-2xl print:shadow-none">
         
-        {/* Glow effect - hiddden on print */}
-        <div className="absolute top-0 w-full h-32 bg-red-600/10 blur-3xl pointer-events-none print:hidden" />
-
         <div className="w-full flex items-center justify-between mb-12 relative z-10 print:hidden">
           <Link
             href="/admin"

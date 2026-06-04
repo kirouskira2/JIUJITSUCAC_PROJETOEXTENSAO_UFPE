@@ -66,6 +66,7 @@ export function HygieneModal({
 }: HygieneModalProps) {
   const [checks, setChecks] = useState<Record<string, boolean>>({});
   const [isPending, startTransition] = useTransition();
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { toast } = useToast();
 
   const checkedCount = Object.values(checks).filter(Boolean).length;
@@ -85,6 +86,7 @@ export function HygieneModal({
 
   const handleConfirm = () => {
     if (!allChecked) return;
+    setErrorMsg(null);
 
     // Se estiver offline, salva no IndexedDB local
     if (typeof window !== "undefined" && !navigator.onLine) {
@@ -132,11 +134,8 @@ export function HygieneModal({
         onOpenChange(false);
         onSuccess?.(result.data?.principleOfDay ?? null);
       } else {
-        toast({
-          title: "Erro no check-in",
-          description: result.error || "Tente novamente.",
-          variant: "destructive",
-        });
+        setErrorMsg(result.error || "Erro desconhecido ao tentar fazer check-in.");
+        if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
       }
     });
   };
@@ -212,6 +211,19 @@ export function HygieneModal({
               );
             })}
           </div>
+
+          {/* Error Box */}
+          {errorMsg && (
+            <div className="mb-4 p-4 rounded-xl bg-destructive/15 border border-destructive/30 flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2">
+              <div className="bg-destructive/20 p-2 rounded-full shrink-0">
+                <ShieldPlus className="w-5 h-5 text-destructive" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-destructive font-sans">Falha no Check-in</span>
+                <span className="text-sm text-destructive/90 font-sans mt-0.5">{errorMsg}</span>
+              </div>
+            </div>
+          )}
 
           {/* Action Button */}
           <div className="mt-auto pt-4 bg-background/95 pb-safe">

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AceternitySidebar } from "@/components/aceternity-sidebar";
 import { AceternityDock } from "@/components/aceternity-dock";
 import { LogoutButton } from "./logout-button";
+import { BottomNavBar } from "@/components/bottom-nav-bar";
 import { HexagonPattern } from "@/components/ui/hexagon-pattern";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { NotificationPermission } from "@/components/notification-permission";
@@ -23,7 +24,7 @@ export default async function DashboardLayout({
   const { profile } = data;
 
   return (
-    <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden bg-neutral-50 dark:bg-[#050505] text-neutral-900 dark:text-neutral-50">
+    <div className="flex flex-col md:flex-row min-h-[100dvh] md:h-screen w-full md:overflow-hidden bg-neutral-50 dark:bg-[#050505] text-neutral-900 dark:text-neutral-50">
       
       {/* PWA Mobile Banner - Shows only when logged in on browser */}
       <PwaInstallPrompt />
@@ -44,7 +45,7 @@ export default async function DashboardLayout({
           />
 
           {/* Global Page Container */}
-          <div className="flex-1 overflow-y-auto w-full px-4 md:px-8 py-6 md:py-8 relative z-10">
+          <div className="flex-1 w-full px-4 md:px-8 py-6 md:py-8 relative z-10 md:overflow-y-auto pb-20 md:pb-8">
             {/* Desktop: Notification bell top-right */}
             <div className="hidden md:block absolute top-8 right-8 z-50">
               <NotificationsBell />
@@ -59,6 +60,8 @@ export default async function DashboardLayout({
         </main>
       </div>
 
+      {/* Navegação Inferior para Alunos e Monitores (Mobile) */}
+      <BottomNavBar role={profile.role} />
     </div>
   );
 }

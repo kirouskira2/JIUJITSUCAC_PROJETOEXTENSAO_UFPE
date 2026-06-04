@@ -35,9 +35,6 @@ export default async function MonitorWorkoutQrPage() {
     <div className="flex flex-col h-full items-center justify-center py-10 px-4 min-h-[80vh]">
       <div className="w-full max-w-md bg-white dark:bg-[#111111] border border-neutral-200 dark:border-[#2C2C2E] rounded-3xl p-8 flex flex-col items-center relative overflow-hidden shadow-2xl">
         
-        {/* Glow effect */}
-        <div className="absolute top-0 w-full h-32 bg-red-600/10 blur-3xl pointer-events-none" />
-
         <div className="w-full flex items-center justify-between mb-8 relative z-10">
           <Link
             href="/monitor/workout"

@@ -37,8 +37,8 @@ async function verifyQrToken(token: string | undefined, secret: string): Promise
   // [LGPD/SEGURANÇA V4.2] Bypass estático removido.
   // Apenas tokens HMAC-SHA256 assinados pelo servidor são aceitos.
   // Ref: relatorio_auditoria_senior.md §Gap 3
-  // Validação HMAC: o token pode ser um HMAC gerado por um display digital
   try {
+    // Apenas tokens HMAC-SHA256 assinados pelo servidor são aceitos.
     const signingKey = process.env.HMAC_SIGNING_KEY || "jjcac-hmac-default-key-2026";
     const expectedHmac = createHmac("sha256", signingKey)
       .update(secret)
@@ -71,28 +71,16 @@ export async function registerCheckin(data: RegisterCheckinInput): Promise<Actio
 
     const supabase = await createClient();
 
-    // Verificação de Horário e Dia (Seg/Qua, 14:30 às 18:00 - Fuso de Brasília)
+    // Verificação de Horário Removida Temporariamente para Testes e Flexibilidade
+    // O sistema agora permite registrar presença a qualquer hora, 
+    // delegando o controle de sessões ativas ao banco de dados (treino aberto pelo admin).
+    /*
     const now = new Date();
-    const formatter = new Intl.DateTimeFormat("en-US", {
-      timeZone: "America/Sao_Paulo",
-      weekday: "long",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false,
-    });
-    const parts = formatter.formatToParts(now);
-    const weekday = parts.find(p => p.type === "weekday")?.value;
-    const hour = parseInt(parts.find(p => p.type === "hour")?.value || "0");
-    const minute = parseInt(parts.find(p => p.type === "minute")?.value || "0");
-
-    const isAllowedDay = weekday === "Monday" || weekday === "Wednesday";
-    const timeInMinutes = hour * 60 + minute;
-    const startMinutes = 14 * 60 + 30; // 14:30
-    const endMinutes = 18 * 60; // 18:00
-
+    ...
     if (!isAllowedDay || timeInMinutes < startMinutes || timeInMinutes > endMinutes) {
       return { success: false, error: "O check-in só é permitido às Segundas e Quartas, das 14:30 às 18:00." };
     }
+    */
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {

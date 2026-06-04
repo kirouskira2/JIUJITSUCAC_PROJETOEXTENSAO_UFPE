@@ -226,8 +226,6 @@ export function ReportsClient({ students = [] }: ReportsClientProps) {
         {/* Live Preview Column */}
         <div className="lg:col-span-1 print:col-span-3 print:border-none print:shadow-none">
           <div className="rounded-2xl border p-6 h-full flex flex-col relative overflow-hidden shadow-2xl print:border-2 bg-neutral-50 dark:bg-[#1C1C1E] border-neutral-200 dark:border-[#2C2C2E]">
-            {/* Glow */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl pointer-events-none print:hidden bg-red-600/10 dark:bg-red-500/20" />
             
             <div className="flex items-center justify-between mb-8 relative z-10">
               <h3 className="font-display font-bold text-xl uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">Preview (Ao vivo)</h3>

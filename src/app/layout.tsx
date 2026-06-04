@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Rajdhani, Space_Mono } from "next/font/google";
+import { Barlow_Condensed, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
@@ -9,13 +9,20 @@ import { InitialSplashScreen } from "@/components/initial-splash-screen";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
   subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
-const spaceMono = Space_Mono({
-  variable: "--font-space-mono",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "700"],
 });
@@ -54,7 +61,7 @@ export default async function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${inter.variable} ${spaceMono.variable} antialiased h-full`}
+      className={`${barlowCondensed.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground relative overflow-x-hidden selection:bg-red-500/30">

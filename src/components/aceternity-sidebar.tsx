@@ -40,50 +40,40 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
   const menuItems: { href: string; label: string; icon: React.ReactNode }[] = [];
 
   if (role === "admin") {
+    // Admin tem menu próprio
     menuItems.push(
       { href: "/admin", label: "Dashboard", icon: <IconDashboard className="h-5 w-5 flex-shrink-0" /> },
-      { href: "/admin/history", label: "Histórico de Presença Geral", icon: <IconHistory className="h-5 w-5 flex-shrink-0" /> },
-      { href: "/admin/reports", label: "Relatórios de Extensão", icon: <IconReportAnalytics className="h-5 w-5 flex-shrink-0" /> },
-      { href: "/admin/events", label: "Eventos e Avisos", icon: <IconCalendarEvent className="h-5 w-5 flex-shrink-0" /> },
-      { href: "/admin/users", label: "Gestão de Alunos", icon: <Users className="h-5 w-5 shrink-0" /> },
+      { href: "/admin/history", label: "Histórico Geral", icon: <IconHistory className="h-5 w-5 flex-shrink-0" /> },
+      { href: "/admin/users", label: "Alunos", icon: <Users className="h-5 w-5 shrink-0" /> },
       { href: "/admin/workouts", label: "Treinos", icon: <Dumbbell className="h-5 w-5 shrink-0" /> },
-      { href: "/admin/qr/print", label: "Imprimir QR Code", icon: <ScanLine className="h-5 w-5 shrink-0" /> }
+      { href: "/admin/qr", label: "Tatame QR", icon: <ScanLine className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/settings", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }
     );
-  }
-
-  if (role === "monitor") {
+  } else if (role === "monitor") {
     menuItems.push(
       { href: "/monitor", label: "Dashboard", icon: <Home className="h-5 w-5 shrink-0" /> },
       { href: "/monitor/history", label: "Minhas Horas", icon: <CalendarDays className="h-5 w-5 shrink-0" /> },
-      { href: "/monitor/workout", label: "Treino do Dia", icon: <Dumbbell className="h-5 w-5 shrink-0" /> }
+      { href: "/monitor/workout", label: "Treino do Dia", icon: <Dumbbell className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/events", label: "Avisos", icon: <Megaphone className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/settings", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }
     );
-  }
-
-  if (role === "aluno") {
+  } else {
+    // Aluno
     menuItems.push(
       { href: "/aluno", label: "Dashboard", icon: <Home className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/history", label: "Histórico", icon: <History className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/principios", label: "32 Princípios", icon: <FileText className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/events", label: "Avisos", icon: <Megaphone className="h-5 w-5 shrink-0" /> },
+      { href: "/aluno/settings", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }
     );
   }
 
-  menuItems.push(
-    { href: "/aluno/events", label: "Eventos e Avisos", icon: <Megaphone className="h-5 w-5 shrink-0" /> },
-    { href: "/aluno/settings", label: "Configurações", icon: <Settings className="h-5 w-5 shrink-0" /> }
-  );
-
-  if (role !== "admin") {
-    menuItems.push(
-      { href: "/aluno/history", label: "Histórico", icon: <History className="h-5 w-5 shrink-0" /> }
-    );
-  }
-
-  if (role !== "admin") {
-    menuItems.push(
-      { href: "/aluno/principios", label: "32 Princípios", icon: <FileText className="h-5 w-5 shrink-0" /> }
-    );
-  }
+  // Ocultar a sidebar no mobile se não for admin
+  const sidebarContainerClass = role !== "admin" ? "hidden md:flex h-full" : "flex h-full";
 
   return (
-    <Sidebar open={open} setOpen={setOpen} animate={true}>
+    <div className={sidebarContainerClass}>
+      <Sidebar open={open} setOpen={setOpen} animate={true}>
       <SidebarBody className="justify-between gap-10 bg-neutral-100 dark:bg-[#111111] border-r border-neutral-200 dark:border-[#2C2C2E]">
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           {/* Logo Section */}
@@ -142,5 +132,6 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
         </div>
       </SidebarBody>
     </Sidebar>
+    </div>
   );
 }
