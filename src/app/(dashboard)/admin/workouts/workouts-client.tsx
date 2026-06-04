@@ -81,7 +81,7 @@ export function WorkoutsClient({
             const principle = principles.find(p => p.id === workout.principleId);
             return (
               <WorkoutEditModal key={workout.id} initialWorkout={workout} principles={principles}>
-                <div className="cursor-pointer text-left rounded-3xl border border-border p-5 flex flex-col gap-3 bg-surface-container hover:border-red-500/50 transition-colors w-full h-full group">
+                <div className="cursor-pointer text-left rounded-3xl border border-border p-5 flex flex-col gap-3 bg-white dark:bg-[#111111] hover:border-red-500/50 transition-colors w-full h-full group">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
                       🥋 {new Date(workout.date).toLocaleDateString("pt-BR")}
