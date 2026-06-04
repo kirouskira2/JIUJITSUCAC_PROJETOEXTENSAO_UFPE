@@ -27,8 +27,12 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
   const [scanError, setScanError] = useState<string | null>(null);
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
 
+  const [scannedToken, setScannedToken] = useState<string>("JJCAC-TATAME-UFPE");
+
   const onScanSuccess = useCallback((decodedText: string) => {
-    if (decodedText === "JJCAC-TATAME-UFPE") {
+    // Agora aceita o token criptografado (HMAC) ou o estático se estiver em fallback
+    if (decodedText.length > 10) {
+      setScannedToken(decodedText);
       if (!workoutId) {
         setScanError("QR Code lido com sucesso! Porém, o professor ainda não registrou o treino de hoje.");
         return;
@@ -41,7 +45,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
     } else {
       setScanError("QR Code inválido. Aponte para o QR Code oficial do tatame.");
     }
-  }, []);
+  }, [workoutId]);
 
   const onScanFailure = useCallback((error: unknown) => {
     // Falhas de leitura acontecem constantemente enquanto a câmera tenta focar.
@@ -180,7 +184,7 @@ export function QRScanner({ workoutId, profileName }: QRScannerProps) {
           }}
           profileId={undefined} // Undefined significa que a Action usará o usuário logado via RLS/Session
           workoutId={workoutId}
-          qrCodeToken="JJCAC-TATAME-UFPE"
+          qrCodeToken={scannedToken}
           onSuccess={handleCheckinSuccess}
         />
       )}

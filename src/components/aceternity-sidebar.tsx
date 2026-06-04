@@ -14,7 +14,8 @@ import {
   History,
   LogOut,
   Award,
-  Settings
+  Settings,
+  ScanLine
 } from "lucide-react";
 import { 
   IconDashboard, 
@@ -43,7 +44,8 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
       { href: "/admin/reports", label: "Relatórios de Extensão", icon: <IconReportAnalytics className="h-5 w-5 flex-shrink-0" /> },
       { href: "/admin/events", label: "Eventos e Avisos", icon: <IconCalendarEvent className="h-5 w-5 flex-shrink-0" /> },
       { href: "/admin/users", label: "Gestão de Alunos", icon: <Users className="h-5 w-5 shrink-0" /> },
-      { href: "/admin/workouts", label: "Treinos", icon: <Dumbbell className="h-5 w-5 shrink-0" /> }
+      { href: "/admin/workouts", label: "Treinos", icon: <Dumbbell className="h-5 w-5 shrink-0" /> },
+      { href: "/admin/qr/print", label: "Imprimir QR Code", icon: <ScanLine className="h-5 w-5 shrink-0" /> }
     );
   }
 

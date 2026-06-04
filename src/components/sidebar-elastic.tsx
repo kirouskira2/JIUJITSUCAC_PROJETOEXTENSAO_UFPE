@@ -44,7 +44,8 @@ export function SidebarElastic({ role, fullName }: SidebarElasticProps) {
       { href: "/admin/users", title: "Usuários", icon: Users },
       { href: "/admin/reports", title: "Relatórios", icon: FileText },
       { href: "/admin/graduation", title: "Módulo de Graduação", icon: Award },
-      { href: "/admin/modules", title: "Módulos Educacionais", icon: BookOpen }
+      { href: "/admin/modules", title: "Módulos Educacionais", icon: BookOpen },
+      { href: "/admin/qr/print", title: "Imprimir QR Code", icon: ScanLine }
     );
   }
 
