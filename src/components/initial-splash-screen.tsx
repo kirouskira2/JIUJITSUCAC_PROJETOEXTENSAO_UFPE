@@ -34,13 +34,13 @@ export function InitialSplashScreen({ children }: { children: React.ReactNode })
 
           <div className="relative z-10 flex flex-col items-center animate-in fade-in zoom-in duration-700">
             {/* White Circle Logo Area (Exatamente como na imagem) */}
-            <div className="relative w-44 h-44 rounded-full bg-white flex items-center justify-center shadow-2xl mb-8">
-              <div className="relative w-32 h-32">
+            <div className="relative w-44 h-44 rounded-full bg-white flex items-center justify-center shadow-2xl mb-8 p-2">
+              <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                 <Image 
                   src="/logo.jpg" 
                   alt="Logo Jiu Jitsu Cac" 
                   fill 
-                  className="object-contain"
+                  className="object-cover scale-[1.05]"
                   priority
                 />
               </div>
