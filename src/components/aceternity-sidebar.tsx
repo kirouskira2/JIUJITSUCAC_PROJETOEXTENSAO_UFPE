@@ -76,7 +76,7 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
   return (
     <div className={sidebarContainerClass}>
       <Sidebar open={open} setOpen={setOpen} animate={true}>
-      <SidebarBody className="justify-between gap-10 bg-neutral-100 dark:bg-[#111111] border-r border-border">
+      <SidebarBody className="justify-between gap-10 bg-neutral-100 dark:bg-[#111111]">
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           {/* Logo Section */}
           <Link 
