@@ -32,7 +32,7 @@ export default async function MonitorHomePage() {
 
       {/* Banner Treino do Dia (Monitor) */}
       {!workoutData?.workout ? (
-        <div className="w-full rounded-3xl border border-dashed border-red-500/30 p-6 flex flex-col items-center justify-center gap-3 bg-red-500/5 text-center">
+        <div className="w-full rounded-3xl border border-dashed border-red-500/30 p-6 flex flex-col items-center justify-center gap-3 bg-surface-container text-center">
           <span className="text-xs font-bold uppercase tracking-widest text-red-500 flex items-center gap-2">
             <AlertCircle className="w-4 h-4" /> Nenhum Treino Ativo
           </span>

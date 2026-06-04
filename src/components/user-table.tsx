@@ -310,7 +310,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           {(filterRole !== "all" || filterBelt !== "all" || filterCategory !== "all" || filterStatus !== "all" || search !== "") && (
             <button
               onClick={() => { setFilterRole("all"); setFilterBelt("all"); setFilterCategory("all"); setFilterStatus("all"); setSearch(""); }}
-              className="h-10 px-3 rounded-xl border border-red-500/30 bg-red-500/5 text-red-500 dark:text-red-400 text-sm font-semibold hover:bg-red-500/10 transition-colors whitespace-nowrap"
+              className="h-10 px-3 rounded-xl border border-red-500/30 bg-surface-container text-red-500 dark:text-red-400 text-sm font-semibold hover:bg-red-500/10 transition-colors whitespace-nowrap"
             >
               Limpar filtros
             </button>
@@ -361,7 +361,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           </thead>
           <tbody className="divide-y divide-neutral-200 dark:divide-[#2C2C2E]">
             {filteredProfiles.map((profile) => (
-              <tr key={profile.id} className={`transition-colors group hover:bg-[#1C1C1E] ${selectedIds.includes(profile.id) ? "bg-red-500/5 dark:bg-red-500/10" : ""}`}>
+              <tr key={profile.id} className={`transition-colors group hover:bg-[#1C1C1E] ${selectedIds.includes(profile.id) ? "bg-surface-container dark:bg-red-500/10" : ""}`}>
                 <td className="py-4 px-4 text-center">
                   <input 
                     type="checkbox" 
@@ -428,7 +428,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
       {/* Mobile Card List */}
       <div className="flex flex-col gap-4 md:hidden">
         {filteredProfiles.map((profile) => (
-          <div key={profile.id} className={`rounded-xl border p-4 flex flex-col gap-4 transition-colors ${selectedIds.includes(profile.id) ? "bg-red-500/5 dark:bg-red-500/10 border-red-500/30" : "bg-surface-container border-border"}`}>
+          <div key={profile.id} className={`rounded-xl border p-4 flex flex-col gap-4 transition-colors ${selectedIds.includes(profile.id) ? "bg-surface-container dark:bg-red-500/10 border-red-500/30" : "bg-surface-container border-border"}`}>
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-3">
                 <input 

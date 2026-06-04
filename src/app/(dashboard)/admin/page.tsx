@@ -151,7 +151,7 @@ export default async function AdminDashboardPage() {
           </div>
         </Link>
       ) : (
-        <div className="w-full rounded-3xl border border-dashed border-red-500/30 p-6 text-center flex flex-col items-center justify-center gap-3 bg-red-500/5">
+        <div className="w-full rounded-3xl border border-dashed border-red-500/30 p-6 text-center flex flex-col items-center justify-center gap-3 bg-surface-container">
           <span className="text-xs font-bold uppercase tracking-widest text-red-500">
             ⚠️ Nenhum Treino Cadastrado
           </span>

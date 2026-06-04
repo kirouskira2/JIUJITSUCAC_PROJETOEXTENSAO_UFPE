@@ -134,7 +134,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
           {filteredHistory.length === 0 ? (
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="col-span-full text-center text-muted-foreground p-12 bg-white/50 dark:bg-black/20 rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800"
+              className="col-span-full text-center text-muted-foreground p-12 bg-surface-container rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800"
             >
               Nenhum check-in encontrado com os filtros atuais.
             </motion.div>

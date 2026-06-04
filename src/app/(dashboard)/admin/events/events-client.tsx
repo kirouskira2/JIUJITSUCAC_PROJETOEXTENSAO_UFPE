@@ -250,7 +250,7 @@ export function EventsClient({
         <TabsContent value="events" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredEvents.length === 0 ? (
-              <div className="col-span-full text-center text-muted-foreground p-12 bg-white/50 dark:bg-black/20 rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800">
+              <div className="col-span-full text-center text-muted-foreground p-12 bg-surface-container rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800">
                 Nenhum evento encontrado.
               </div>
             ) : (
@@ -289,7 +289,7 @@ export function EventsClient({
         <TabsContent value="notices" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             {filteredAnnouncements.length === 0 ? (
-              <div className="col-span-full text-center text-muted-foreground p-12 bg-white/50 dark:bg-black/20 rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800">
+              <div className="col-span-full text-center text-muted-foreground p-12 bg-surface-container rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800">
                 Nenhum aviso encontrado.
               </div>
             ) : (

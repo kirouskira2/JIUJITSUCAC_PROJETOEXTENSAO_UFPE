@@ -73,7 +73,7 @@ export function WorkoutsClient({
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filteredWorkouts.length === 0 ? (
-          <div className="col-span-full text-center text-muted-foreground p-12 bg-white/50 dark:bg-black/20 rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800">
+          <div className="col-span-full text-center text-muted-foreground p-12 bg-surface-container rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-800">
             Nenhum treino encontrado.
           </div>
         ) : (

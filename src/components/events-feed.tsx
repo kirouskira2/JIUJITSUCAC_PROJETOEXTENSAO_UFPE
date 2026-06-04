@@ -33,7 +33,7 @@ const EVENT_TYPE_LABELS: Record<string, string> = {
 };
 
 const IMPORTANCE_STYLES: Record<string, { bg: string; border: string; icon: string; badge: string }> = {
-  urgent: { bg: "bg-red-500/5", border: "border-red-500/20", icon: "text-red-500", badge: "bg-red-500/10 text-red-500" },
+  urgent: { bg: "bg-surface-container", border: "border-red-500/20", icon: "text-red-500", badge: "bg-red-500/10 text-red-500" },
   warning: { bg: "bg-amber-500/5", border: "border-amber-500/20", icon: "text-amber-500", badge: "bg-amber-500/10 text-amber-500" },
   info: { bg: "bg-blue-500/5", border: "border-blue-500/20", icon: "text-blue-500", badge: "bg-blue-500/10 text-blue-500" },
 };
@@ -59,7 +59,7 @@ export async function EventsFeed() {
 
   if (feed.length === 0) {
     return (
-      <div className="rounded-3xl border border-dashed border-border p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
+      <div className="rounded-3xl border border-dashed border-border p-6 text-center flex flex-col items-center justify-center gap-2 bg-surface-container">
         <IconSpeakerphone className="w-8 h-8 text-neutral-400 dark:text-[#8E8E93]" />
         <p className="text-sm text-neutral-500 dark:text-[#8E8E93]">
           Nenhum aviso ou evento no momento.

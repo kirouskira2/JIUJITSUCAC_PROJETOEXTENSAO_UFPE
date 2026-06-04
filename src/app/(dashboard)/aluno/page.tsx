@@ -95,7 +95,7 @@ export default async function AlunoHomePage() {
           </div>
         </div>
       ) : (
-        <div className="w-full rounded-3xl border border-dashed border-border p-6 text-center flex flex-col items-center justify-center gap-2 bg-neutral-50/50 dark:bg-black/20">
+        <div className="w-full rounded-3xl border border-dashed border-border p-6 text-center flex flex-col items-center justify-center gap-2 bg-surface-container">
           <span className="text-xs font-bold uppercase tracking-widest text-neutral-500 dark:text-[#8E8E93]">
             🥋 Treino do Dia
           </span>
