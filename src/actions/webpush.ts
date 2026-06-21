@@ -3,32 +3,45 @@
 import webpush from "web-push";
 import { createClient } from "@/lib/supabase/server";
 
-const vapidEmail = "mailto:suporte@jiujitsucac.com"; // Change to valid email
+const vapidEmail = "mailto:suporte@jiujitsucac.com";
 
+/**
+ * Retorna a chave pública VAPID para uso no Service Worker.
+ * Lê da variável de ambiente NEXT_PUBLIC_VAPID_PUBLIC_KEY.
+ * 
+ * Nota: Essa function é uma server action chamada pelo client para obter a
+ * chave pública. Embora a env var seja NEXT_PUBLIC_ (acessível no client),
+ * manter a server action como wrapper garante retrocompatibilidade com o
+ * componente NotificationPermission existente.
+ */
 export async function getVapidPublicKey(): Promise<string | null> {
-  const supabase = await createClient();
-  const { data } = await supabase.from("app_settings").select("value").eq("key", "vapid_public_key").single();
-  return data?.value || null;
+  return process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || null;
 }
 
+/**
+ * Dispara notificações push para todos os usuários inscritos.
+ * 
+ * As chaves VAPID são lidas de variáveis de ambiente (melhor prática):
+ * - NEXT_PUBLIC_VAPID_PUBLIC_KEY: chave pública (exposta ao browser)
+ * - VAPID_PRIVATE_KEY: chave privada (apenas server-side)
+ * 
+ * Isso elimina a necessidade de queries ao banco para obter as chaves,
+ * tornando o push independente de RLS/policies e de roles do usuário.
+ */
 export async function broadcastPushNotification(title: string, body: string, url: string = "/") {
   try {
-    const supabase = await createClient();
-    
-    // Obter as chaves do banco de dados
-    const { data: pubData } = await supabase.from("app_settings").select("value").eq("key", "vapid_public_key").single();
-    const { data: privData } = await supabase.from("app_settings").select("value").eq("key", "vapid_private_key").single();
-    
-    const vapidPublicKey = pubData?.value;
-    const vapidPrivateKey = privData?.value;
+    const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+    const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
 
     if (!vapidPublicKey || !vapidPrivateKey) {
-      console.warn("Skipping push notification: VAPID keys missing in app_settings.");
+      console.warn("Skipping push notification: VAPID keys missing in environment variables.");
       return { success: false, error: "VAPID missing" };
     }
 
-    // Configurar o web-push dinamicamente
+    // Configurar o web-push com as chaves VAPID
     webpush.setVapidDetails(vapidEmail, vapidPublicKey, vapidPrivateKey);
+
+    const supabase = await createClient();
     
     // Obter todas as inscrições válidas
     const { data: subscriptions, error } = await supabase

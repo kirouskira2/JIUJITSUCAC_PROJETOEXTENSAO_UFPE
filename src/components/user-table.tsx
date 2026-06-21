@@ -184,7 +184,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
           setBeltModalOpen(true);
         }}
         disabled={isPending}
-        className={`${compact ? "px-2 py-1.5 text-[10px]" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
+        className={`${compact ? "px-2 py-1.5 text-[10px] w-full justify-center" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
         style={{ borderColor: "#2C2C2E", color: "#F2F2F7" }}
         onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#0A84FF"; e.currentTarget.style.color = "#0A84FF"; }}
         onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
@@ -195,7 +195,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
         <button
           onClick={() => handlePromote(profile.id, profile.full_name)}
           disabled={isPending}
-          className={`${compact ? "px-2 py-1.5 text-[10px]" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
+          className={`${compact ? "px-2 py-1.5 text-[10px] w-full justify-center" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
           style={{ borderColor: "#2C2C2E", color: "#F2F2F7" }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#0A84FF"; e.currentTarget.style.color = "#0A84FF"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
@@ -207,7 +207,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
         <button
           onClick={() => handlePromoteToAdmin(profile.id, profile.full_name)}
           disabled={isPending}
-          className={`${compact ? "px-2 py-1.5 text-[10px]" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
+          className={`${compact ? "px-2 py-1.5 text-[10px] w-full justify-center" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
           style={{ borderColor: "#2C2C2E", color: "#F2F2F7" }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#dc2626"; e.currentTarget.style.color = "#dc2626"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
@@ -219,7 +219,7 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
         <button
           onClick={() => handleDemote(profile.id, profile.full_name)}
           disabled={isPending}
-          className={`${compact ? "px-2 py-1.5 text-[10px]" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
+          className={`${compact ? "px-2 py-1.5 text-[10px] w-full justify-center" : "px-3 py-1.5 text-xs"} rounded-lg border flex items-center gap-1.5 font-bold transition-colors`}
           style={{ borderColor: "#2C2C2E", color: "#F2F2F7" }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#ea580c"; e.currentTarget.style.color = "#ea580c"; }}
           onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2C2C2E"; e.currentTarget.style.color = "#F2F2F7"; }}
@@ -440,9 +440,9 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
                     else setSelectedIds(prev => prev.filter(id => id !== profile.id));
                   }}
                 />
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold text-sm text-neutral-900 dark:text-[#F2F2F7]">{profile.full_name}</span>
-                  <span className="text-xs" style={{ color: "#8E8E93", wordBreak: "break-all" }}>{profile.email}</span>
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <span className="font-semibold text-sm text-neutral-900 dark:text-[#F2F2F7] truncate">{profile.full_name}</span>
+                  <span className="text-xs truncate" style={{ color: "#8E8E93" }}>{profile.email}</span>
                 </div>
               </div>
               <div className="shrink-0 ml-2">
@@ -467,16 +467,16 @@ export function UserTable({ initialProfiles, currentUserId }: UserTableProps) {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: "#2C2C2E" }}>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase" style={{ color: "#8E8E93" }}>Ativo</span>
+            <div className="flex flex-col gap-3 pt-3 border-t" style={{ borderColor: "#2C2C2E" }}>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase" style={{ color: "#8E8E93" }}>Conta Ativa</span>
                 <Switch
                   checked={profile.is_active}
                   onCheckedChange={() => handleToggleActive(profile.id)}
                   disabled={isPending || profile.id === currentUserId}
                 />
               </div>
-              <div className="flex items-center gap-2 flex-wrap justify-end">
+              <div className="grid grid-cols-2 gap-2 w-full">
                 {renderActionButtons(profile, true)}
               </div>
             </div>

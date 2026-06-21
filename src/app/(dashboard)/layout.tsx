@@ -9,6 +9,7 @@ import { NotificationsBell } from "@/components/notifications-bell";
 import { NotificationPermission } from "@/components/notification-permission";
 import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export default async function DashboardLayout({
   children,
@@ -32,8 +33,20 @@ export default async function DashboardLayout({
       {/* Menu Lateral (Desktop e Mobile) */}
       <AceternitySidebar role={profile.role} fullName={profile.fullName} />
 
-      {/* Main Content Wrapper - Creates gap on desktop */}
+      {/* Main Content Wrapper */}
       <div className="flex-1 md:p-2 md:pl-0 flex flex-col min-w-0 overflow-hidden bg-neutral-100 dark:bg-[#050505]">
+        
+        {/* Mobile Top Bar */}
+        <div className="md:hidden flex items-center justify-between px-4 h-16 bg-surface-container border-b border-border z-40 shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full border border-red-600 overflow-hidden relative">
+              <Image src="/logo.jpg" alt="JJCAC Logo" fill className="object-cover" />
+            </div>
+            <span className="font-display font-black tracking-tighter text-red-600 uppercase">JJCAC</span>
+          </div>
+          <NotificationsBell />
+        </div>
+
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative md:rounded-[2rem] border-0 bg-surface-container md:shadow-2xl">
           {/* Hexagon Pattern Background */}
           <HexagonPattern

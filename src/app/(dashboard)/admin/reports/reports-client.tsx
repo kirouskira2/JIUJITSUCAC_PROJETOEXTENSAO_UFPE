@@ -109,7 +109,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6" style={{ borderBottom: "1px solid #2C2C2E" }}>
         <div>
-          <h1 className="font-display text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
+          <h1 className="font-display text-3xl md:text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
             {isExtensionistOnly ? "Meus Relatórios" : "Relatórios Gerais"}
           </h1>
           <p className="text-sm mt-1 text-neutral-500 dark:text-[#8E8E93]">
@@ -118,7 +118,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
               : "Gere e gerencie horas de extensão acadêmica para alunos."}
           </p>
         </div>
-        <div className="flex gap-3 w-full md:w-auto print:hidden">
+        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto print:hidden">
           <button 
             onClick={handleExportCSV}
             disabled={isLoading}
@@ -154,7 +154,7 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
             
             <div className={`grid grid-cols-1 gap-4 ${isExtensionistOnly ? "" : "md:grid-cols-2"}`}>
               {!isExtensionistOnly && (
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 min-w-0">
                   <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Selecionar Aluno</label>
                   <div className="relative">
                     <select 
@@ -173,16 +173,16 @@ export function ReportsClient({ students = [], isExtensionistOnly, currentUserId
                 </div>
               )}
               
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 min-w-0">
                 <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Período (Data)</label>
-                <div className="flex gap-2 items-center">
+                <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
                   <input 
                     type="date" 
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                     className="w-full h-12 rounded-lg px-3 text-sm font-medium outline-none border transition-colors bg-neutral-100 dark:bg-[#0F0F0F] border-border text-neutral-900 dark:text-[#F2F2F7] focus:border-red-600 dark:focus:border-red-600 [color-scheme:light] dark:[color-scheme:dark]"
                   />
-                  <span className="text-neutral-500 dark:text-[#8E8E93]">-</span>
+                  <span className="hidden sm:block text-neutral-500 dark:text-[#8E8E93]">-</span>
                   <input 
                     type="date" 
                     value={endDate}

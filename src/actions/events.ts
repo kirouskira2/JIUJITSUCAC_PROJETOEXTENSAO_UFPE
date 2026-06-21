@@ -91,6 +91,31 @@ export async function createEvent(eventData: Omit<Event, "id" | "created_by" | "
     });
 
     if (error) throw new Error(error.message);
+
+    // Disparo de Notificações
+    const { data: profiles } = await supabase.from("profiles").select("id").eq("is_active", true);
+    if (profiles && profiles.length > 0) {
+      const notificationsToInsert = profiles.map((p) => ({
+        profile_id: p.id,
+        title: "Novo Evento! 📅",
+        message: `${parsed.data.title} foi agendado para ${parsed.data.event_date}.`,
+        link: "/aluno/events",
+      }));
+      // Inserir In-App Notifications
+      await supabase.from("notifications").insert(notificationsToInsert);
+
+      // Disparar Push Notifications (Web Push)
+      try {
+        const { broadcastPushNotification } = await import("@/actions/webpush");
+        broadcastPushNotification(
+          "Novo Evento Marcado! 🥋",
+          `${parsed.data.title} foi agendado. Confira no aplicativo!`,
+          "/aluno/events"
+        ).catch((err) => console.warn("Erro ao disparar push:", err));
+      } catch (pushErr) {
+        console.warn("Módulo webpush indisponível:", pushErr);
+      }
+    }
     
     revalidatePath("/admin/events");
     revalidatePath("/aluno/events");
@@ -143,6 +168,32 @@ export async function createAnnouncement(announcementData: Omit<Announcement, "i
     });
 
     if (error) throw new Error(error.message);
+
+    // Disparo de Notificações
+    const { data: profiles } = await supabase.from("profiles").select("id").eq("is_active", true);
+    if (profiles && profiles.length > 0) {
+      const importanceEmoji = parsed.data.importance === "urgent" ? "🚨" : parsed.data.importance === "warning" ? "⚠️" : "ℹ️";
+      const notificationsToInsert = profiles.map((p) => ({
+        profile_id: p.id,
+        title: `${importanceEmoji} Novo Aviso`,
+        message: parsed.data.title,
+        link: "/aluno/events",
+      }));
+      // Inserir In-App Notifications
+      await supabase.from("notifications").insert(notificationsToInsert);
+
+      // Disparar Push Notifications (Web Push)
+      try {
+        const { broadcastPushNotification } = await import("@/actions/webpush");
+        broadcastPushNotification(
+          `${importanceEmoji} Aviso Oficial`,
+          parsed.data.title,
+          "/aluno/events"
+        ).catch((err) => console.warn("Erro ao disparar push:", err));
+      } catch (pushErr) {
+        console.warn("Módulo webpush indisponível:", pushErr);
+      }
+    }
     
     revalidatePath("/admin/events");
     revalidatePath("/aluno/events");

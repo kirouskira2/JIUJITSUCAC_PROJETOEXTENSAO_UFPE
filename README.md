@@ -65,8 +65,10 @@ A aplicação iniciará de forma autônoma na porta `3000`.
 
 ---
 
-## 📂 Guias Adicionais e Implantação
+## 📂 Manuais e Documentação Oficial (UFPE)
 
-Para entender detalhes sobre como implantar o sistema em produção (seja na nuvem da **Vercel** ou na infraestrutura própria da **UFPE**), consulte o:
+Preparamos uma documentação completa para facilitar a avaliação, implantação e entendimento da arquitetura do sistema pela banca e equipe de TI da UFPE. Todo o material encontra-se na pasta `/docs`:
 
-👉 **[Guia de Implantação (DEPLOY.md)](file:///c:/Users/pedro/Desktop/3.1%20prisma/prismaingles/temp_prisma_app/DEPLOY.md)**
+1. 👉 **[Manual do Usuário (Testes e Acesso)](docs/MANUAL_USUARIO.md)**: Como usar o sistema e contas de teste disponíveis para a banca.
+2. 👉 **[Guia de Implantação e Docker (DEPLOY)](docs/DEPLOY.md)**: Como subir a aplicação na infraestrutura local da UFPE ou na nuvem.
+3. 👉 **[Arquitetura do Sistema](docs/ARQUITETURA.md)**: Explicação técnica das escolhas de design (Next.js App Router, Supabase BaaS, IndexedDB).

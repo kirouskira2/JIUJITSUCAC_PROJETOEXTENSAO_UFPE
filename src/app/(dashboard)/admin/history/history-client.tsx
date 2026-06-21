@@ -75,7 +75,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
     <div className="flex-1 space-y-6 p-4 md:p-8 pt-6 pb-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
+          <h1 className="font-display text-3xl md:text-4xl font-black uppercase tracking-tight text-neutral-900 dark:text-[#F2F2F7]">
             Histórico de Presença Geral
           </h1>
           <p className="text-sm mt-1 text-neutral-500 dark:text-[#8E8E93]">
@@ -94,7 +94,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 min-w-0">
             <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Buscar por nome, e-mail, faixa ou categoria</label>
             <div className="relative">
               <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-neutral-500 dark:text-[#8E8E93]" />
@@ -108,7 +108,7 @@ export function AdminHistoryClient({ initialData, pagination }: { initialData: A
             </div>
           </div>
           
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 min-w-0">
             <label className="text-xs font-bold uppercase tracking-wider ml-1 text-neutral-500 dark:text-[#8E8E93]">Período (Data)</label>
             <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <input 
