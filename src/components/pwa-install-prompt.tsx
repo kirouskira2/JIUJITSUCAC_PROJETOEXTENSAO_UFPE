@@ -91,7 +91,7 @@ export function PwaInstallPrompt() {
           <button onClick={closeBanner} className="p-1 hover:bg-white/10 rounded-full text-neutral-400 mr-1 transition-colors">
             <XIcon className="w-4 h-4" />
           </button>
-          <img src="/favicon.ico" alt="App Icon" className="size-9 rounded-xl object-cover bg-black" />
+          <img src="/logo.jpg" alt="App Icon" className="size-9 rounded-xl object-cover bg-black" />
           <div className="flex flex-col justify-center h-full">
             <span className="text-sm font-semibold text-white leading-tight">Instalar aplicativo</span>
             <span className="text-xs text-neutral-400 leading-tight mt-[2px]">Para fácil acesso e notificações</span>
