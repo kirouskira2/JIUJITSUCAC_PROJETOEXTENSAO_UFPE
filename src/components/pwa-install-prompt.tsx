@@ -130,9 +130,7 @@ export function PwaInstallPrompt() {
             <div className="flex flex-col items-center w-full">
               <div className="relative mb-5">
                 <div className="w-[140px] h-[140px] mx-auto bg-[#2C2C2E]/50 rounded-3xl flex flex-col items-center justify-center p-4 shadow-inner border border-white/5">
-                   <div className="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center mb-3">
-                     <DownloadIcon className="w-8 h-8 text-white" />
-                   </div>
+                   <img src="/logo.jpg" alt="Logo JJCAC" className="w-16 h-16 rounded-2xl object-cover mb-3" />
                    <span className="text-white font-display font-bold">JJCAC</span>
                 </div>
               </div>
