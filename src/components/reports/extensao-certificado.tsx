@@ -59,9 +59,12 @@ export function ExtensaoCertificado({ student, project, attendances, docHash, to
         
         {/* HEADER UFPE */}
         <div className="flex w-full mb-6 print:border-none border border-neutral-200">
-          <div className="w-[80px] bg-[#C1121F] text-white flex flex-col items-center justify-center font-bold text-xl leading-tight">
-            <span>JJ</span>
-            <span>CAC</span>
+          <div className="w-[80px] bg-[#C1121F] flex items-center justify-center p-2">
+            <img
+              src="/logo.jpg"
+              alt="Logo Jiu-Jitsu para Todos"
+              className="w-16 h-16 rounded-full object-cover border-2 border-white"
+            />
           </div>
           <div className="flex-1 bg-[#1A233A] text-white p-3 flex justify-between items-center">
             <div className="flex flex-col text-[11px] leading-snug">
