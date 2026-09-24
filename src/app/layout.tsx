@@ -65,6 +65,9 @@ export default async function RootLayout({
       className={`${barlowCondensed.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased h-full`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preload" href="/kimono-bg.png" as="image" />
+      </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground relative overflow-x-hidden selection:bg-red-500/30">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} nonce={nonce}>
           <div className="relative min-h-screen w-full flex flex-col">
