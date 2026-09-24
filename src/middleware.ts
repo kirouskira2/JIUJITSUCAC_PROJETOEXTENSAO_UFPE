@@ -66,7 +66,7 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Rotas públicas — permite acesso sem autenticação
-  if (pathname === "/login" || pathname === "/signup" || pathname === "/forgot-password" || pathname === "/reset-password" || pathname === "/" || pathname.startsWith("/_next")) {
+  if (pathname === "/login" || pathname === "/signup" || pathname === "/forgot-password" || pathname === "/reset-password" || pathname === "/" || pathname.startsWith("/_next") || pathname === "/api/keep-alive") {
     // Se já autenticado e tentando acessar rotas de auth, redireciona para dashboard (exceto reset-password, que precisa de sessão para atualizar a senha)
     if (user && (pathname === "/login" || pathname === "/signup" || pathname === "/forgot-password")) {
       const { data: profile } = await supabase
