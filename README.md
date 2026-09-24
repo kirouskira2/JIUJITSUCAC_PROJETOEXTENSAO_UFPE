@@ -103,6 +103,36 @@ docker compose logs -f jjcac-web
 
 ---
 
+## Codigo de Convite para Administradores
+
+O sistema utiliza um codigo de convite para proteger o cadastro de contas com permissao de Administrador (Professor). Sem esse codigo, nao e possivel criar contas administrativas.
+
+**Codigo de convite padrao:** `MESTRE2026`
+
+Para utiliza-lo:
+
+1. Acesse a tela de cadastro (`/signup`).
+2. Selecione o perfil **"Professor / Administrador"**.
+3. Insira o codigo de convite `MESTRE2026` no campo correspondente.
+4. Preencha os dados e conclua o cadastro.
+
+O codigo pode ser alterado a qualquer momento definindo a variavel de ambiente `INVITE_CODE_ADMIN` no arquivo `.env.local`. Se a variavel nao estiver definida, o sistema utilizara o codigo padrao acima.
+
+---
+
+## Credenciais de Teste
+
+Para fins de avaliacao, os seguintes usuarios estao pre-configurados no banco de dados:
+
+| Perfil | E-mail | Senha |
+|---|---|---|
+| Monitor (Professor auxiliar) | `monitor@teste.com` | `Cacprofessor@` |
+| Aluno | `aluno_test_access@gmail.com` | `Cacaluno@` |
+
+Para criar uma conta de Administrador, utilize o codigo de convite `MESTRE2026` conforme descrito na secao anterior.
+
+---
+
 ## Estrutura do Banco de Dados
 
 O script SQL completo para criacao do banco de dados esta disponivel em:
