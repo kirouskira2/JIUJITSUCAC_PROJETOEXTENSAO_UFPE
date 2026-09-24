@@ -1,0 +1,19 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # Executa a cada 5 dias às 08:00 UTC (garante que não passe dos 7 dias de inatividade)
+    - cron: '0 8 */5 * *'
+  workflow_dispatch: # Permite execução manual a partir da aba Actions no GitHub
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Keep-Alive Route
+        run: |
+          if [ -z "${{ secrets.APP_URL }}" ]; then
+            echo "ERRO: O segredo APP_URL não está configurado nas secrets do GitHub."
+            exit 1
+          fi
+          curl -f -s -v "${{ secrets.APP_URL }}/api/keep-alive"
