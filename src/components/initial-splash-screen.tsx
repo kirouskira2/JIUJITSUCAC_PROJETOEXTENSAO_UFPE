@@ -1,42 +1,55 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LoaderOne } from "@/components/ui/loader";
 import Image from "next/image";
 
 export function InitialSplashScreen({ children }: { children: React.ReactNode }) {
-  const [showSplash, setShowSplash] = useState(true);
-  const [renderSplash, setRenderSplash] = useState(true);
-  const [bgLoaded, setBgLoaded] = useState(false);
+  const [phase, setPhase] = useState<"loading-bg" | "visible" | "fading" | "done">("loading-bg");
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Pre-carrega a imagem de fundo antes de exibir o splash
+    // Pre-carrega a imagem de fundo do kimono
     const img = new window.Image();
     img.src = "/kimono-bg.png";
-    img.onload = () => setBgLoaded(true);
-    // Fallback caso a imagem demore demais
-    const fallbackTimer = setTimeout(() => setBgLoaded(true), 800);
+    
+    const showSplash = () => {
+      setPhase("visible");
+      // Depois de exibir por 2.5s, inicia o fade-out
+      timerRef.current = setTimeout(() => {
+        setPhase("fading");
+        setTimeout(() => setPhase("done"), 500);
+      }, 2500);
+    };
 
-    return () => clearTimeout(fallbackTimer);
+    if (img.complete) {
+      // Imagem já estava em cache
+      showSplash();
+    } else {
+      img.onload = showSplash;
+      // Se demorar mais de 600ms para carregar, pula direto para "done" (sem splash)
+      timerRef.current = setTimeout(() => {
+        img.onload = null;
+        setPhase("done");
+      }, 600);
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, []);
 
-  useEffect(() => {
-    if (!bgLoaded) return;
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-      setTimeout(() => setRenderSplash(false), 500);
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, [bgLoaded]);
+  if (phase === "done") {
+    return <>{children}</>;
+  }
 
   return (
     <>
-      {renderSplash && (
+      {phase !== "done" && phase !== "loading-bg" && (
         <div 
-          className={`print:hidden fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out ${showSplash && bgLoaded ? "opacity-100" : !bgLoaded ? "opacity-100" : "opacity-0"}`}
+          className={`print:hidden fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out ${phase === "fading" ? "opacity-0" : "opacity-100"}`}
           style={{
-            backgroundImage: bgLoaded ? `url('/kimono-bg.png')` : 'none',
+            backgroundImage: `url('/kimono-bg.png')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundColor: '#0a0a0a',
@@ -75,15 +88,13 @@ export function InitialSplashScreen({ children }: { children: React.ReactNode })
               </p>
             </div>
 
-            {/* Animação do Loader (Compact) */}
+            {/* Animação do Loader */}
             <div className="mt-12">
               <LoaderOne />
             </div>
           </div>
         </div>
       )}
-      
-      {/* O app renderiza embaixo e fica pronto para uso assim que a splash sumir */}
       {children}
     </>
   );
