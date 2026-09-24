@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { headers } from "next/headers";
 import { RetroGrid } from "@/components/ui/retro-grid";
 import { InitialSplashScreen } from "@/components/initial-splash-screen";
+import { KeepAlivePing } from "@/components/keep-alive-ping";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -85,6 +86,8 @@ export default async function RootLayout({
           </div>
           <Toaster theme="dark" position="top-center" />
           <Analytics />
+          {/* Anti-hibernação Supabase Free Tier: ping a cada 3 dias */}
+          <KeepAlivePing />
         </ThemeProvider>
       </body>
     </html>

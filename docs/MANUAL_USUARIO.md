@@ -24,11 +24,11 @@ Para facilitar a avaliação técnica e acadêmica pela UFPE, já deixamos usuá
 
 ### 🔹 Acesso Monitor
 - **E-mail:** `monitor@teste.com`
-- **Senha:** `Nininha123@`
+- **Senha:** `Cacprofessor@`
 
 ### 🔹 Acesso Aluno
 - **E-mail:** `aluno_test_access@gmail.com`
-- **Senha:** `Nininha123@`
+- **Senha:** `Cacaluno@`
 
 ---
 
