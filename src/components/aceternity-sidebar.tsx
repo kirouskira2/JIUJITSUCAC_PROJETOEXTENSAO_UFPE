@@ -109,7 +109,7 @@ export function AceternitySidebar({ role, fullName }: AceternitySidebarProps) {
         </div>
 
         {/* Footer actions */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 shrink-0 pb-2">
           <div className="flex items-center gap-3 pt-4 border-t border-border">
             <div className="w-8 h-8 rounded-full border flex items-center justify-center shrink-0 bg-neutral-200 dark:bg-[#1C1C1E] border-border">
               <span className="font-bold text-[10px] text-neutral-900 dark:text-[#F2F2F7]">
